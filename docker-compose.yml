@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  postgres_dwh:
+    image: postgis/postgis:16-3.4
+    container_name: fire_dwh_db
+    restart: always
+    environment:
+      POSTGRES_DB: fire_dwh
+      POSTGRES_USER: dwh_admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dwh_admin -d fire_dwh"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

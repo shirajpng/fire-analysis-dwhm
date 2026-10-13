@@ -1,0 +1,12 @@
+# Raw data never enters the repository.
+# WDPA and GADM prohibit redistribution; FIRMS and NDVI are just large.
+raw/
+*.zip
+*.gpkg
+*.gdb/
+
+__pycache__/
+*.pyc
+.env
+
+datasets/

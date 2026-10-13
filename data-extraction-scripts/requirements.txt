@@ -1,0 +1,6 @@
+requests>=2.31
+pandas>=2.0
+
+# Needed only for extract_boundaries.py --inspect and downstream spatial work
+pyogrio>=0.7
+geopandas>=0.14
