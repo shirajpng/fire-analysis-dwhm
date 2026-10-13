@@ -10,3 +10,4 @@ __pycache__/
 .env
 
 datasets/
+5_queries/*
