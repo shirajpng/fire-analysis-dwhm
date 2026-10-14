@@ -1,0 +1,5 @@
+sensor_type,satellite_name,detection_count,avg_frp,avg_sensor_brightness,avg_confidence_score
+VIIRS,N20,731630,4.65,327.73,46.7
+VIIRS,N,574152,4.75,328.35,46.9
+MODIS,Aqua,105012,23.00,324.73,62.7
+MODIS,Terra,70776,13.61,315.07,63.7

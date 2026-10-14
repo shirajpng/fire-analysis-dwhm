@@ -42,6 +42,9 @@ Or individually, in roughly this order:
 | `extract_boundaries.py` | GADM admin levels 0–2, GeoPackage | seconds |
 | `extract_wdpa.py --both` | WDPA country zip + global gdb (~1.7 GB) | minutes |
 | `extract_appeears.py --submit` | Queues NDVI tasks | queue now, collect later |
+| `extract_landcover.py --submit` | Queues MCD12Q1 land cover tasks (same grid as NDVI) | queue now, collect later |
+| `extract_firms_nrt.py` | Near-real-time detections, incl. NOAA-21 | minutes; **re-run weekly** |
+| `extract_firms_country.py` | Country-clipped archive, validates the spatial clip | ~3 min, no credentials |
 | `extract_firms.py` | Fire detections, the fact source | hours |
 | `inventory.py` | Row counts + schema divergence report | seconds |
 
@@ -60,6 +63,8 @@ raw/
 ├── firms/
 │   ├── sp/sensor=MODIS_SP/year=2024/2024-01-01.csv
 │   └── nrt/...
+├── firms_country/               reference only, NOT counted in the total
+│   └── sensor=MODIS_SP/year=2024/modis_2024_Thailand.csv
 ├── wdpa/
 │   ├── CITATION_Sep2026.txt     one per release, required in the report
 │   ├── WDPA_WDOECM_Sep2026_Public_THA.zip
@@ -67,6 +72,9 @@ raw/
 ├── ndvi/
 │   ├── _tasks.json              submitted task ids, enables resume
 │   └── itcs544_ndvi_THA_000__*.csv
+├── landcover/
+│   ├── _tasks.json              separate cache, never shared with ndvi/
+│   └── itcs544_landcover_THA_000__*.csv
 └── boundaries/gadm41_THA.gpkg
 ```
 
@@ -97,9 +105,15 @@ documentation, which is better evidence for the ETL writeup.
   remain unverified end-to-end because they need credentials.
 - **FIRMS signals errors in the response body, not the status code.** A 200
   response containing "Invalid MAP_KEY" is normal API behaviour.
-- **NOAA-21 is intentionally absent.** Only an NRT product exists; there is no
-  Standard Processing equivalent, so it cannot join an archive build. State this
-  in the report so it does not read as an oversight.
+- **NOAA-21 comes only from NRT.** There is no Standard Processing product, so
+  it is absent from `sp/` and extracted by `extract_firms_nrt.py` (NRT back to
+  2024-01-17). State this in the report so it does not read as an oversight.
+- **NRT disappears from the API once SP catches up.** The API serves MODIS /
+  S-NPP / NOAA-20 NRT only for dates SP does not cover yet. Re-run
+  `extract_firms_nrt.py` regularly; captured files are never deleted, and they
+  are the only way to have NRT and SP versions of the same fires side by side.
+- **NRT has no `type` column.** Gas flare / volcano flags for NRT rows have to
+  be derived in staging.
 - **AppEEARS area requests return raster, not CSV.** That is why this uses a
   point grid. If you switch to area sampling you lose the tabular output.
 - **AppEEARS limits coordinates per request.** `NDVI_POINTS_PER_TASK` is set
@@ -110,10 +124,22 @@ documentation, which is better evidence for the ETL writeup.
   NDVI to clear the bar independently, but that quadruples task count.
 - **WDPA and GADM cannot be redistributed.** Both are in `.gitignore`. The repo
   ships these scripts plus `CITATION.txt`, never the data.
-- **WDPA history is not available here.** Protected Planet serves only the
-  current release, so this gets you a Type 1 snapshot. Month-to-month history
-  for the SCD Type 2 dimension needs Earth Engine (`WCMC/WDPA/YYYYMM`, from
-  July 2017) or the `STATUS_YR` fallback. **This is still unresolved.**
+- **WDPA history is resolved.** Protected Planet serves only the current
+  release, so `extract_wdpa.py` alone gives a Type 1 snapshot. The month-to-month
+  history behind the SCD Type 2 dimension comes from Earth Engine
+  (`WCMC/WDPA/YYYYMM`) via `extract_wdpa_history.py`: 93 monthly snapshots,
+  2017-07 to 2026-09, in `raw/wdpa_historical/`. The `STATUS_YR` fallback is
+  not needed.
+- **The country archive is not ingest input.** `extract_firms_country.py`
+  fetches the same science-quality detections clipped by NASA to the country
+  border. About three quarters of the bbox rows fall outside Thailand, and
+  these files are how that clip gets verified rather than asserted. Every row
+  is already in `firms/sp`, so `inventory.py` reports them separately and
+  leaves them out of the record-count total. Do not let them pad the number.
+- **The country archive lags about a year.** 2024 is the newest as of Sep 2026,
+  and NOAA-21 has no country product at all — same reason it has no
+  `VIIRS_NOAA21_SP`. Availability is probed at runtime, so re-running picks up
+  2025 when NASA publishes it without a code change.
 
 
 How to run individual extractors:
@@ -121,4 +147,5 @@ python extract_boundaries.py --inspect
 python extract_wdpa.py --both
 python extract_appeears.py --submit
 python extract_firms.py
+python extract_firms_country.py --list
 python inventory.py

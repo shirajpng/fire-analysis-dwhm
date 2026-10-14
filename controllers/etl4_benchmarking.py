@@ -33,16 +33,16 @@ def execute_step4_spatial_olap():
     # 2. Benchmark Query 2
     cursor . execute("""
         SELECT 
-    sat."sensor_type",
-    sat."satellite_name",
-    COUNT(f."fire_key") AS "detection_count",
-    ROUND(AVG(f."frp"), 2) AS "avg_frp",
-    ROUND(AVG(f."brightness_kelvin"), 2) AS "avg_sensor_brightness",
-    ROUND(AVG(f."confidence_score"), 1) AS "avg_confidence_score"
+    d."year_number",
+    d."quarter_number",
+    COUNT(f."fire_key") AS "fire_count",
+    SUM(CASE WHEN f."confidence_score" >= 80 THEN 1 ELSE 0 END) AS "high_confidence_count",
+    SUM(CASE WHEN f."confidence_score" BETWEEN 50 AND 79 THEN 1 ELSE 0 END) AS "nominal_confidence_count",
+    SUM(CASE WHEN f."confidence_score" < 50 THEN 1 ELSE 0 END) AS "low_confidence_count"
 FROM "dds" . "fact_active_fire" f
-JOIN "dds" . "dim_satellite_instrument" sat ON f."satellite_key" = sat."satellite_key"
-GROUP BY sat."sensor_type", sat."satellite_name"
-ORDER BY "detection_count" DESC;
+JOIN "dds" . "dim_date" d ON f."date_key" = d."date_key"
+GROUP BY d."year_number", d."quarter_number"
+ORDER BY d."year_number", d."quarter_number";
     """)
     results = cursor . fetchall()
     print(f"\nOLAP Query 1 Results ({len(results)} rows returned):")

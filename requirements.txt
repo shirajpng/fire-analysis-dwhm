@@ -4,3 +4,6 @@ pandas>=2.0
 # Needed only for extract_boundaries.py --inspect and downstream spatial work
 pyogrio>=0.7
 geopandas>=0.14
+
+# Needed only for extract_wdpa_history.py (SCD2 snapshots)
+earthengine-api>=1.0

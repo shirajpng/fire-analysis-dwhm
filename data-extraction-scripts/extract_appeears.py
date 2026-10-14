@@ -265,13 +265,38 @@ def download_bundles(sess: requests.Session, token: str) -> None:
                 continue
 
             url = f"{config.APPEEARS_BASE}/bundle/{task_id}/{item['file_id']}"
-            r = sess.get(url, headers=auth_header(token), stream=True, timeout=600)
-            r.raise_for_status()
 
-            target.parent.mkdir(parents=True, exist_ok=True)
-            with open(target, "wb") as fh:
-                for chunk in r.iter_content(1 << 20):
-                    fh.write(chunk)
+            # The bundle endpoint 302s to a presigned CloudFront URL, and that
+            # second hop intermittently returns an empty-bodied 400. A fresh
+            # redirect is signed on every attempt, so retrying clears it.
+            # Without this a single bad signature aborted the whole run and
+            # took the other finished tasks with it.
+            part = target.with_suffix(target.suffix + ".part")
+            for attempt in range(1, config.MAX_RETRIES + 1):
+                try:
+                    r = sess.get(url, headers=auth_header(token),
+                                 stream=True, timeout=600)
+                    r.raise_for_status()
+
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    with open(part, "wb") as fh:
+                        for chunk in r.iter_content(1 << 20):
+                            fh.write(chunk)
+                    part.rename(target)
+                    break
+                except requests.RequestException as exc:
+                    part.unlink(missing_ok=True)
+                    code = getattr(exc.response, "status_code", "?")
+                    if attempt == config.MAX_RETRIES:
+                        log.error("%s failed after %d attempts (HTTP %s); "
+                                  "left for the next run", target.name,
+                                  attempt, code)
+                    else:
+                        log.warning("%s attempt %d/%d failed (HTTP %s); retrying",
+                                    target.name, attempt, config.MAX_RETRIES, code)
+                        time.sleep(config.PAUSE_SECONDS * 2 ** attempt)
+            else:
+                continue
 
             try:
                 with open(target) as fh:

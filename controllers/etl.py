@@ -46,6 +46,7 @@ def parse_and_clean_csv(file_path):
             elif 'SITE_TYPE' in row_dict.keys():
                 if row_dict['SITE_TYPE'] == 'PA':
                     row_dict["TYPE"] = row_dict.pop('ï»¿TYPE')
+                    print(row_dict["REP_AREA"])
                     ingest_wdpa_row(cursor, row_dict)
 
     conn.commit()
@@ -156,12 +157,12 @@ def transform_and_unify_staging(cursor):
     """)
 
 if __name__ == '__main__':
-    parse_and_clean_csv(os.path.join('datasets/2024_yearly_summary/modis', 'modis_2024_Thailand.csv'))
-    parse_and_clean_csv(os.path.join('datasets/2024_yearly_summary/viirs-jpss1', 'viirs-jpss1_2024_Thailand.csv'))
-    parse_and_clean_csv(os.path.join('datasets/2024_yearly_summary', 'viirs-snpp_2024_Thailand.csv'))
+    # parse_and_clean_csv(os.path.join('datasets/2024_yearly_summary/modis', 'modis_2024_Thailand.csv'))
+    # parse_and_clean_csv(os.path.join('datasets/2024_yearly_summary/viirs-jpss1', 'viirs-jpss1_2024_Thailand.csv'))
+    # parse_and_clean_csv(os.path.join('datasets/2024_yearly_summary', 'viirs-snpp_2024_Thailand.csv'))
 
-    parse_and_clean_csv(os.path.join('datasets/DL_FIRE_J1V-C2_795811', 'fire_archive_J1V-C2_795811.csv'))
-    parse_and_clean_csv(os.path.join('datasets/DL_FIRE_M-C61_795810', 'fire_archive_M-C61_795810.csv'))
+    # parse_and_clean_csv(os.path.join('datasets/DL_FIRE_J1V-C2_795811', 'fire_archive_J1V-C2_795811.csv'))
+    # parse_and_clean_csv(os.path.join('datasets/DL_FIRE_M-C61_795810', 'fire_archive_M-C61_795810.csv'))
     # parse_and_clean_csv(os.path.join('datasets/DL_FIRE_SV-C2_795812', 'fire_archive_SV-C2_795812.csv'))
 
     parse_and_clean_csv(os.path.join('datasets/WDPA_Aug2026_Public_csv', 'WDPA_Aug2026_Public_csv.csv'))

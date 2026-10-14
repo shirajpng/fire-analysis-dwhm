@@ -53,13 +53,16 @@ run_step () {
   "$@" || echo "[step failed, continuing]"
 }
 
-run_step "1/5  Administrative boundaries (fast)"   python extract_boundaries.py --inspect
-run_step "2/5  WDPA current release"               python extract_wdpa.py --both
-run_step "3/5  NDVI tasks (async)"                 python extract_appeears.py --submit
-run_step "4/5  FIRMS archive (the long one)"       python extract_firms.py
-run_step "5/5  Inventory"                          python inventory.py
+run_step "1/8  Administrative boundaries (fast)"   python extract_boundaries.py --inspect
+run_step "2/8  WDPA current release"               python extract_wdpa.py --both
+run_step "3/8  NDVI tasks (async)"                 python extract_appeears.py --submit
+run_step "4/8  Land cover tasks (async)"           python extract_landcover.py --submit
+run_step "5/8  FIRMS NRT (before it rolls off)"    python extract_firms_nrt.py
+run_step "6/8  FIRMS country archive (no key)"     python extract_firms_country.py
+run_step "7/8  FIRMS archive (the long one)"       python extract_firms.py
+run_step "8/8  Inventory"                          python inventory.py
 
 echo
 echo "AppEEARS runs server-side. Collect it later with:"
-echo "  python extract_appeears.py --status"
-echo "  python extract_appeears.py --download"
+echo "  python extract_appeears.py --status     python extract_landcover.py --status"
+echo "  python extract_appeears.py --download   python extract_landcover.py --download"

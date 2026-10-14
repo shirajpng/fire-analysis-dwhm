@@ -8,7 +8,7 @@ stopped. Empty windows get a zero-byte marker so they are not re-requested.
 Usage:
     export FIRMS_MAP_KEY=your_key_here
     python extract_firms.py                 # science-quality archive
-    python extract_firms.py --nrt           # near-real-time, last ~2 months
+    python extract_firms_nrt.py             # near-real-time lives in its own script
     python extract_firms.py --availability  # just print sensor date bounds
 
 Get a MAP_KEY from https://firms.modaps.eosdis.nasa.gov/api/
@@ -264,10 +264,10 @@ if __name__ == "__main__":
         print(r.text[:2000])
         sys.exit(0)
 
-    sensors = config.FIRMS_SENSORS_NRT if args.nrt else config.FIRMS_SENSORS_SP
-    out = args.out / ("nrt" if args.nrt else "sp")
+    if args.nrt:
+        # NRT needs epoch-aligned windows and refetching of windows still
+        # filling, which this archive loop does not do. It has its own script.
+        sys.exit("NRT moved to its own extractor: python extract_firms_nrt.py")
 
-    # NRT only covers roughly the last 2 months regardless of what you ask for.
-    start = max(args.start, args.end - timedelta(days=60)) if args.nrt else args.start
-
-    run(sensors, out, start, args.end, use_availability=not args.no_availability)
+    run(config.FIRMS_SENSORS_SP, args.out / "sp", args.start, args.end,
+        use_availability=not args.no_availability)

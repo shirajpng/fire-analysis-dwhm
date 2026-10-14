@@ -91,9 +91,11 @@ FIRMS_SENSORS_SP = {
     "VIIRS_NOAA20_SP": date(2018, 4, 1),
 }
 
-# NRT sources. Only needed if you want to demonstrate the
-# "NRT superseded by science quality" lineage story. These cover roughly the
-# last 2 months only.
+# NRT sources, extracted by extract_firms_nrt.py. Date bounds always come from
+# the API's availability endpoint, never from here. As of Sep 2026:
+#   MODIS / SNPP / NOAA-20 NRT start the day after their SP archive ends, and
+#   roll forward as SP catches up. NRT that is not captured before then is gone.
+#   NOAA-21 NRT goes back to 2024-01-17 and is the only NOAA-21 product.
 FIRMS_SENSORS_NRT = {
     "MODIS_NRT": None,
     "VIIRS_SNPP_NRT": None,
@@ -101,11 +103,54 @@ FIRMS_SENSORS_NRT = {
     "VIIRS_NOAA21_NRT": None,
 }
 
+# NRT windows ending within this many days of the newest available date are
+# still filling (late granules), so they are refetched on every run instead of
+# being frozen.
+FIRMS_NRT_SETTLE_DAYS = 2
+
+# Fixed anchor for NRT window starts, so the same dates always land in the same
+# file no matter which day the extractor runs.
+FIRMS_NRT_EPOCH = date(2000, 1, 1)
+
 # Days per request. The API enforces [1..5] and returns
 #   HTTP 400 "Invalid day range. Expects [1..5]."
 # outside it. Note the public docs still describe a maximum of 10; the endpoint
 # is stricter than its documentation, so trust this value, not the docs.
 FIRMS_DAY_RANGE = 5
+
+# ------------------------------------------------- FIRMS country archive
+
+# Pre-clipped country-year extracts from the FIRMS archive download page.
+# Same science-quality detections as the /api/area pull, but clipped by NASA
+# to the country border instead of our bounding box. That makes them the
+# reference set the spatial clip is validated against, not an ingest source:
+# every row here is already in raw/firms/sp under a bbox that also covers
+# parts of Myanmar, Laos, Cambodia and Malaysia.
+#
+# Open download, no MAP_KEY. A missing file returns HTTP 200 with a JSON
+# error body, so availability has to be probed by reading the body.
+FIRMS_COUNTRY_BASE = "https://firms.modaps.eosdis.nasa.gov/data/country"
+
+# Country token in the archive filename. FIRMS does not always spell a country
+# the way REGION_NAME does ("Viet Nam", "Lao People's Democratic Republic"),
+# so this is overridable -- but for Thailand the two agree.
+FIRMS_COUNTRY_NAME = REGION_NAME
+
+# URL slug -> the sensor name this repo uses everywhere else, so the
+# validation join against raw/firms/sp is a straight equality.
+#
+# NOAA-21 is absent on purpose and not an oversight: there is no country
+# archive for it, for the same reason there is no VIIRS_NOAA21_SP.
+FIRMS_COUNTRY_SENSORS = {
+    "modis": "MODIS_SP",
+    "viirs-snpp": "VIIRS_SNPP_SP",
+    "viirs-jpss1": "VIIRS_NOAA20_SP",
+}
+
+# Earliest year to probe. The upper bound is discovered, never hardcoded: the
+# archive lags roughly a year behind real time (2024 is the newest as of
+# Sep 2026) and a hardcoded end year silently stops collecting when it rolls.
+FIRMS_COUNTRY_FIRST_YEAR = 2000
 
 # ---------------------------------------------------------------- WDPA
 
@@ -137,6 +182,21 @@ NDVI_LAYERS = [
 NDVI_GRID_STEP = 0.1
 NDVI_POINTS_PER_TASK = 500
 
+# MODIS MCD12Q1 annual land cover, 500 m. Feeds the land cover SCD Type 2
+# dimension: one value per point per year, so a class change between years is
+# a new dimension version.
+#
+#   LC_Type1  IGBP 17-class scheme, the standard one to report
+#   LC_Type5  Plant Functional Types, splits cereal from broadleaf cropland
+#   LW        land/water mask, lets staging drop sea points without a join
+#   QC        product quality flags
+#
+# Sampled on the same grid as NDVI (NDVI_GRID_STEP), so point ids line up and
+# staging can join the two on id instead of a spatial match.
+LANDCOVER_PRODUCT = "MCD12Q1.061"
+LANDCOVER_LAYERS = ["LC_Type1", "LC_Type5", "LW", "QC"]
+LANDCOVER_POINTS_PER_TASK = 500
+
 # ---------------------------------------------------------------- boundaries
 
 # GADM 4.1 GeoPackage, all admin levels in one file.
@@ -147,8 +207,10 @@ GADM_URL = f"https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{ISO3}.gpkg"
 RAW = Path("./raw")
 
 RAW_FIRMS = RAW / "firms"
+RAW_FIRMS_COUNTRY = RAW / "firms_country"
 RAW_WDPA = RAW / "wdpa"
 RAW_NDVI = RAW / "ndvi"
+RAW_LANDCOVER = RAW / "landcover"
 RAW_BOUNDARIES = RAW / "boundaries"
 
 MANIFEST = RAW / "_manifest.jsonl"
