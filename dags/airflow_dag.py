@@ -1,11 +1,19 @@
+import os
+import shlex
+import sys
+
 import psycopg2
 from datetime import datetime, timedelta
 from airflow import DAG
+from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
+from airflow.utils.trigger_rule import TriggerRule
 
+# Inside Docker Compose the warehouse is reached by its service name
+# (DWH_HOST=postgres_dwh); run outside it, the defaults still point at localhost.
 DB_CONFIG = {
-    "host": "localhost",
-    "port": 5432,
+    "host": os.environ.get("DWH_HOST", "localhost"),
+    "port": int(os.environ.get("DWH_PORT", "5432")),
     "dbname": "fire_dwh",
     "user": "dwh_admin",
     "password": "admin123"
@@ -76,14 +84,59 @@ def task_spatial_join():
     print("Task 3: PostGIS Point-in-Polygon spatial joins executed.")
     record_etl_flow_complete(flow_id)
 
+
+# ---------------------------------------------------------------- extraction
+# data-extraction-scripts/ is mounted at EXTRACTION_DIR (see docker-compose.yml)
+# and lands everything in its raw/ folder. Every extractor is incremental, so
+# after the first multi-hour backfill a daily run only fetches what is new.
+# Credentials (FIRMS_MAP_KEY, EARTHDATA_*) arrive as environment variables.
+EXTRACTION_DIR = os.environ.get("EXTRACTION_DIR", "/opt/airflow/extraction")
+
+# (task_id, script and flags, execution timeout), in run_all.sh order.
+EXTRACTION_STEPS = [
+    ("extract_boundaries",    "extract_boundaries.py --inspect", timedelta(minutes=30)),
+    ("extract_wdpa",          "extract_wdpa.py --both",          timedelta(hours=2)),
+    ("extract_ndvi",          "extract_appeears.py --sync",      timedelta(hours=2)),
+    ("extract_landcover",     "extract_landcover.py --sync",     timedelta(hours=1)),
+    ("extract_firms_nrt",     "extract_firms_nrt.py",            timedelta(hours=1)),
+    ("extract_firms_country", "extract_firms_country.py",        timedelta(hours=1)),
+    ("extract_firms_archive", "extract_firms.py",                timedelta(hours=12)),
+    ("extraction_inventory",  "inventory.py",                    timedelta(minutes=30)),
+]
+
+
+def extraction_task(task_id, script, timeout, first):
+    return BashOperator(
+        task_id=task_id,
+        bash_command=f"cd {shlex.quote(EXTRACTION_DIR)} && {shlex.quote(sys.executable)} {script}",
+        env={"PYTHONUNBUFFERED": "1"},
+        append_env=True,
+        execution_timeout=timeout,
+        retries=2,
+        retry_delay=timedelta(minutes=30),
+        # Sources are independent: a FIRMS outage must not stop WDPA or NDVI
+        # from being collected, so each step runs once the previous one has
+        # finished, whether or not it succeeded.
+        trigger_rule=TriggerRule.ALL_SUCCESS if first else TriggerRule.ALL_DONE,
+    )
+
+
 # Define Airflow DAG
 with DAG(
     'fire_dwh_orchestration_dag',
     default_args=default_args,
     description='Automated orchestration of Wildfire Data Warehouse ETL and ML pipelines',
     schedule_interval='0 2 * * *', # Daily at 02:00 AM
-    catchup=False
+    catchup=False,
+    # The first extraction run takes hours. A second run starting alongside it
+    # would write the same raw files twice, so runs never overlap.
+    max_active_runs=1,
 ) as dag:
+
+    extraction = [extraction_task(task_id, script, timeout, first=(i == 0))
+                  for i, (task_id, script, timeout) in enumerate(EXTRACTION_STEPS)]
+    for upstream, downstream in zip(extraction, extraction[1:]):
+        upstream >> downstream
 
     t1 = PythonOperator(
         task_id='extract_and_stage',
@@ -100,5 +153,9 @@ with DAG(
         python_callable=task_spatial_join
     )
 
-    # Workflow Dependency Chain
+    # Workflow Dependency Chain. Staging waits for every extraction step to
+    # succeed: a failed source leaves staging "upstream_failed", so the run is
+    # marked failed in the UI instead of quietly loading stale data, and the
+    # next day's run picks up where the extractors stopped.
+    extraction >> t1
     t1 >> t2 >> t3

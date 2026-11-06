@@ -1,0 +1,5 @@
+# The only image built here (airflow/Dockerfile) needs requirements.txt and
+# nothing else. Everything else stays out of the build context, above all the
+# multi-gigabyte data-extraction-scripts/raw/ and .venv/.
+*
+!requirements.txt

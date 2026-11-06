@@ -5,6 +5,9 @@ raw/
 *.gpkg
 *.gdb/
 
+# Run logs from manual run_all.sh runs (Airflow keeps its own in a volume).
+*.log
+
 __pycache__/
 *.pyc
 .env

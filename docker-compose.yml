@@ -1,4 +1,49 @@
-version: '3.8'
+# Fire DWH stack: the PostGIS warehouse plus Airflow, which runs
+# dags/airflow_dag.py daily -- extraction first, then staging and loading.
+#
+#   cp .env.example .env && $EDITOR .env     # credentials, once
+#   docker compose up -d --build
+#   open http://localhost:8080               # Airflow UI (airflow / airflow by default)
+#
+# The DAG starts unpaused, so the first run begins as soon as the scheduler
+# is up. Raw data lands in data-extraction-scripts/raw/ on the host.
+
+x-airflow-env: &airflow-env
+  AIRFLOW__CORE__EXECUTOR: LocalExecutor
+  AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow_db/airflow
+  AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+  AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+  # Shared by webserver and scheduler so the UI can read task logs.
+  AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY:-itcs544-local-only}
+  # Extraction: scripts are mounted here; credentials come from .env.
+  EXTRACTION_DIR: /opt/airflow/extraction
+  FIRMS_MAP_KEY: ${FIRMS_MAP_KEY:-}
+  EARTHDATA_USER: ${EARTHDATA_USER:-}
+  EARTHDATA_PASS: ${EARTHDATA_PASS:-}
+  # The warehouse, reached by service name inside the compose network.
+  DWH_HOST: postgres_dwh
+  DWH_PORT: "5432"
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: airflow/Dockerfile
+  image: fire-dwh-airflow:2.10.5
+  # On Linux set AIRFLOW_UID=$(id -u) in .env, so files the tasks write into
+  # data-extraction-scripts/raw/ are owned by you. Docker Desktop maps it anyway.
+  user: "${AIRFLOW_UID:-50000}:0"
+  environment: *airflow-env
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./data-extraction-scripts:/opt/airflow/extraction
+    - airflow_logs:/opt/airflow/logs
+
+x-airflow-depends: &airflow-depends
+  airflow_db:
+    condition: service_healthy
+  postgres_dwh:
+    condition: service_healthy
 
 services:
   postgres_dwh:
@@ -20,5 +65,67 @@ services:
       timeout: 5s
       retries: 5
 
+  # Airflow's own metadata, kept out of the warehouse.
+  airflow_db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: airflow
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+    volumes:
+      - airflow_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # One-shot: migrate the metadata DB and create the UI login, then exit.
+  airflow-init:
+    <<: *airflow-common
+    command: version
+    environment:
+      <<: *airflow-env
+      _AIRFLOW_DB_MIGRATE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: ${AIRFLOW_ADMIN_USER:-airflow}
+      _AIRFLOW_WWW_USER_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:-airflow}
+    depends_on: *airflow-depends
+
+  airflow-webserver:
+    <<: *airflow-common
+    command: webserver
+    restart: always
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      <<: *airflow-depends
+      airflow-init:
+        condition: service_completed_successfully
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      <<: *airflow-depends
+      airflow-init:
+        condition: service_completed_successfully
+
 volumes:
   pgdata:
+  airflow_pgdata:
+  airflow_logs:
