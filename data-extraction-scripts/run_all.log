@@ -1,0 +1,1799 @@
+loaded credentials from ../.env
+
+=== 1/8  Administrative boundaries (fast) ===
+21:50:02  INFO    common             skip (exists): gadm41_THA.gpkg
+21:50:03  INFO    boundaries         layers in gadm41_THA.gpkg:
+21:50:03  INFO    boundaries           ADM_ADM_0                MultiPolygon        1 features
+21:50:03  INFO    boundaries           ADM_ADM_1                MultiPolygon       77 features
+21:50:03  INFO    boundaries           ADM_ADM_2                MultiPolygon      928 features
+21:50:03  INFO    boundaries           ADM_ADM_3                MultiPolygon     5926 features
+21:50:03  INFO    boundaries         ADM_ADM_0 is country, _1 province, _2 district. Levels 1 and 2 are what the location dimension needs.
+
+=== 2/8  WDPA current release ===
+21:50:05  INFO    wdpa               current release resolves to: WDPA_WDOECM_Nov2026_Public.zip
+21:50:05  INFO    wdpa               citation written for Nov2026 -- required in the final report
+21:50:05  INFO    common             skip (exists): WDPA_WDOECM_Nov2026_Public_THA.zip
+21:50:05  INFO    common             skip (exists): WDPA_WDOECM_Nov2026_Public_THA_csv.zip
+21:50:05  INFO    wdpa               fetching global geodatabase (~1.1 GB, this takes a while)
+21:50:05  INFO    common             skip (exists): WDPA_WDOECM_Nov2026_Public.zip
+
+=== 3/8  NDVI tasks (async) ===
+21:50:06  INFO    appeears           authenticated with AppEEARS
+21:50:06  INFO    appeears           built grid of 14560 points at 0.10 degree spacing
+21:50:06  INFO    appeears           submitting 30 task(s)
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_000
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_001
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_002
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_003
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_004
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_005
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_006
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_007
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_008
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_009
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_010
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_011
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_012
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_013
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_014
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_015
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_016
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_017
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_018
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_019
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_020
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_021
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_022
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_023
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_024
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_025
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_026
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_027
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_028
+21:50:07  INFO    appeears           already submitted: itcs544_ndvi_THA_029
+21:50:07  INFO    appeears           all tasks queued. Processing is server-side and can take hours. Re-run with --status to check.
+
+=== 4/8  Land cover tasks (async) ===
+21:50:08  INFO    appeears           authenticated with AppEEARS
+21:50:08  INFO    appeears           built grid of 14560 points at 0.10 degree spacing
+21:50:08  INFO    landcover          submitting 30 task(s)
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_000
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_001
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_002
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_003
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_004
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_005
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_006
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_007
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_008
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_009
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_010
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_011
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_012
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_013
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_014
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_015
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_016
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_017
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_018
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_019
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_020
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_021
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_022
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_023
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_024
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_025
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_026
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_027
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_028
+21:50:09  INFO    landcover          already submitted: itcs544_landcover_THA_029
+21:50:09  INFO    landcover          all tasks queued. Re-run with --status to check.
+
+=== 5/8  FIRMS NRT (before it rolls off) ===
+21:50:11  INFO    firms              availability columns: data_id, min_date, max_date
+21:50:11  INFO    firms              available  BA_MODIS             2000-11-01 .. 2026-08-01
+21:50:11  INFO    firms              available  BA_VIIRS             2012-03-01 .. 2026-08-01
+21:50:11  INFO    firms              available  GOES_NRT             2022-08-09 .. 2026-11-05
+21:50:11  INFO    firms              available  LANDSAT_NRT          2022-06-20 .. 2026-11-05
+21:50:11  INFO    firms              available  MODIS_NRT            2026-09-01 .. 2026-11-05
+21:50:11  INFO    firms              available  MODIS_SP             2000-11-01 .. 2026-08-31
+21:50:11  INFO    firms              available  VIIRS_NOAA20_NRT     2026-08-01 .. 2026-11-05
+21:50:11  INFO    firms              available  VIIRS_NOAA20_SP      2018-04-01 .. 2026-07-31
+21:50:11  INFO    firms              available  VIIRS_NOAA21_NRT     2024-01-17 .. 2026-11-05
+21:50:11  INFO    firms              available  VIIRS_NOAA21_SP      2023-03-01 .. 2026-07-31
+21:50:11  INFO    firms              available  VIIRS_SNPP_NRT       2026-08-01 .. 2026-11-02
+21:50:11  INFO    firms              available  VIIRS_SNPP_SP        2012-01-20 .. 2026-07-31
+21:50:11  INFO    firms-nrt          MODIS_NRT: API serves 2026-09-01 .. 2026-11-05 | 14 windows, 12 final, 2 to fetch
+21:50:12  INFO    firms-nrt          MODIS_NRT          2026-10-31 ->     99 rows  (still filling)
+21:50:13  INFO    firms-nrt          MODIS_NRT          2026-11-05 ->     35 rows  (still filling)
+21:50:14  INFO    firms-nrt          == MODIS_NRT: 134 rows fetched this run ==
+21:50:14  INFO    firms-nrt          VIIRS_SNPP_NRT: API serves 2026-08-01 .. 2026-11-02 | 20 windows, 19 final, 1 to fetch
+21:50:15  INFO    firms-nrt          VIIRS_SNPP_NRT     2026-10-31 ->     83 rows  (still filling)
+21:50:16  INFO    firms-nrt          == VIIRS_SNPP_NRT: 83 rows fetched this run ==
+21:50:16  INFO    firms-nrt          VIIRS_NOAA20_NRT: API serves 2026-08-01 .. 2026-11-05 | 21 windows, 19 final, 2 to fetch
+21:50:16  INFO    firms-nrt          VIIRS_NOAA20_NRT   2026-10-31 ->    382 rows  (still filling)
+21:50:18  INFO    firms-nrt          VIIRS_NOAA20_NRT   2026-11-05 ->     54 rows  (still filling)
+21:50:19  INFO    firms-nrt          == VIIRS_NOAA20_NRT: 436 rows fetched this run ==
+21:50:19  INFO    firms-nrt          VIIRS_NOAA21_NRT: API serves 2024-01-17 .. 2026-11-05 | 206 windows, 204 final, 2 to fetch
+21:50:19  INFO    firms-nrt          VIIRS_NOAA21_NRT   2026-10-31 ->    381 rows  (still filling)
+21:50:21  INFO    firms-nrt          VIIRS_NOAA21_NRT   2026-11-05 ->     65 rows  (still filling)
+21:50:22  INFO    firms-nrt          == VIIRS_NOAA21_NRT: 446 rows fetched this run ==
+21:50:22  INFO    firms-nrt          NRT TOTAL this run: 1099 rows
+
+=== 6/8  FIRMS country archive (no key) ===
+21:50:22  INFO    firms-country      country token: 'Thailand'  (override FIRMS_COUNTRY_NAME in config.py if FIRMS spells it differently)
+21:50:23  INFO    firms-country      == MODIS_SP           26 year(s): 2000..2025 ==
+21:50:29  INFO    firms-country      == VIIRS_NOAA20_SP    8 year(s): 2018..2025 ==
+21:50:33  INFO    firms-country      == VIIRS_SNPP_SP      14 year(s): 2012..2025 ==
+21:50:33  INFO    firms-country      FIRMS country archive: 0 new rows
+
+=== 7/8  FIRMS archive (the long one) ===
+21:50:34  INFO    firms              availability columns: data_id, min_date, max_date
+21:50:34  INFO    firms              available  BA_MODIS             2000-11-01 .. 2026-08-01
+21:50:34  INFO    firms              available  BA_VIIRS             2012-03-01 .. 2026-08-01
+21:50:34  INFO    firms              available  GOES_NRT             2022-08-09 .. 2026-11-05
+21:50:34  INFO    firms              available  LANDSAT_NRT          2022-06-20 .. 2026-11-05
+21:50:34  INFO    firms              available  MODIS_NRT            2026-09-01 .. 2026-11-05
+21:50:34  INFO    firms              available  MODIS_SP             2000-11-01 .. 2026-08-31
+21:50:34  INFO    firms              available  VIIRS_NOAA20_NRT     2026-08-01 .. 2026-11-05
+21:50:34  INFO    firms              available  VIIRS_NOAA20_SP      2018-04-01 .. 2026-07-31
+21:50:34  INFO    firms              available  VIIRS_NOAA21_NRT     2024-01-17 .. 2026-11-05
+21:50:34  INFO    firms              available  VIIRS_NOAA21_SP      2023-03-01 .. 2026-07-31
+21:50:34  INFO    firms              available  VIIRS_SNPP_NRT       2026-08-01 .. 2026-11-02
+21:50:34  INFO    firms              available  VIIRS_SNPP_SP        2012-01-20 .. 2026-07-31
+21:50:34  INFO    firms              MODIS_SP: fetching 2012-01-20 .. 2026-08-31
+21:50:35  INFO    firms              MODIS_SP: holding back partial window 2026-08-29 .. 2026-08-31 until the archive covers all of it
+21:50:35  INFO    firms              == MODIS_SP total: 0 rows ==
+21:50:35  INFO    firms              VIIRS_SNPP_SP: fetching 2012-01-20 .. 2026-07-31
+21:50:40  INFO    firms              VIIRS_SNPP_SP      2013-04-09 ->   22367 rows
+21:50:45  INFO    firms              VIIRS_SNPP_SP      2013-04-14 ->    7641 rows
+21:50:49  INFO    firms              VIIRS_SNPP_SP      2013-04-19 ->   12855 rows
+21:50:55  INFO    firms              VIIRS_SNPP_SP      2013-04-24 ->    7229 rows
+21:50:59  INFO    firms              VIIRS_SNPP_SP      2013-04-29 ->    7260 rows
+21:51:03  INFO    firms              VIIRS_SNPP_SP      2013-05-04 ->    1949 rows
+21:51:06  INFO    firms              VIIRS_SNPP_SP      2013-05-09 ->    1758 rows
+21:51:08  INFO    firms              VIIRS_SNPP_SP      2013-05-14 ->    4443 rows
+21:51:10  INFO    firms              VIIRS_SNPP_SP      2013-05-19 ->    1309 rows
+21:51:13  INFO    firms              VIIRS_SNPP_SP      2013-05-24 ->    1927 rows
+21:51:18  INFO    firms              VIIRS_SNPP_SP      2013-05-29 ->     787 rows
+21:51:41  INFO    firms              VIIRS_SNPP_SP      2013-06-03 ->     538 rows
+21:51:53  INFO    firms              VIIRS_SNPP_SP      2013-06-08 ->     742 rows
+21:52:00  INFO    firms              VIIRS_SNPP_SP      2013-06-13 ->     728 rows
+21:52:05  INFO    firms              VIIRS_SNPP_SP      2013-06-18 ->     401 rows
+21:52:11  INFO    firms              VIIRS_SNPP_SP      2013-06-23 ->     303 rows
+21:52:18  INFO    firms              VIIRS_SNPP_SP      2013-06-28 ->    1072 rows
+21:52:26  INFO    firms              VIIRS_SNPP_SP      2013-07-03 ->     335 rows
+21:52:29  INFO    firms              VIIRS_SNPP_SP      2013-07-08 ->     365 rows
+21:52:32  INFO    firms              VIIRS_SNPP_SP      2013-07-13 ->     239 rows
+21:52:36  INFO    firms              VIIRS_SNPP_SP      2013-07-18 ->     121 rows
+21:52:46  INFO    firms              VIIRS_SNPP_SP      2013-07-23 ->      99 rows
+21:53:22  INFO    firms              VIIRS_SNPP_SP      2013-07-28 ->     124 rows
+21:53:36  INFO    firms              VIIRS_SNPP_SP      2013-08-02 ->     131 rows
+21:54:03  INFO    firms              VIIRS_SNPP_SP      2013-08-07 ->      64 rows
+21:54:13  INFO    firms              VIIRS_SNPP_SP      2013-08-12 ->     146 rows
+21:54:20  INFO    firms              VIIRS_SNPP_SP      2013-08-17 ->     451 rows
+21:54:25  INFO    firms              VIIRS_SNPP_SP      2013-08-22 ->     207 rows
+21:54:31  INFO    firms              VIIRS_SNPP_SP      2013-08-27 ->     315 rows
+21:54:35  INFO    firms              VIIRS_SNPP_SP      2013-09-01 ->     230 rows
+21:54:41  INFO    firms              VIIRS_SNPP_SP      2013-09-06 ->     121 rows
+21:54:51  INFO    firms              VIIRS_SNPP_SP      2013-09-11 ->      93 rows
+21:54:58  INFO    firms              VIIRS_SNPP_SP      2013-09-16 ->      63 rows
+21:55:15  INFO    firms              VIIRS_SNPP_SP      2013-09-21 ->     129 rows
+21:55:26  INFO    firms              VIIRS_SNPP_SP      2013-09-26 ->      76 rows
+21:55:28  INFO    firms              VIIRS_SNPP_SP      2013-10-01 ->     133 rows
+21:55:31  INFO    firms              VIIRS_SNPP_SP      2013-10-06 ->     518 rows
+21:55:35  INFO    firms              VIIRS_SNPP_SP      2013-10-11 ->     481 rows
+21:55:42  INFO    firms              VIIRS_SNPP_SP      2013-10-16 ->      97 rows
+21:55:49  INFO    firms              VIIRS_SNPP_SP      2013-10-21 ->     288 rows
+21:56:00  INFO    firms              VIIRS_SNPP_SP      2013-10-26 ->     517 rows
+21:56:17  INFO    firms              VIIRS_SNPP_SP      2013-10-31 ->     918 rows
+21:56:30  INFO    firms              VIIRS_SNPP_SP      2013-11-05 ->     332 rows
+21:56:33  INFO    firms              VIIRS_SNPP_SP      2013-11-10 ->     366 rows
+21:56:37  INFO    firms              VIIRS_SNPP_SP      2013-11-15 ->     315 rows
+21:56:41  INFO    firms              VIIRS_SNPP_SP      2013-11-20 ->     457 rows
+21:56:49  INFO    firms              VIIRS_SNPP_SP      2013-11-25 ->     739 rows
+21:56:54  INFO    firms              VIIRS_SNPP_SP      2013-11-30 ->    1553 rows
+21:56:59  INFO    firms              VIIRS_SNPP_SP      2013-12-05 ->    2513 rows
+21:57:04  INFO    firms              VIIRS_SNPP_SP      2013-12-10 ->    2465 rows
+21:57:24  INFO    firms              VIIRS_SNPP_SP      2013-12-15 ->     997 rows
+21:57:35  INFO    firms              VIIRS_SNPP_SP      2013-12-20 ->    2755 rows
+21:57:38  INFO    firms              VIIRS_SNPP_SP      2013-12-25 ->    3172 rows
+21:57:40  INFO    firms              VIIRS_SNPP_SP      2013-12-30 ->    3160 rows
+21:57:43  INFO    firms              VIIRS_SNPP_SP      2014-01-04 ->    4151 rows
+21:57:45  INFO    firms              VIIRS_SNPP_SP      2014-01-09 ->    5516 rows
+21:57:47  INFO    firms              VIIRS_SNPP_SP      2014-01-14 ->    7458 rows
+21:57:49  INFO    firms              VIIRS_SNPP_SP      2014-01-19 ->   10193 rows
+21:57:51  INFO    firms              VIIRS_SNPP_SP      2014-01-24 ->   10028 rows
+21:57:54  INFO    firms              VIIRS_SNPP_SP      2014-01-29 ->   13558 rows
+21:57:56  INFO    firms              VIIRS_SNPP_SP      2014-02-03 ->   14591 rows
+21:57:58  INFO    firms              VIIRS_SNPP_SP      2014-02-08 ->   19921 rows
+21:58:00  INFO    firms              VIIRS_SNPP_SP      2014-02-13 ->   16172 rows
+21:58:03  INFO    firms              VIIRS_SNPP_SP      2014-02-18 ->   16999 rows
+21:58:05  INFO    firms              VIIRS_SNPP_SP      2014-02-23 ->   23831 rows
+21:58:08  INFO    firms              VIIRS_SNPP_SP      2014-02-28 ->   32396 rows
+21:58:13  INFO    firms              VIIRS_SNPP_SP      2014-03-05 ->   51327 rows
+21:58:17  INFO    firms              VIIRS_SNPP_SP      2014-03-10 ->   40266 rows
+21:58:22  INFO    firms              VIIRS_SNPP_SP      2014-03-15 ->   46890 rows
+21:58:25  INFO    firms              VIIRS_SNPP_SP      2014-03-20 ->   31229 rows
+21:58:29  INFO    firms              VIIRS_SNPP_SP      2014-03-25 ->   35109 rows
+21:58:36  INFO    firms              VIIRS_SNPP_SP      2014-03-30 ->   60634 rows
+21:58:39  INFO    firms              VIIRS_SNPP_SP      2014-04-04 ->    9781 rows
+21:58:45  INFO    firms              VIIRS_SNPP_SP      2014-04-09 ->   23766 rows
+21:58:50  INFO    firms              VIIRS_SNPP_SP      2014-04-14 ->   14448 rows
+21:58:54  INFO    firms              VIIRS_SNPP_SP      2014-04-19 ->   10719 rows
+21:58:58  INFO    firms              VIIRS_SNPP_SP      2014-04-24 ->    6823 rows
+21:59:00  INFO    firms              VIIRS_SNPP_SP      2014-04-29 ->    1921 rows
+21:59:02  INFO    firms              VIIRS_SNPP_SP      2014-05-04 ->    2112 rows
+21:59:05  INFO    firms              VIIRS_SNPP_SP      2014-05-09 ->    3582 rows
+21:59:08  INFO    firms              VIIRS_SNPP_SP      2014-05-14 ->    3101 rows
+21:59:10  INFO    firms              VIIRS_SNPP_SP      2014-05-19 ->    2129 rows
+21:59:13  INFO    firms              VIIRS_SNPP_SP      2014-05-24 ->    1959 rows
+21:59:17  INFO    firms              VIIRS_SNPP_SP      2014-05-29 ->    1411 rows
+21:59:39  INFO    firms              VIIRS_SNPP_SP      2014-06-03 ->     890 rows
+21:59:49  INFO    firms              VIIRS_SNPP_SP      2014-06-08 ->     347 rows
+22:00:06  INFO    firms              VIIRS_SNPP_SP      2014-06-13 ->     140 rows
+22:00:13  INFO    firms              VIIRS_SNPP_SP      2014-06-18 ->     439 rows
+22:00:18  INFO    firms              VIIRS_SNPP_SP      2014-06-23 ->     300 rows
+22:00:22  INFO    firms              VIIRS_SNPP_SP      2014-06-28 ->     247 rows
+22:00:24  INFO    firms              VIIRS_SNPP_SP      2014-07-03 ->     324 rows
+22:00:27  INFO    firms              VIIRS_SNPP_SP      2014-07-08 ->     195 rows
+22:00:37  INFO    firms              VIIRS_SNPP_SP      2014-07-13 ->     142 rows
+22:01:15  INFO    firms              VIIRS_SNPP_SP      2014-07-18 ->      97 rows
+22:01:40  INFO    firms              VIIRS_SNPP_SP      2014-07-23 ->     155 rows
+22:01:55  INFO    firms              VIIRS_SNPP_SP      2014-07-28 ->     120 rows
+22:02:04  INFO    firms              VIIRS_SNPP_SP      2014-08-02 ->     107 rows
+22:02:16  INFO    firms              VIIRS_SNPP_SP      2014-08-07 ->     349 rows
+22:02:34  INFO    firms              VIIRS_SNPP_SP      2014-08-12 ->     474 rows
+22:02:55  INFO    firms              VIIRS_SNPP_SP      2014-08-17 ->     455 rows
+22:03:21  INFO    firms              VIIRS_SNPP_SP      2014-08-22 ->     265 rows
+22:03:47  INFO    firms              VIIRS_SNPP_SP      2014-08-27 ->      59 rows
+22:04:03  INFO    firms              VIIRS_SNPP_SP      2014-09-01 ->     136 rows
+22:04:54  INFO    firms              VIIRS_SNPP_SP      2014-09-06 ->     295 rows
+22:05:02  INFO    firms              VIIRS_SNPP_SP      2014-09-11 ->     282 rows
+22:05:15  INFO    firms              VIIRS_SNPP_SP      2014-09-16 ->     423 rows
+22:05:20  INFO    firms              VIIRS_SNPP_SP      2014-09-21 ->     230 rows
+22:05:23  INFO    firms              VIIRS_SNPP_SP      2014-09-26 ->     323 rows
+22:05:34  INFO    firms              VIIRS_SNPP_SP      2014-10-01 ->     372 rows
+22:05:38  INFO    firms              VIIRS_SNPP_SP      2014-10-06 ->     111 rows
+22:05:55  INFO    firms              VIIRS_SNPP_SP      2014-10-11 ->     401 rows
+22:05:58  INFO    firms              VIIRS_SNPP_SP      2014-10-16 ->     399 rows
+22:06:00  INFO    firms              VIIRS_SNPP_SP      2014-10-21 ->     199 rows
+22:06:03  INFO    firms              VIIRS_SNPP_SP      2014-10-26 ->     384 rows
+22:06:05  INFO    firms              VIIRS_SNPP_SP      2014-10-31 ->     442 rows
+22:06:07  INFO    firms              VIIRS_SNPP_SP      2014-11-05 ->     512 rows
+22:06:10  INFO    firms              VIIRS_SNPP_SP      2014-11-10 ->     707 rows
+22:06:12  INFO    firms              VIIRS_SNPP_SP      2014-11-15 ->     827 rows
+22:06:14  INFO    firms              VIIRS_SNPP_SP      2014-11-20 ->    1131 rows
+22:06:17  INFO    firms              VIIRS_SNPP_SP      2014-11-25 ->    1299 rows
+22:06:21  INFO    firms              VIIRS_SNPP_SP      2014-11-30 ->     790 rows
+22:06:23  INFO    firms              VIIRS_SNPP_SP      2014-12-05 ->    1991 rows
+22:06:25  INFO    firms              VIIRS_SNPP_SP      2014-12-10 ->    2726 rows
+22:06:28  INFO    firms              VIIRS_SNPP_SP      2014-12-15 ->    2370 rows
+22:06:31  INFO    firms              VIIRS_SNPP_SP      2014-12-20 ->    3714 rows
+22:06:38  INFO    firms              VIIRS_SNPP_SP      2014-12-25 ->    3314 rows
+22:06:44  INFO    firms              VIIRS_SNPP_SP      2014-12-30 ->    7139 rows
+22:06:49  INFO    firms              VIIRS_SNPP_SP      2015-01-04 ->    5885 rows
+22:06:58  INFO    firms              VIIRS_SNPP_SP      2015-01-09 ->    8181 rows
+22:07:05  INFO    firms              VIIRS_SNPP_SP      2015-01-14 ->   14536 rows
+22:07:18  INFO    firms              VIIRS_SNPP_SP      2015-01-19 ->   16306 rows
+22:07:30  INFO    firms              VIIRS_SNPP_SP      2015-01-24 ->   15506 rows
+22:07:40  INFO    firms              VIIRS_SNPP_SP      2015-01-29 ->   21999 rows
+22:07:53  INFO    firms              VIIRS_SNPP_SP      2015-02-03 ->   27488 rows
+22:07:59  INFO    firms              VIIRS_SNPP_SP      2015-02-08 ->   20070 rows
+22:08:05  INFO    firms              VIIRS_SNPP_SP      2015-02-13 ->   14795 rows
+22:08:11  INFO    firms              VIIRS_SNPP_SP      2015-02-18 ->    8804 rows
+22:08:16  INFO    firms              VIIRS_SNPP_SP      2015-02-23 ->   24023 rows
+22:08:25  INFO    firms              VIIRS_SNPP_SP      2015-02-28 ->   31709 rows
+22:08:34  INFO    firms              VIIRS_SNPP_SP      2015-03-05 ->   39601 rows
+22:08:44  INFO    firms              VIIRS_SNPP_SP      2015-03-10 ->   36437 rows
+22:08:51  INFO    firms              VIIRS_SNPP_SP      2015-03-15 ->   44010 rows
+22:09:00  INFO    firms              VIIRS_SNPP_SP      2015-03-20 ->   27924 rows
+22:09:07  INFO    firms              VIIRS_SNPP_SP      2015-03-25 ->    8109 rows
+22:09:16  INFO    firms              VIIRS_SNPP_SP      2015-03-30 ->   39542 rows
+22:09:25  INFO    firms              VIIRS_SNPP_SP      2015-04-04 ->   44210 rows
+22:09:31  INFO    firms              VIIRS_SNPP_SP      2015-04-09 ->    8664 rows
+22:09:37  INFO    firms              VIIRS_SNPP_SP      2015-04-14 ->   30336 rows
+22:09:46  INFO    firms              VIIRS_SNPP_SP      2015-04-19 ->   24024 rows
+22:09:55  INFO    firms              VIIRS_SNPP_SP      2015-04-24 ->    2464 rows
+22:10:04  INFO    firms              VIIRS_SNPP_SP      2015-04-29 ->    5420 rows
+22:10:12  INFO    firms              VIIRS_SNPP_SP      2015-05-04 ->    6999 rows
+22:10:19  INFO    firms              VIIRS_SNPP_SP      2015-05-09 ->    2393 rows
+22:10:32  INFO    firms              VIIRS_SNPP_SP      2015-05-14 ->    2551 rows
+22:10:39  INFO    firms              VIIRS_SNPP_SP      2015-05-19 ->    1438 rows
+22:10:44  INFO    firms              VIIRS_SNPP_SP      2015-05-24 ->    1456 rows
+22:10:49  INFO    firms              VIIRS_SNPP_SP      2015-05-29 ->    2115 rows
+22:10:56  INFO    firms              VIIRS_SNPP_SP      2015-06-03 ->    1573 rows
+22:11:00  INFO    firms              VIIRS_SNPP_SP      2015-06-08 ->    1327 rows
+22:11:04  INFO    firms              VIIRS_SNPP_SP      2015-06-13 ->     544 rows
+22:11:08  INFO    firms              VIIRS_SNPP_SP      2015-06-18 ->     401 rows
+22:11:11  INFO    firms              VIIRS_SNPP_SP      2015-06-23 ->     243 rows
+22:11:15  INFO    firms              VIIRS_SNPP_SP      2015-06-28 ->    2034 rows
+22:11:18  INFO    firms              VIIRS_SNPP_SP      2015-07-03 ->    1101 rows
+22:11:25  INFO    firms              VIIRS_SNPP_SP      2015-07-08 ->     475 rows
+22:11:51  INFO    firms              VIIRS_SNPP_SP      2015-07-13 ->     168 rows
+22:12:10  INFO    firms              VIIRS_SNPP_SP      2015-07-18 ->     133 rows
+22:12:33  INFO    firms              VIIRS_SNPP_SP      2015-07-23 ->     299 rows
+22:12:51  INFO    firms              VIIRS_SNPP_SP      2015-07-28 ->     169 rows
+22:13:08  INFO    firms              VIIRS_SNPP_SP      2015-08-02 ->     224 rows
+22:13:22  INFO    firms              VIIRS_SNPP_SP      2015-08-07 ->     279 rows
+22:13:54  INFO    firms              VIIRS_SNPP_SP      2015-08-12 ->     386 rows
+22:14:06  INFO    firms              VIIRS_SNPP_SP      2015-08-17 ->     621 rows
+22:14:21  INFO    firms              VIIRS_SNPP_SP      2015-08-22 ->     316 rows
+22:14:30  INFO    firms              VIIRS_SNPP_SP      2015-08-27 ->     330 rows
+22:14:34  INFO    firms              VIIRS_SNPP_SP      2015-09-01 ->     255 rows
+22:14:43  INFO    firms              VIIRS_SNPP_SP      2015-09-06 ->     480 rows
+22:14:50  INFO    firms              VIIRS_SNPP_SP      2015-09-11 ->     105 rows
+22:15:13  INFO    firms              VIIRS_SNPP_SP      2015-09-16 ->     150 rows
+22:15:29  INFO    firms              VIIRS_SNPP_SP      2015-09-21 ->     385 rows
+22:15:51  INFO    firms              VIIRS_SNPP_SP      2015-09-26 ->     363 rows
+22:16:00  INFO    firms              VIIRS_SNPP_SP      2015-10-01 ->      89 rows
+22:16:03  INFO    firms              VIIRS_SNPP_SP      2015-10-06 ->     197 rows
+22:16:15  INFO    firms              VIIRS_SNPP_SP      2015-10-11 ->     151 rows
+22:34:25  WARNING common             retry 1/4 for https://firms.modaps.eosdis.nasa.gov/api/area/csv/4056e1de0e8b4a5b7b247eea4863a6 -- HTTPSConnectionPool(host='firms.modaps.eosdis.nasa.gov', port=443): Read timed out. (read timeout=180); sleeping 1s
+22:34:28  INFO    firms              VIIRS_SNPP_SP      2015-10-16 ->     377 rows
+22:34:43  INFO    firms              VIIRS_SNPP_SP      2015-10-21 ->     430 rows
+22:34:51  INFO    firms              VIIRS_SNPP_SP      2015-10-26 ->     454 rows
+22:35:06  INFO    firms              VIIRS_SNPP_SP      2015-10-31 ->     351 rows
+22:35:15  INFO    firms              VIIRS_SNPP_SP      2015-11-05 ->     292 rows
+22:35:25  INFO    firms              VIIRS_SNPP_SP      2015-11-10 ->     425 rows
+22:35:36  INFO    firms              VIIRS_SNPP_SP      2015-11-15 ->     769 rows
+22:35:49  INFO    firms              VIIRS_SNPP_SP      2015-11-20 ->     984 rows
+22:56:20  WARNING common             retry 1/4 for https://firms.modaps.eosdis.nasa.gov/api/area/csv/4056e1de0e8b4a5b7b247eea4863a6 -- HTTPSConnectionPool(host='firms.modaps.eosdis.nasa.gov', port=443): Read timed out. (read timeout=180); sleeping 1s
+22:56:28  INFO    firms              VIIRS_SNPP_SP      2015-11-25 ->    1197 rows
+22:57:05  INFO    firms              VIIRS_SNPP_SP      2015-11-30 ->    1685 rows
+22:57:32  INFO    firms              VIIRS_SNPP_SP      2015-12-05 ->    1320 rows
+22:57:43  INFO    firms              VIIRS_SNPP_SP      2015-12-10 ->    2839 rows
+22:57:56  INFO    firms              VIIRS_SNPP_SP      2015-12-15 ->    2256 rows
+22:58:08  INFO    firms              VIIRS_SNPP_SP      2015-12-20 ->    1870 rows
+22:58:23  INFO    firms              VIIRS_SNPP_SP      2015-12-25 ->    5022 rows
+22:58:28  INFO    firms              VIIRS_SNPP_SP      2015-12-30 ->    7100 rows
+22:58:31  INFO    firms              VIIRS_SNPP_SP      2016-01-04 ->    5129 rows
+22:58:33  INFO    firms              VIIRS_SNPP_SP      2016-01-09 ->    4197 rows
+22:58:35  INFO    firms              VIIRS_SNPP_SP      2016-01-14 ->    5878 rows
+22:58:38  INFO    firms              VIIRS_SNPP_SP      2016-01-19 ->    6317 rows
+22:58:41  INFO    firms              VIIRS_SNPP_SP      2016-01-24 ->   13692 rows
+22:58:43  INFO    firms              VIIRS_SNPP_SP      2016-01-29 ->    8766 rows
+22:58:46  INFO    firms              VIIRS_SNPP_SP      2016-02-03 ->   24252 rows
+22:58:49  INFO    firms              VIIRS_SNPP_SP      2016-02-08 ->   27762 rows
+22:58:52  INFO    firms              VIIRS_SNPP_SP      2016-02-13 ->   19069 rows
+22:58:54  INFO    firms              VIIRS_SNPP_SP      2016-02-18 ->   20613 rows
+22:58:57  INFO    firms              VIIRS_SNPP_SP      2016-02-23 ->   23619 rows
+22:58:59  INFO    firms              VIIRS_SNPP_SP      2016-02-28 ->   29976 rows
+22:59:02  INFO    firms              VIIRS_SNPP_SP      2016-03-04 ->   20035 rows
+22:59:04  INFO    firms              VIIRS_SNPP_SP      2016-03-09 ->   24109 rows
+22:59:07  INFO    firms              VIIRS_SNPP_SP      2016-03-14 ->   47437 rows
+22:59:10  INFO    firms              VIIRS_SNPP_SP      2016-03-19 ->   57589 rows
+22:59:13  INFO    firms              VIIRS_SNPP_SP      2016-03-24 ->   29720 rows
+22:59:15  INFO    firms              VIIRS_SNPP_SP      2016-03-29 ->   23732 rows
+22:59:17  INFO    firms              VIIRS_SNPP_SP      2016-04-03 ->   42891 rows
+22:59:20  INFO    firms              VIIRS_SNPP_SP      2016-04-08 ->   40733 rows
+22:59:23  INFO    firms              VIIRS_SNPP_SP      2016-04-13 ->   50228 rows
+22:59:25  INFO    firms              VIIRS_SNPP_SP      2016-04-18 ->   24724 rows
+22:59:27  INFO    firms              VIIRS_SNPP_SP      2016-04-23 ->   24397 rows
+22:59:50  INFO    firms              VIIRS_SNPP_SP      2016-04-28 ->   10958 rows
+22:59:52  INFO    firms              VIIRS_SNPP_SP      2016-05-03 ->   12942 rows
+22:59:55  INFO    firms              VIIRS_SNPP_SP      2016-05-08 ->   13720 rows
+22:59:57  INFO    firms              VIIRS_SNPP_SP      2016-05-13 ->    4406 rows
+22:59:58  INFO    firms              VIIRS_SNPP_SP      2016-05-18 ->     997 rows
+23:00:00  INFO    firms              VIIRS_SNPP_SP      2016-05-23 ->     331 rows
+23:00:02  INFO    firms              VIIRS_SNPP_SP      2016-05-28 ->     636 rows
+23:00:05  INFO    firms              VIIRS_SNPP_SP      2016-06-02 ->    1955 rows
+23:00:07  INFO    firms              VIIRS_SNPP_SP      2016-06-07 ->    1000 rows
+23:00:08  INFO    firms              VIIRS_SNPP_SP      2016-06-12 ->    1069 rows
+23:00:17  INFO    firms              VIIRS_SNPP_SP      2016-06-17 ->     598 rows
+23:00:19  INFO    firms              VIIRS_SNPP_SP      2016-06-22 ->     363 rows
+23:00:21  INFO    firms              VIIRS_SNPP_SP      2016-06-27 ->     195 rows
+23:00:22  INFO    firms              VIIRS_SNPP_SP      2016-07-02 ->     208 rows
+23:00:24  INFO    firms              VIIRS_SNPP_SP      2016-07-07 ->     136 rows
+23:00:26  INFO    firms              VIIRS_SNPP_SP      2016-07-12 ->     249 rows
+23:00:35  INFO    firms              VIIRS_SNPP_SP      2016-07-17 ->     292 rows
+23:01:15  INFO    firms              VIIRS_SNPP_SP      2016-07-22 ->     258 rows
+23:01:52  INFO    firms              VIIRS_SNPP_SP      2016-07-27 ->     121 rows
+23:01:53  INFO    firms              VIIRS_SNPP_SP      2016-08-01 ->     174 rows
+23:01:55  INFO    firms              VIIRS_SNPP_SP      2016-08-06 ->     279 rows
+23:01:57  INFO    firms              VIIRS_SNPP_SP      2016-08-11 ->      77 rows
+23:01:58  INFO    firms              VIIRS_SNPP_SP      2016-08-16 ->     186 rows
+23:02:00  INFO    firms              VIIRS_SNPP_SP      2016-08-21 ->     232 rows
+23:02:26  INFO    firms              VIIRS_SNPP_SP      2016-08-26 ->     198 rows
+23:02:33  INFO    firms              VIIRS_SNPP_SP      2016-08-31 ->     258 rows
+23:02:35  INFO    firms              VIIRS_SNPP_SP      2016-09-05 ->     118 rows
+23:02:36  INFO    firms              VIIRS_SNPP_SP      2016-09-10 ->      88 rows
+23:02:38  INFO    firms              VIIRS_SNPP_SP      2016-09-15 ->     176 rows
+23:02:41  INFO    firms              VIIRS_SNPP_SP      2016-09-20 ->      58 rows
+23:02:43  INFO    firms              VIIRS_SNPP_SP      2016-09-25 ->     162 rows
+23:02:44  INFO    firms              VIIRS_SNPP_SP      2016-09-30 ->     162 rows
+23:02:46  INFO    firms              VIIRS_SNPP_SP      2016-10-05 ->     164 rows
+23:02:52  INFO    firms              VIIRS_SNPP_SP      2016-10-10 ->     196 rows
+23:02:54  INFO    firms              VIIRS_SNPP_SP      2016-10-15 ->     112 rows
+23:02:56  INFO    firms              VIIRS_SNPP_SP      2016-10-20 ->     319 rows
+23:02:57  INFO    firms              VIIRS_SNPP_SP      2016-10-25 ->     137 rows
+23:02:59  INFO    firms              VIIRS_SNPP_SP      2016-10-30 ->     156 rows
+23:03:00  INFO    firms              VIIRS_SNPP_SP      2016-11-04 ->     266 rows
+23:03:02  INFO    firms              VIIRS_SNPP_SP      2016-11-09 ->     326 rows
+23:03:05  INFO    firms              VIIRS_SNPP_SP      2016-11-14 ->     785 rows
+23:03:07  INFO    firms              VIIRS_SNPP_SP      2016-11-19 ->     879 rows
+23:03:09  INFO    firms              VIIRS_SNPP_SP      2016-11-24 ->     774 rows
+23:03:11  INFO    firms              VIIRS_SNPP_SP      2016-11-29 ->     956 rows
+23:03:13  INFO    firms              VIIRS_SNPP_SP      2016-12-04 ->     682 rows
+23:03:16  INFO    firms              VIIRS_SNPP_SP      2016-12-09 ->    1902 rows
+23:03:18  INFO    firms              VIIRS_SNPP_SP      2016-12-14 ->    1091 rows
+23:03:20  INFO    firms              VIIRS_SNPP_SP      2016-12-19 ->    2002 rows
+23:03:22  INFO    firms              VIIRS_SNPP_SP      2016-12-24 ->    2319 rows
+23:03:30  INFO    firms              VIIRS_SNPP_SP      2016-12-29 ->    1857 rows
+23:03:32  INFO    firms              VIIRS_SNPP_SP      2017-01-03 ->     930 rows
+23:03:34  INFO    firms              VIIRS_SNPP_SP      2017-01-08 ->    1030 rows
+23:03:37  INFO    firms              VIIRS_SNPP_SP      2017-01-13 ->    1993 rows
+23:03:41  INFO    firms              VIIRS_SNPP_SP      2017-01-18 ->    5631 rows
+23:03:44  INFO    firms              VIIRS_SNPP_SP      2017-01-23 ->    6864 rows
+23:03:46  INFO    firms              VIIRS_SNPP_SP      2017-01-28 ->    9341 rows
+23:03:49  INFO    firms              VIIRS_SNPP_SP      2017-02-02 ->   11536 rows
+23:03:52  INFO    firms              VIIRS_SNPP_SP      2017-02-07 ->   14903 rows
+23:03:55  INFO    firms              VIIRS_SNPP_SP      2017-02-12 ->   20078 rows
+23:03:57  INFO    firms              VIIRS_SNPP_SP      2017-02-17 ->   17850 rows
+23:03:59  INFO    firms              VIIRS_SNPP_SP      2017-02-22 ->   14710 rows
+23:04:02  INFO    firms              VIIRS_SNPP_SP      2017-02-27 ->   28937 rows
+23:04:04  INFO    firms              VIIRS_SNPP_SP      2017-03-04 ->   25262 rows
+23:04:07  INFO    firms              VIIRS_SNPP_SP      2017-03-09 ->   19293 rows
+23:04:09  INFO    firms              VIIRS_SNPP_SP      2017-03-14 ->   33102 rows
+23:04:11  INFO    firms              VIIRS_SNPP_SP      2017-03-19 ->   22237 rows
+23:04:14  INFO    firms              VIIRS_SNPP_SP      2017-03-24 ->   19009 rows
+23:04:16  INFO    firms              VIIRS_SNPP_SP      2017-03-29 ->   10954 rows
+23:04:18  INFO    firms              VIIRS_SNPP_SP      2017-04-03 ->   12936 rows
+23:04:21  INFO    firms              VIIRS_SNPP_SP      2017-04-08 ->   34982 rows
+23:04:22  INFO    firms              VIIRS_SNPP_SP      2017-04-13 ->    3024 rows
+23:04:25  INFO    firms              VIIRS_SNPP_SP      2017-04-18 ->   17094 rows
+23:04:27  INFO    firms              VIIRS_SNPP_SP      2017-04-23 ->    7873 rows
+23:04:29  INFO    firms              VIIRS_SNPP_SP      2017-04-28 ->    7600 rows
+23:04:31  INFO    firms              VIIRS_SNPP_SP      2017-05-03 ->    5203 rows
+23:04:33  INFO    firms              VIIRS_SNPP_SP      2017-05-08 ->     975 rows
+23:04:34  INFO    firms              VIIRS_SNPP_SP      2017-05-13 ->     166 rows
+23:04:36  INFO    firms              VIIRS_SNPP_SP      2017-05-18 ->     530 rows
+23:04:38  INFO    firms              VIIRS_SNPP_SP      2017-05-23 ->     657 rows
+23:04:40  INFO    firms              VIIRS_SNPP_SP      2017-05-28 ->     680 rows
+23:04:41  INFO    firms              VIIRS_SNPP_SP      2017-06-02 ->     619 rows
+23:04:43  INFO    firms              VIIRS_SNPP_SP      2017-06-07 ->     169 rows
+23:04:45  INFO    firms              VIIRS_SNPP_SP      2017-06-12 ->     286 rows
+23:04:46  INFO    firms              VIIRS_SNPP_SP      2017-06-17 ->     249 rows
+23:04:48  INFO    firms              VIIRS_SNPP_SP      2017-06-22 ->     261 rows
+23:04:49  INFO    firms              VIIRS_SNPP_SP      2017-06-27 ->     153 rows
+23:04:51  INFO    firms              VIIRS_SNPP_SP      2017-07-02 ->      90 rows
+23:04:52  INFO    firms              VIIRS_SNPP_SP      2017-07-07 ->     133 rows
+23:04:54  INFO    firms              VIIRS_SNPP_SP      2017-07-12 ->      29 rows
+23:04:55  INFO    firms              VIIRS_SNPP_SP      2017-07-17 ->      44 rows
+23:04:57  INFO    firms              VIIRS_SNPP_SP      2017-07-22 ->     129 rows
+23:05:00  INFO    firms              VIIRS_SNPP_SP      2017-07-27 ->     200 rows
+23:05:01  INFO    firms              VIIRS_SNPP_SP      2017-08-01 ->     119 rows
+23:05:04  INFO    firms              VIIRS_SNPP_SP      2017-08-06 ->     194 rows
+23:05:05  INFO    firms              VIIRS_SNPP_SP      2017-08-11 ->     174 rows
+23:05:20  INFO    firms              VIIRS_SNPP_SP      2017-08-16 ->      72 rows
+23:05:22  INFO    firms              VIIRS_SNPP_SP      2017-08-21 ->     179 rows
+23:05:32  INFO    firms              VIIRS_SNPP_SP      2017-08-26 ->      69 rows
+23:05:38  INFO    firms              VIIRS_SNPP_SP      2017-08-31 ->     331 rows
+23:05:50  INFO    firms              VIIRS_SNPP_SP      2017-09-05 ->     356 rows
+23:05:54  INFO    firms              VIIRS_SNPP_SP      2017-09-10 ->     336 rows
+23:06:09  INFO    firms              VIIRS_SNPP_SP      2017-09-15 ->     131 rows
+23:06:12  INFO    firms              VIIRS_SNPP_SP      2017-09-20 ->     137 rows
+23:06:13  INFO    firms              VIIRS_SNPP_SP      2017-09-25 ->     175 rows
+23:23:01  WARNING common             retry 1/4 for https://firms.modaps.eosdis.nasa.gov/api/area/csv/4056e1de0e8b4a5b7b247eea4863a6 -- ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer')); sleeping 1s
+23:23:03  INFO    firms              VIIRS_SNPP_SP      2017-09-30 ->      46 rows
+23:23:05  INFO    firms              VIIRS_SNPP_SP      2017-10-05 ->     106 rows
+23:23:06  INFO    firms              VIIRS_SNPP_SP      2017-10-10 ->      43 rows
+23:23:07  INFO    firms              VIIRS_SNPP_SP      2017-10-15 ->      80 rows
+23:23:09  INFO    firms              VIIRS_SNPP_SP      2017-10-20 ->     142 rows
+23:23:11  INFO    firms              VIIRS_SNPP_SP      2017-10-25 ->     294 rows
+23:23:12  INFO    firms              VIIRS_SNPP_SP      2017-10-30 ->     330 rows
+23:23:14  INFO    firms              VIIRS_SNPP_SP      2017-11-04 ->     122 rows
+23:23:15  INFO    firms              VIIRS_SNPP_SP      2017-11-09 ->     233 rows
+23:23:17  INFO    firms              VIIRS_SNPP_SP      2017-11-14 ->     450 rows
+23:23:19  INFO    firms              VIIRS_SNPP_SP      2017-11-19 ->     285 rows
+23:23:21  INFO    firms              VIIRS_SNPP_SP      2017-11-24 ->     585 rows
+23:23:23  INFO    firms              VIIRS_SNPP_SP      2017-11-29 ->     930 rows
+23:23:25  INFO    firms              VIIRS_SNPP_SP      2017-12-04 ->    1436 rows
+23:23:27  INFO    firms              VIIRS_SNPP_SP      2017-12-09 ->    1540 rows
+23:23:30  INFO    firms              VIIRS_SNPP_SP      2017-12-14 ->    3078 rows
+23:23:32  INFO    firms              VIIRS_SNPP_SP      2017-12-19 ->    5117 rows
+23:23:34  INFO    firms              VIIRS_SNPP_SP      2017-12-24 ->     946 rows
+23:23:37  INFO    firms              VIIRS_SNPP_SP      2017-12-29 ->    3138 rows
+23:23:39  INFO    firms              VIIRS_SNPP_SP      2018-01-03 ->    2430 rows
+23:23:42  INFO    firms              VIIRS_SNPP_SP      2018-01-08 ->    3480 rows
+23:23:44  INFO    firms              VIIRS_SNPP_SP      2018-01-13 ->    6926 rows
+00:15:25  WARNING common             retry 1/4 for https://firms.modaps.eosdis.nasa.gov/api/area/csv/4056e1de0e8b4a5b7b247eea4863a6 -- HTTPSConnectionPool(host='firms.modaps.eosdis.nasa.gov', port=443): Read timed out.; sleeping 1s
+00:15:29  INFO    firms              VIIRS_SNPP_SP      2018-01-18 ->    7598 rows
+00:15:35  INFO    firms              VIIRS_SNPP_SP      2018-01-23 ->    5357 rows
+00:15:45  INFO    firms              VIIRS_SNPP_SP      2018-01-28 ->    5722 rows
+00:15:53  INFO    firms              VIIRS_SNPP_SP      2018-02-02 ->   16833 rows
+00:16:03  INFO    firms              VIIRS_SNPP_SP      2018-02-07 ->   11181 rows
+00:16:09  INFO    firms              VIIRS_SNPP_SP      2018-02-12 ->   17246 rows
+00:16:14  INFO    firms              VIIRS_SNPP_SP      2018-02-17 ->   12304 rows
+00:16:17  INFO    firms              VIIRS_SNPP_SP      2018-02-22 ->   10613 rows
+00:16:21  INFO    firms              VIIRS_SNPP_SP      2018-02-27 ->   14605 rows
+00:16:26  INFO    firms              VIIRS_SNPP_SP      2018-03-04 ->   27647 rows
+00:16:38  INFO    firms              VIIRS_SNPP_SP      2018-03-09 ->   18750 rows
+00:16:45  INFO    firms              VIIRS_SNPP_SP      2018-03-14 ->   18827 rows
+00:16:50  INFO    firms              VIIRS_SNPP_SP      2018-03-19 ->   21844 rows
+00:16:55  INFO    firms              VIIRS_SNPP_SP      2018-03-24 ->   18114 rows
+00:17:00  INFO    firms              VIIRS_SNPP_SP      2018-03-29 ->    8826 rows
+00:17:02  INFO    firms              VIIRS_SNPP_SP      2018-04-03 ->    8496 rows
+00:17:06  INFO    firms              VIIRS_SNPP_SP      2018-04-08 ->   40639 rows
+00:17:08  INFO    firms              VIIRS_SNPP_SP      2018-04-13 ->   19225 rows
+00:17:10  INFO    firms              VIIRS_SNPP_SP      2018-04-18 ->    6592 rows
+00:17:13  INFO    firms              VIIRS_SNPP_SP      2018-04-23 ->   11794 rows
+00:17:15  INFO    firms              VIIRS_SNPP_SP      2018-04-28 ->     646 rows
+00:17:17  INFO    firms              VIIRS_SNPP_SP      2018-05-03 ->    1310 rows
+00:17:20  INFO    firms              VIIRS_SNPP_SP      2018-05-08 ->    4649 rows
+00:17:21  INFO    firms              VIIRS_SNPP_SP      2018-05-13 ->    1566 rows
+00:17:23  INFO    firms              VIIRS_SNPP_SP      2018-05-18 ->    1237 rows
+00:17:25  INFO    firms              VIIRS_SNPP_SP      2018-05-23 ->     617 rows
+00:17:27  INFO    firms              VIIRS_SNPP_SP      2018-05-28 ->     174 rows
+00:17:29  INFO    firms              VIIRS_SNPP_SP      2018-06-02 ->     276 rows
+00:52:21  WARNING common             retry 1/4 for https://firms.modaps.eosdis.nasa.gov/api/area/csv/4056e1de0e8b4a5b7b247eea4863a6 -- HTTPSConnectionPool(host='firms.modaps.eosdis.nasa.gov', port=443): Read timed out. (read timeout=180); sleeping 1s
+00:52:24  INFO    firms              VIIRS_SNPP_SP      2018-06-07 ->     116 rows
+00:54:09  INFO    firms              VIIRS_SNPP_SP      2018-06-12 ->     217 rows
+00:55:00  INFO    firms              VIIRS_SNPP_SP      2018-06-17 ->     197 rows
+00:55:49  INFO    firms              VIIRS_SNPP_SP      2018-06-22 ->     250 rows
+00:56:53  INFO    firms              VIIRS_SNPP_SP      2018-06-27 ->     449 rows
+00:57:13  INFO    firms              VIIRS_SNPP_SP      2018-07-02 ->     646 rows
+00:57:19  INFO    firms              VIIRS_SNPP_SP      2018-07-07 ->      68 rows
+00:57:30  INFO    firms              VIIRS_SNPP_SP      2018-07-12 ->      80 rows
+00:57:51  INFO    firms              VIIRS_SNPP_SP      2018-07-17 ->      41 rows
+00:58:02  INFO    firms              VIIRS_SNPP_SP      2018-07-22 ->     112 rows
+00:58:08  INFO    firms              VIIRS_SNPP_SP      2018-07-27 ->     136 rows
+00:58:12  INFO    firms              VIIRS_SNPP_SP      2018-08-01 ->     334 rows
+00:58:25  INFO    firms              VIIRS_SNPP_SP      2018-08-06 ->     137 rows
+00:58:27  INFO    firms              VIIRS_SNPP_SP      2018-08-11 ->      96 rows
+00:58:30  INFO    firms              VIIRS_SNPP_SP      2018-08-16 ->      71 rows
+00:58:32  INFO    firms              VIIRS_SNPP_SP      2018-08-21 ->      92 rows
+00:58:35  INFO    firms              VIIRS_SNPP_SP      2018-08-26 ->     176 rows
+00:58:37  INFO    firms              VIIRS_SNPP_SP      2018-08-31 ->     163 rows
+00:58:40  INFO    firms              VIIRS_SNPP_SP      2018-09-05 ->     227 rows
+00:58:43  INFO    firms              VIIRS_SNPP_SP      2018-09-10 ->     119 rows
+00:58:45  INFO    firms              VIIRS_SNPP_SP      2018-09-15 ->      72 rows
+00:58:47  INFO    firms              VIIRS_SNPP_SP      2018-09-20 ->     253 rows
+00:58:50  INFO    firms              VIIRS_SNPP_SP      2018-09-25 ->     341 rows
+00:58:52  INFO    firms              VIIRS_SNPP_SP      2018-09-30 ->     148 rows
+00:58:54  INFO    firms              VIIRS_SNPP_SP      2018-10-05 ->     246 rows
+00:58:58  INFO    firms              VIIRS_SNPP_SP      2018-10-10 ->     233 rows
+00:58:59  INFO    firms              VIIRS_SNPP_SP      2018-10-15 ->     230 rows
+00:59:01  INFO    firms              VIIRS_SNPP_SP      2018-10-20 ->     133 rows
+00:59:03  INFO    firms              VIIRS_SNPP_SP      2018-10-25 ->     310 rows
+00:59:05  INFO    firms              VIIRS_SNPP_SP      2018-10-30 ->     879 rows
+00:59:13  INFO    firms              VIIRS_SNPP_SP      2018-11-04 ->     531 rows
+00:59:15  INFO    firms              VIIRS_SNPP_SP      2018-11-09 ->     279 rows
+00:59:17  INFO    firms              VIIRS_SNPP_SP      2018-11-14 ->     564 rows
+00:59:19  INFO    firms              VIIRS_SNPP_SP      2018-11-19 ->     961 rows
+00:59:22  INFO    firms              VIIRS_SNPP_SP      2018-11-24 ->    1259 rows
+00:59:24  INFO    firms              VIIRS_SNPP_SP      2018-11-29 ->    1866 rows
+00:59:27  INFO    firms              VIIRS_SNPP_SP      2018-12-04 ->    1977 rows
+00:59:34  INFO    firms              VIIRS_SNPP_SP      2018-12-09 ->    1402 rows
+00:59:48  INFO    firms              VIIRS_SNPP_SP      2018-12-14 ->    4313 rows
+00:59:55  INFO    firms              VIIRS_SNPP_SP      2018-12-19 ->    5633 rows
+01:00:09  INFO    firms              VIIRS_SNPP_SP      2018-12-24 ->    6340 rows
+01:00:15  INFO    firms              VIIRS_SNPP_SP      2018-12-29 ->    4606 rows
+01:00:23  INFO    firms              VIIRS_SNPP_SP      2019-01-03 ->    6887 rows
+01:00:30  INFO    firms              VIIRS_SNPP_SP      2019-01-08 ->    8402 rows
+01:00:45  INFO    firms              VIIRS_SNPP_SP      2019-01-13 ->   11395 rows
+01:00:53  INFO    firms              VIIRS_SNPP_SP      2019-01-18 ->   12826 rows
+01:00:59  INFO    firms              VIIRS_SNPP_SP      2019-01-23 ->   18803 rows
+01:01:04  INFO    firms              VIIRS_SNPP_SP      2019-01-28 ->   14010 rows
+01:01:10  INFO    firms              VIIRS_SNPP_SP      2019-02-02 ->   13631 rows
+01:01:14  INFO    firms              VIIRS_SNPP_SP      2019-02-07 ->   22106 rows
+01:01:20  INFO    firms              VIIRS_SNPP_SP      2019-02-12 ->   19024 rows
+01:01:23  INFO    firms              VIIRS_SNPP_SP      2019-02-17 ->   16729 rows
+01:01:28  INFO    firms              VIIRS_SNPP_SP      2019-02-22 ->   22017 rows
+01:01:31  INFO    firms              VIIRS_SNPP_SP      2019-02-27 ->   21026 rows
+01:01:35  INFO    firms              VIIRS_SNPP_SP      2019-03-04 ->   33905 rows
+01:01:39  INFO    firms              VIIRS_SNPP_SP      2019-03-09 ->   56668 rows
+01:01:41  INFO    firms              VIIRS_SNPP_SP      2019-03-14 ->   31285 rows
+01:01:45  INFO    firms              VIIRS_SNPP_SP      2019-03-19 ->   37826 rows
+01:01:47  INFO    firms              VIIRS_SNPP_SP      2019-03-24 ->   27900 rows
+01:01:50  INFO    firms              VIIRS_SNPP_SP      2019-03-29 ->   41725 rows
+01:01:52  INFO    firms              VIIRS_SNPP_SP      2019-04-03 ->   18154 rows
+01:01:55  INFO    firms              VIIRS_SNPP_SP      2019-04-08 ->   36009 rows
+01:01:57  INFO    firms              VIIRS_SNPP_SP      2019-04-13 ->   20554 rows
+01:02:00  INFO    firms              VIIRS_SNPP_SP      2019-04-18 ->   23714 rows
+01:02:02  INFO    firms              VIIRS_SNPP_SP      2019-04-23 ->   14273 rows
+01:02:04  INFO    firms              VIIRS_SNPP_SP      2019-04-28 ->   16843 rows
+01:02:06  INFO    firms              VIIRS_SNPP_SP      2019-05-03 ->    5589 rows
+01:02:08  INFO    firms              VIIRS_SNPP_SP      2019-05-08 ->    2360 rows
+01:02:10  INFO    firms              VIIRS_SNPP_SP      2019-05-13 ->    1162 rows
+01:02:12  INFO    firms              VIIRS_SNPP_SP      2019-05-18 ->    4242 rows
+01:02:14  INFO    firms              VIIRS_SNPP_SP      2019-05-23 ->     890 rows
+01:02:16  INFO    firms              VIIRS_SNPP_SP      2019-05-28 ->     313 rows
+01:02:17  INFO    firms              VIIRS_SNPP_SP      2019-06-02 ->     482 rows
+01:02:19  INFO    firms              VIIRS_SNPP_SP      2019-06-07 ->     466 rows
+01:02:21  INFO    firms              VIIRS_SNPP_SP      2019-06-12 ->     404 rows
+01:02:22  INFO    firms              VIIRS_SNPP_SP      2019-06-17 ->     452 rows
+01:02:24  INFO    firms              VIIRS_SNPP_SP      2019-06-22 ->     485 rows
+01:02:26  INFO    firms              VIIRS_SNPP_SP      2019-06-27 ->     295 rows
+01:02:28  INFO    firms              VIIRS_SNPP_SP      2019-07-02 ->     140 rows
+01:02:30  INFO    firms              VIIRS_SNPP_SP      2019-07-07 ->     591 rows
+01:02:32  INFO    firms              VIIRS_SNPP_SP      2019-07-12 ->    1166 rows
+01:02:34  INFO    firms              VIIRS_SNPP_SP      2019-07-17 ->     468 rows
+01:02:36  INFO    firms              VIIRS_SNPP_SP      2019-07-22 ->     231 rows
+01:02:38  INFO    firms              VIIRS_SNPP_SP      2019-07-27 ->     311 rows
+01:02:40  INFO    firms              VIIRS_SNPP_SP      2019-08-01 ->      88 rows
+01:02:41  INFO    firms              VIIRS_SNPP_SP      2019-08-06 ->     174 rows
+01:02:43  INFO    firms              VIIRS_SNPP_SP      2019-08-11 ->     192 rows
+01:02:45  INFO    firms              VIIRS_SNPP_SP      2019-08-16 ->     389 rows
+01:02:47  INFO    firms              VIIRS_SNPP_SP      2019-08-21 ->     208 rows
+01:02:49  INFO    firms              VIIRS_SNPP_SP      2019-08-26 ->      80 rows
+01:02:50  INFO    firms              VIIRS_SNPP_SP      2019-08-31 ->     123 rows
+01:02:52  INFO    firms              VIIRS_SNPP_SP      2019-09-05 ->     169 rows
+01:02:53  INFO    firms              VIIRS_SNPP_SP      2019-09-10 ->     306 rows
+01:02:55  INFO    firms              VIIRS_SNPP_SP      2019-09-15 ->     382 rows
+01:03:02  INFO    firms              VIIRS_SNPP_SP      2019-09-20 ->     183 rows
+01:03:05  INFO    firms              VIIRS_SNPP_SP      2019-09-25 ->     630 rows
+01:03:07  INFO    firms              VIIRS_SNPP_SP      2019-09-30 ->     572 rows
+01:03:08  INFO    firms              VIIRS_SNPP_SP      2019-10-05 ->     229 rows
+01:03:10  INFO    firms              VIIRS_SNPP_SP      2019-10-10 ->     359 rows
+01:03:12  INFO    firms              VIIRS_SNPP_SP      2019-10-15 ->     305 rows
+01:03:14  INFO    firms              VIIRS_SNPP_SP      2019-10-20 ->     485 rows
+01:03:16  INFO    firms              VIIRS_SNPP_SP      2019-10-25 ->     431 rows
+01:03:18  INFO    firms              VIIRS_SNPP_SP      2019-10-30 ->     227 rows
+01:03:19  INFO    firms              VIIRS_SNPP_SP      2019-11-04 ->     423 rows
+01:03:21  INFO    firms              VIIRS_SNPP_SP      2019-11-09 ->     544 rows
+01:03:23  INFO    firms              VIIRS_SNPP_SP      2019-11-14 ->     775 rows
+01:03:25  INFO    firms              VIIRS_SNPP_SP      2019-11-19 ->    1443 rows
+01:03:27  INFO    firms              VIIRS_SNPP_SP      2019-11-24 ->    2186 rows
+01:03:30  INFO    firms              VIIRS_SNPP_SP      2019-11-29 ->    2494 rows
+01:03:32  INFO    firms              VIIRS_SNPP_SP      2019-12-04 ->    5535 rows
+01:03:35  INFO    firms              VIIRS_SNPP_SP      2019-12-09 ->    4628 rows
+01:03:36  INFO    firms              VIIRS_SNPP_SP      2019-12-14 ->    3980 rows
+01:03:39  INFO    firms              VIIRS_SNPP_SP      2019-12-19 ->    5654 rows
+01:03:42  INFO    firms              VIIRS_SNPP_SP      2019-12-24 ->    6829 rows
+01:03:44  INFO    firms              VIIRS_SNPP_SP      2019-12-29 ->    9474 rows
+01:03:53  INFO    firms              VIIRS_SNPP_SP      2020-01-03 ->   12105 rows
+01:03:59  INFO    firms              VIIRS_SNPP_SP      2020-01-08 ->   12494 rows
+01:04:12  INFO    firms              VIIRS_SNPP_SP      2020-01-13 ->   17727 rows
+01:04:19  INFO    firms              VIIRS_SNPP_SP      2020-01-18 ->   18122 rows
+01:04:24  INFO    firms              VIIRS_SNPP_SP      2020-01-23 ->   22359 rows
+01:04:29  INFO    firms              VIIRS_SNPP_SP      2020-01-28 ->   17986 rows
+01:04:36  INFO    firms              VIIRS_SNPP_SP      2020-02-02 ->   22768 rows
+01:04:39  INFO    firms              VIIRS_SNPP_SP      2020-02-07 ->   19765 rows
+01:04:45  INFO    firms              VIIRS_SNPP_SP      2020-02-12 ->   34712 rows
+01:04:50  INFO    firms              VIIRS_SNPP_SP      2020-02-17 ->   35197 rows
+01:04:56  INFO    firms              VIIRS_SNPP_SP      2020-02-22 ->   40902 rows
+01:05:02  INFO    firms              VIIRS_SNPP_SP      2020-02-27 ->   23170 rows
+01:05:04  INFO    firms              VIIRS_SNPP_SP      2020-03-03 ->   13855 rows
+01:05:08  INFO    firms              VIIRS_SNPP_SP      2020-03-08 ->   47206 rows
+01:05:12  INFO    firms              VIIRS_SNPP_SP      2020-03-13 ->   35645 rows
+01:05:16  INFO    firms              VIIRS_SNPP_SP      2020-03-18 ->   31451 rows
+01:05:23  INFO    firms              VIIRS_SNPP_SP      2020-03-23 ->   40567 rows
+01:05:27  INFO    firms              VIIRS_SNPP_SP      2020-03-28 ->   62503 rows
+01:05:36  INFO    firms              VIIRS_SNPP_SP      2020-04-02 ->   39713 rows
+01:05:43  INFO    firms              VIIRS_SNPP_SP      2020-04-07 ->   15383 rows
+01:05:48  INFO    firms              VIIRS_SNPP_SP      2020-04-12 ->    9764 rows
+01:06:00  INFO    firms              VIIRS_SNPP_SP      2020-04-17 ->   14776 rows
+01:06:03  INFO    firms              VIIRS_SNPP_SP      2020-04-22 ->    6081 rows
+01:06:07  INFO    firms              VIIRS_SNPP_SP      2020-04-27 ->    3693 rows
+01:06:11  INFO    firms              VIIRS_SNPP_SP      2020-05-02 ->    5812 rows
+01:06:13  INFO    firms              VIIRS_SNPP_SP      2020-05-07 ->    3497 rows
+01:06:15  INFO    firms              VIIRS_SNPP_SP      2020-05-12 ->    2788 rows
+01:06:17  INFO    firms              VIIRS_SNPP_SP      2020-05-17 ->    1343 rows
+01:06:19  INFO    firms              VIIRS_SNPP_SP      2020-05-22 ->     998 rows
+01:06:21  INFO    firms              VIIRS_SNPP_SP      2020-05-27 ->     440 rows
+01:06:23  INFO    firms              VIIRS_SNPP_SP      2020-06-01 ->     421 rows
+01:06:25  INFO    firms              VIIRS_SNPP_SP      2020-06-06 ->     394 rows
+01:06:27  INFO    firms              VIIRS_SNPP_SP      2020-06-11 ->     218 rows
+01:06:29  INFO    firms              VIIRS_SNPP_SP      2020-06-16 ->     155 rows
+01:06:31  INFO    firms              VIIRS_SNPP_SP      2020-06-21 ->     321 rows
+01:06:33  INFO    firms              VIIRS_SNPP_SP      2020-06-26 ->     289 rows
+01:06:35  INFO    firms              VIIRS_SNPP_SP      2020-07-01 ->     119 rows
+01:06:38  INFO    firms              VIIRS_SNPP_SP      2020-07-06 ->     271 rows
+01:06:41  INFO    firms              VIIRS_SNPP_SP      2020-07-11 ->     340 rows
+01:06:43  INFO    firms              VIIRS_SNPP_SP      2020-07-16 ->     443 rows
+01:06:48  INFO    firms              VIIRS_SNPP_SP      2020-07-21 ->     334 rows
+01:06:52  INFO    firms              VIIRS_SNPP_SP      2020-07-26 ->     234 rows
+01:06:55  INFO    firms              VIIRS_SNPP_SP      2020-07-31 ->      31 rows
+01:06:58  INFO    firms              VIIRS_SNPP_SP      2020-08-05 ->     110 rows
+01:07:00  INFO    firms              VIIRS_SNPP_SP      2020-08-10 ->      80 rows
+01:07:02  INFO    firms              VIIRS_SNPP_SP      2020-08-15 ->     181 rows
+01:07:04  INFO    firms              VIIRS_SNPP_SP      2020-08-20 ->     256 rows
+01:07:07  INFO    firms              VIIRS_SNPP_SP      2020-08-25 ->     601 rows
+01:07:09  INFO    firms              VIIRS_SNPP_SP      2020-08-30 ->     347 rows
+01:07:11  INFO    firms              VIIRS_SNPP_SP      2020-09-04 ->     242 rows
+01:07:12  INFO    firms              VIIRS_SNPP_SP      2020-09-09 ->     163 rows
+01:07:14  INFO    firms              VIIRS_SNPP_SP      2020-09-14 ->      97 rows
+01:07:20  INFO    firms              VIIRS_SNPP_SP      2020-09-19 ->      44 rows
+01:07:22  INFO    firms              VIIRS_SNPP_SP      2020-09-24 ->      88 rows
+01:07:23  INFO    firms              VIIRS_SNPP_SP      2020-09-29 ->      82 rows
+01:07:25  INFO    firms              VIIRS_SNPP_SP      2020-10-04 ->      43 rows
+01:07:26  INFO    firms              VIIRS_SNPP_SP      2020-10-09 ->      86 rows
+01:07:28  INFO    firms              VIIRS_SNPP_SP      2020-10-14 ->      22 rows
+01:07:29  INFO    firms              VIIRS_SNPP_SP      2020-10-19 ->     108 rows
+01:07:30  INFO    firms              VIIRS_SNPP_SP      2020-10-24 ->     113 rows
+01:07:32  INFO    firms              VIIRS_SNPP_SP      2020-10-29 ->      73 rows
+01:07:33  INFO    firms              VIIRS_SNPP_SP      2020-11-03 ->     198 rows
+01:07:35  INFO    firms              VIIRS_SNPP_SP      2020-11-08 ->     400 rows
+01:07:37  INFO    firms              VIIRS_SNPP_SP      2020-11-13 ->     876 rows
+01:07:39  INFO    firms              VIIRS_SNPP_SP      2020-11-18 ->     948 rows
+01:07:41  INFO    firms              VIIRS_SNPP_SP      2020-11-23 ->    1008 rows
+01:07:43  INFO    firms              VIIRS_SNPP_SP      2020-11-28 ->    1401 rows
+01:07:45  INFO    firms              VIIRS_SNPP_SP      2020-12-03 ->    1899 rows
+01:07:48  INFO    firms              VIIRS_SNPP_SP      2020-12-08 ->    2220 rows
+01:07:49  INFO    firms              VIIRS_SNPP_SP      2020-12-13 ->    1473 rows
+01:07:51  INFO    firms              VIIRS_SNPP_SP      2020-12-18 ->    1796 rows
+01:07:53  INFO    firms              VIIRS_SNPP_SP      2020-12-23 ->    2164 rows
+01:07:56  INFO    firms              VIIRS_SNPP_SP      2020-12-28 ->    4563 rows
+01:07:58  INFO    firms              VIIRS_SNPP_SP      2021-01-02 ->    4767 rows
+01:08:00  INFO    firms              VIIRS_SNPP_SP      2021-01-07 ->    6203 rows
+01:08:02  INFO    firms              VIIRS_SNPP_SP      2021-01-12 ->    8878 rows
+01:08:04  INFO    firms              VIIRS_SNPP_SP      2021-01-17 ->    9836 rows
+01:08:07  INFO    firms              VIIRS_SNPP_SP      2021-01-22 ->   10480 rows
+01:08:09  INFO    firms              VIIRS_SNPP_SP      2021-01-27 ->   12773 rows
+01:08:12  INFO    firms              VIIRS_SNPP_SP      2021-02-01 ->   21187 rows
+01:08:15  INFO    firms              VIIRS_SNPP_SP      2021-02-06 ->   10587 rows
+01:08:17  INFO    firms              VIIRS_SNPP_SP      2021-02-11 ->   15632 rows
+01:08:22  INFO    firms              VIIRS_SNPP_SP      2021-02-16 ->   22954 rows
+01:08:25  INFO    firms              VIIRS_SNPP_SP      2021-02-21 ->   21164 rows
+01:08:28  INFO    firms              VIIRS_SNPP_SP      2021-02-26 ->   34183 rows
+01:08:31  INFO    firms              VIIRS_SNPP_SP      2021-03-03 ->   28802 rows
+01:08:34  INFO    firms              VIIRS_SNPP_SP      2021-03-08 ->   28335 rows
+01:08:36  INFO    firms              VIIRS_SNPP_SP      2021-03-13 ->   22427 rows
+01:08:38  INFO    firms              VIIRS_SNPP_SP      2021-03-18 ->   25252 rows
+01:08:41  INFO    firms              VIIRS_SNPP_SP      2021-03-23 ->   17821 rows
+01:08:43  INFO    firms              VIIRS_SNPP_SP      2021-03-28 ->   30657 rows
+01:08:46  INFO    firms              VIIRS_SNPP_SP      2021-04-02 ->    8444 rows
+01:08:48  INFO    firms              VIIRS_SNPP_SP      2021-04-07 ->    5262 rows
+01:08:50  INFO    firms              VIIRS_SNPP_SP      2021-04-12 ->   11489 rows
+01:08:52  INFO    firms              VIIRS_SNPP_SP      2021-04-17 ->    4877 rows
+01:08:56  INFO    firms              VIIRS_SNPP_SP      2021-04-22 ->   12678 rows
+01:08:57  INFO    firms              VIIRS_SNPP_SP      2021-04-27 ->     718 rows
+01:09:00  INFO    firms              VIIRS_SNPP_SP      2021-05-02 ->    2396 rows
+01:09:03  INFO    firms              VIIRS_SNPP_SP      2021-05-07 ->    2382 rows
+01:09:06  INFO    firms              VIIRS_SNPP_SP      2021-05-12 ->    1768 rows
+01:09:08  INFO    firms              VIIRS_SNPP_SP      2021-05-17 ->    1080 rows
+01:09:12  INFO    firms              VIIRS_SNPP_SP      2021-05-22 ->     854 rows
+01:09:20  INFO    firms              VIIRS_SNPP_SP      2021-05-27 ->     544 rows
+01:09:27  INFO    firms              VIIRS_SNPP_SP      2021-06-01 ->     939 rows
+01:09:30  INFO    firms              VIIRS_SNPP_SP      2021-06-06 ->      95 rows
+01:09:37  INFO    firms              VIIRS_SNPP_SP      2021-06-11 ->      89 rows
+01:09:42  INFO    firms              VIIRS_SNPP_SP      2021-06-16 ->     924 rows
+01:09:53  INFO    firms              VIIRS_SNPP_SP      2021-06-21 ->     309 rows
+01:10:01  INFO    firms              VIIRS_SNPP_SP      2021-06-26 ->     628 rows
+01:10:05  INFO    firms              VIIRS_SNPP_SP      2021-07-01 ->    1176 rows
+01:10:07  INFO    firms              VIIRS_SNPP_SP      2021-07-06 ->      44 rows
+01:10:09  INFO    firms              VIIRS_SNPP_SP      2021-07-11 ->     180 rows
+01:10:14  INFO    firms              VIIRS_SNPP_SP      2021-07-16 ->     158 rows
+01:10:20  INFO    firms              VIIRS_SNPP_SP      2021-07-21 ->      40 rows
+01:10:27  INFO    firms              VIIRS_SNPP_SP      2021-07-26 ->     191 rows
+01:10:33  INFO    firms              VIIRS_SNPP_SP      2021-07-31 ->     135 rows
+01:10:39  INFO    firms              VIIRS_SNPP_SP      2021-08-05 ->     443 rows
+01:10:42  INFO    firms              VIIRS_SNPP_SP      2021-08-10 ->     193 rows
+01:10:49  INFO    firms              VIIRS_SNPP_SP      2021-08-15 ->     376 rows
+01:11:06  INFO    firms              VIIRS_SNPP_SP      2021-08-20 ->     591 rows
+01:11:24  INFO    firms              VIIRS_SNPP_SP      2021-08-25 ->     128 rows
+01:11:40  INFO    firms              VIIRS_SNPP_SP      2021-08-30 ->      88 rows
+01:12:01  INFO    firms              VIIRS_SNPP_SP      2021-09-04 ->      84 rows
+01:12:06  INFO    firms              VIIRS_SNPP_SP      2021-09-09 ->     110 rows
+01:12:11  INFO    firms              VIIRS_SNPP_SP      2021-09-14 ->     126 rows
+01:12:15  INFO    firms              VIIRS_SNPP_SP      2021-09-19 ->      72 rows
+01:12:23  INFO    firms              VIIRS_SNPP_SP      2021-09-24 ->      55 rows
+01:12:31  INFO    firms              VIIRS_SNPP_SP      2021-09-29 ->     235 rows
+01:12:35  INFO    firms              VIIRS_SNPP_SP      2021-10-04 ->      85 rows
+01:12:37  INFO    firms              VIIRS_SNPP_SP      2021-10-09 ->      99 rows
+01:12:41  INFO    firms              VIIRS_SNPP_SP      2021-10-14 ->       9 rows
+01:12:43  INFO    firms              VIIRS_SNPP_SP      2021-10-19 ->      53 rows
+01:12:46  INFO    firms              VIIRS_SNPP_SP      2021-10-24 ->     177 rows
+01:12:50  INFO    firms              VIIRS_SNPP_SP      2021-10-29 ->     102 rows
+01:12:59  INFO    firms              VIIRS_SNPP_SP      2021-11-03 ->     218 rows
+01:13:05  INFO    firms              VIIRS_SNPP_SP      2021-11-08 ->     189 rows
+01:13:11  INFO    firms              VIIRS_SNPP_SP      2021-11-13 ->     239 rows
+01:13:17  INFO    firms              VIIRS_SNPP_SP      2021-11-18 ->     639 rows
+01:13:21  INFO    firms              VIIRS_SNPP_SP      2021-11-23 ->     639 rows
+01:13:25  INFO    firms              VIIRS_SNPP_SP      2021-11-28 ->    1056 rows
+01:13:29  INFO    firms              VIIRS_SNPP_SP      2021-12-03 ->    2239 rows
+01:13:32  INFO    firms              VIIRS_SNPP_SP      2021-12-08 ->    1630 rows
+01:13:35  INFO    firms              VIIRS_SNPP_SP      2021-12-13 ->    1453 rows
+01:13:39  INFO    firms              VIIRS_SNPP_SP      2021-12-18 ->    1498 rows
+01:13:44  INFO    firms              VIIRS_SNPP_SP      2021-12-23 ->    1330 rows
+01:14:04  INFO    firms              VIIRS_SNPP_SP      2021-12-28 ->    1881 rows
+01:14:13  INFO    firms              VIIRS_SNPP_SP      2022-01-02 ->    2552 rows
+01:14:28  INFO    firms              VIIRS_SNPP_SP      2022-01-07 ->    4119 rows
+01:14:37  INFO    firms              VIIRS_SNPP_SP      2022-01-12 ->    4454 rows
+01:14:48  INFO    firms              VIIRS_SNPP_SP      2022-01-17 ->    4192 rows
+01:14:55  INFO    firms              VIIRS_SNPP_SP      2022-01-22 ->    4228 rows
+01:14:58  INFO    firms              VIIRS_SNPP_SP      2022-01-27 ->   10174 rows
+01:15:08  INFO    firms              VIIRS_SNPP_SP      2022-02-01 ->    7938 rows
+01:15:15  INFO    firms              VIIRS_SNPP_SP      2022-02-06 ->   10705 rows
+01:15:20  INFO    firms              VIIRS_SNPP_SP      2022-02-11 ->    7333 rows
+01:15:25  INFO    firms              VIIRS_SNPP_SP      2022-02-16 ->    2578 rows
+01:15:33  INFO    firms              VIIRS_SNPP_SP      2022-02-21 ->    8904 rows
+01:15:39  INFO    firms              VIIRS_SNPP_SP      2022-02-26 ->   19090 rows
+01:15:44  INFO    firms              VIIRS_SNPP_SP      2022-03-03 ->   16156 rows
+01:15:47  INFO    firms              VIIRS_SNPP_SP      2022-03-08 ->   10771 rows
+01:15:52  INFO    firms              VIIRS_SNPP_SP      2022-03-13 ->   12593 rows
+01:15:57  INFO    firms              VIIRS_SNPP_SP      2022-03-18 ->    4619 rows
+01:16:05  INFO    firms              VIIRS_SNPP_SP      2022-03-23 ->    6630 rows
+01:16:12  INFO    firms              VIIRS_SNPP_SP      2022-03-28 ->    8077 rows
+01:16:15  INFO    firms              VIIRS_SNPP_SP      2022-04-02 ->   19911 rows
+01:16:19  INFO    firms              VIIRS_SNPP_SP      2022-04-07 ->   25099 rows
+01:16:23  INFO    firms              VIIRS_SNPP_SP      2022-04-12 ->   11931 rows
+01:16:27  INFO    firms              VIIRS_SNPP_SP      2022-04-17 ->    3497 rows
+01:16:34  INFO    firms              VIIRS_SNPP_SP      2022-04-22 ->    6219 rows
+01:16:40  INFO    firms              VIIRS_SNPP_SP      2022-04-27 ->    8706 rows
+01:16:44  INFO    firms              VIIRS_SNPP_SP      2022-05-02 ->    2733 rows
+01:16:47  INFO    firms              VIIRS_SNPP_SP      2022-05-07 ->     211 rows
+01:16:50  INFO    firms              VIIRS_SNPP_SP      2022-05-12 ->     485 rows
+01:16:53  INFO    firms              VIIRS_SNPP_SP      2022-05-17 ->     276 rows
+01:16:55  INFO    firms              VIIRS_SNPP_SP      2022-05-22 ->     236 rows
+01:17:01  INFO    firms              VIIRS_SNPP_SP      2022-05-27 ->     508 rows
+01:17:07  INFO    firms              VIIRS_SNPP_SP      2022-06-01 ->     353 rows
+01:17:15  INFO    firms              VIIRS_SNPP_SP      2022-06-06 ->     239 rows
+01:17:24  INFO    firms              VIIRS_SNPP_SP      2022-06-11 ->     371 rows
+01:17:31  INFO    firms              VIIRS_SNPP_SP      2022-06-16 ->     392 rows
+01:17:39  INFO    firms              VIIRS_SNPP_SP      2022-06-21 ->     359 rows
+01:17:47  INFO    firms              VIIRS_SNPP_SP      2022-06-26 ->     185 rows
+01:18:01  INFO    firms              VIIRS_SNPP_SP      2022-07-01 ->      85 rows
+01:18:11  INFO    firms              VIIRS_SNPP_SP      2022-07-06 ->      49 rows
+01:18:18  INFO    firms              VIIRS_SNPP_SP      2022-07-11 ->      29 rows
+01:18:34  INFO    firms              VIIRS_SNPP_SP      2022-07-16 ->     267 rows
+01:18:44  INFO    firms              VIIRS_SNPP_SP      2022-07-21 ->     134 rows
+01:18:46  INFO    firms              VIIRS_SNPP_SP      2022-07-26 ->      26 rows
+01:18:48  INFO    firms              VIIRS_SNPP_SP      2022-07-31 -> empty
+01:18:49  INFO    firms              VIIRS_SNPP_SP      2022-08-05 -> empty
+01:18:53  INFO    firms              VIIRS_SNPP_SP      2022-08-10 ->     243 rows
+01:18:59  INFO    firms              VIIRS_SNPP_SP      2022-08-15 ->     225 rows
+01:19:07  INFO    firms              VIIRS_SNPP_SP      2022-08-20 ->     209 rows
+01:19:12  INFO    firms              VIIRS_SNPP_SP      2022-08-25 ->     120 rows
+01:19:16  INFO    firms              VIIRS_SNPP_SP      2022-08-30 ->     235 rows
+01:19:20  INFO    firms              VIIRS_SNPP_SP      2022-09-04 ->     134 rows
+01:19:29  INFO    firms              VIIRS_SNPP_SP      2022-09-09 ->      80 rows
+01:19:44  INFO    firms              VIIRS_SNPP_SP      2022-09-14 ->     171 rows
+01:19:55  INFO    firms              VIIRS_SNPP_SP      2022-09-19 ->      90 rows
+01:20:00  INFO    firms              VIIRS_SNPP_SP      2022-09-24 ->      33 rows
+01:20:03  INFO    firms              VIIRS_SNPP_SP      2022-09-29 ->      14 rows
+01:20:07  INFO    firms              VIIRS_SNPP_SP      2022-10-04 ->      52 rows
+01:20:11  INFO    firms              VIIRS_SNPP_SP      2022-10-09 ->     190 rows
+01:20:16  INFO    firms              VIIRS_SNPP_SP      2022-10-14 ->     340 rows
+01:20:20  INFO    firms              VIIRS_SNPP_SP      2022-10-19 ->     180 rows
+01:20:24  INFO    firms              VIIRS_SNPP_SP      2022-10-24 ->     161 rows
+01:20:28  INFO    firms              VIIRS_SNPP_SP      2022-10-29 ->     565 rows
+01:20:32  INFO    firms              VIIRS_SNPP_SP      2022-11-03 ->     694 rows
+01:20:41  INFO    firms              VIIRS_SNPP_SP      2022-11-08 ->     768 rows
+01:20:49  INFO    firms              VIIRS_SNPP_SP      2022-11-13 ->     411 rows
+01:21:01  INFO    firms              VIIRS_SNPP_SP      2022-11-18 ->     354 rows
+01:21:09  INFO    firms              VIIRS_SNPP_SP      2022-11-23 ->     165 rows
+01:21:13  INFO    firms              VIIRS_SNPP_SP      2022-11-28 ->     580 rows
+01:21:15  INFO    firms              VIIRS_SNPP_SP      2022-12-03 ->     698 rows
+01:21:19  INFO    firms              VIIRS_SNPP_SP      2022-12-08 ->    1145 rows
+01:21:27  INFO    firms              VIIRS_SNPP_SP      2022-12-13 ->    1939 rows
+01:21:34  INFO    firms              VIIRS_SNPP_SP      2022-12-18 ->    3047 rows
+01:21:40  INFO    firms              VIIRS_SNPP_SP      2022-12-23 ->    2567 rows
+01:21:45  INFO    firms              VIIRS_SNPP_SP      2022-12-28 ->    3096 rows
+01:21:47  INFO    firms              VIIRS_SNPP_SP      2023-01-02 ->    2225 rows
+01:21:49  INFO    firms              VIIRS_SNPP_SP      2023-01-07 ->    1171 rows
+01:21:52  INFO    firms              VIIRS_SNPP_SP      2023-01-12 ->    4650 rows
+01:21:55  INFO    firms              VIIRS_SNPP_SP      2023-01-17 ->    6236 rows
+01:21:59  INFO    firms              VIIRS_SNPP_SP      2023-01-22 ->   10369 rows
+01:22:06  INFO    firms              VIIRS_SNPP_SP      2023-01-27 ->   12843 rows
+01:22:10  INFO    firms              VIIRS_SNPP_SP      2023-02-01 ->    9406 rows
+01:22:16  INFO    firms              VIIRS_SNPP_SP      2023-02-06 ->   15972 rows
+01:22:26  INFO    firms              VIIRS_SNPP_SP      2023-02-11 ->   24235 rows
+01:22:39  INFO    firms              VIIRS_SNPP_SP      2023-02-16 ->   12105 rows
+01:22:48  INFO    firms              VIIRS_SNPP_SP      2023-02-21 ->   25640 rows
+01:23:01  INFO    firms              VIIRS_SNPP_SP      2023-02-26 ->   38265 rows
+01:23:13  INFO    firms              VIIRS_SNPP_SP      2023-03-03 ->   31953 rows
+01:23:21  INFO    firms              VIIRS_SNPP_SP      2023-03-08 ->   26477 rows
+01:23:27  INFO    firms              VIIRS_SNPP_SP      2023-03-13 ->   16307 rows
+01:23:36  INFO    firms              VIIRS_SNPP_SP      2023-03-18 ->   26207 rows
+01:23:51  INFO    firms              VIIRS_SNPP_SP      2023-03-23 ->   78713 rows
+01:23:58  INFO    firms              VIIRS_SNPP_SP      2023-03-28 ->   40296 rows
+01:24:16  INFO    firms              VIIRS_SNPP_SP      2023-04-02 ->   61752 rows
+01:24:23  INFO    firms              VIIRS_SNPP_SP      2023-04-07 ->   28464 rows
+01:24:28  INFO    firms              VIIRS_SNPP_SP      2023-04-12 ->   18549 rows
+01:24:36  INFO    firms              VIIRS_SNPP_SP      2023-04-17 ->   23641 rows
+01:24:42  INFO    firms              VIIRS_SNPP_SP      2023-04-22 ->   14151 rows
+01:24:46  INFO    firms              VIIRS_SNPP_SP      2023-04-27 ->    5810 rows
+01:24:50  INFO    firms              VIIRS_SNPP_SP      2023-05-02 ->   10345 rows
+01:24:53  INFO    firms              VIIRS_SNPP_SP      2023-05-07 ->    4196 rows
+01:24:55  INFO    firms              VIIRS_SNPP_SP      2023-05-12 ->     775 rows
+01:24:59  INFO    firms              VIIRS_SNPP_SP      2023-05-17 ->    4386 rows
+01:25:03  INFO    firms              VIIRS_SNPP_SP      2023-05-22 ->    1503 rows
+01:25:08  INFO    firms              VIIRS_SNPP_SP      2023-05-27 ->     722 rows
+01:25:13  INFO    firms              VIIRS_SNPP_SP      2023-06-01 ->     761 rows
+01:25:15  INFO    firms              VIIRS_SNPP_SP      2023-06-06 ->      98 rows
+01:25:17  INFO    firms              VIIRS_SNPP_SP      2023-06-11 ->     220 rows
+01:25:18  INFO    firms              VIIRS_SNPP_SP      2023-06-16 ->     220 rows
+01:25:20  INFO    firms              VIIRS_SNPP_SP      2023-06-21 ->     320 rows
+01:25:22  INFO    firms              VIIRS_SNPP_SP      2023-06-26 ->     226 rows
+01:25:24  INFO    firms              VIIRS_SNPP_SP      2023-07-01 ->     153 rows
+01:25:26  INFO    firms              VIIRS_SNPP_SP      2023-07-06 ->     318 rows
+01:25:35  INFO    firms              VIIRS_SNPP_SP      2023-07-11 ->     375 rows
+01:25:37  INFO    firms              VIIRS_SNPP_SP      2023-07-16 ->      59 rows
+01:25:41  INFO    firms              VIIRS_SNPP_SP      2023-07-21 ->     177 rows
+01:25:43  INFO    firms              VIIRS_SNPP_SP      2023-07-26 ->      30 rows
+01:26:04  INFO    firms              VIIRS_SNPP_SP      2023-07-31 ->      55 rows
+01:26:17  INFO    firms              VIIRS_SNPP_SP      2023-08-05 ->     265 rows
+01:26:24  INFO    firms              VIIRS_SNPP_SP      2023-08-10 ->     657 rows
+01:26:29  INFO    firms              VIIRS_SNPP_SP      2023-08-15 ->     494 rows
+01:26:36  INFO    firms              VIIRS_SNPP_SP      2023-08-20 ->     242 rows
+01:26:38  INFO    firms              VIIRS_SNPP_SP      2023-08-25 ->     236 rows
+01:26:40  INFO    firms              VIIRS_SNPP_SP      2023-08-30 ->     313 rows
+01:26:42  INFO    firms              VIIRS_SNPP_SP      2023-09-04 ->      78 rows
+01:26:44  INFO    firms              VIIRS_SNPP_SP      2023-09-09 ->      72 rows
+01:26:53  INFO    firms              VIIRS_SNPP_SP      2023-09-14 ->      68 rows
+01:27:04  INFO    firms              VIIRS_SNPP_SP      2023-09-19 ->     264 rows
+01:27:08  INFO    firms              VIIRS_SNPP_SP      2023-09-24 ->      83 rows
+01:27:13  INFO    firms              VIIRS_SNPP_SP      2023-09-29 ->      71 rows
+01:27:16  INFO    firms              VIIRS_SNPP_SP      2023-10-04 ->     199 rows
+01:27:20  INFO    firms              VIIRS_SNPP_SP      2023-10-09 ->      99 rows
+01:27:25  INFO    firms              VIIRS_SNPP_SP      2023-10-14 ->     132 rows
+01:27:27  INFO    firms              VIIRS_SNPP_SP      2023-10-19 ->     220 rows
+01:27:29  INFO    firms              VIIRS_SNPP_SP      2023-10-24 ->     157 rows
+01:27:31  INFO    firms              VIIRS_SNPP_SP      2023-10-29 ->      62 rows
+01:27:32  INFO    firms              VIIRS_SNPP_SP      2023-11-03 ->     432 rows
+01:27:34  INFO    firms              VIIRS_SNPP_SP      2023-11-08 ->     316 rows
+01:27:36  INFO    firms              VIIRS_SNPP_SP      2023-11-13 ->     290 rows
+01:27:38  INFO    firms              VIIRS_SNPP_SP      2023-11-18 ->    1285 rows
+01:27:40  INFO    firms              VIIRS_SNPP_SP      2023-11-23 ->     885 rows
+01:27:42  INFO    firms              VIIRS_SNPP_SP      2023-11-28 ->     753 rows
+01:27:44  INFO    firms              VIIRS_SNPP_SP      2023-12-03 ->     875 rows
+01:27:46  INFO    firms              VIIRS_SNPP_SP      2023-12-08 ->    1275 rows
+01:27:48  INFO    firms              VIIRS_SNPP_SP      2023-12-13 ->    1469 rows
+01:27:51  INFO    firms              VIIRS_SNPP_SP      2023-12-18 ->    2084 rows
+01:27:53  INFO    firms              VIIRS_SNPP_SP      2023-12-23 ->    1967 rows
+01:27:55  INFO    firms              VIIRS_SNPP_SP      2023-12-28 ->    2230 rows
+01:27:57  INFO    firms              VIIRS_SNPP_SP      2024-01-02 ->    3719 rows
+01:28:00  INFO    firms              VIIRS_SNPP_SP      2024-01-07 ->    4327 rows
+01:28:03  INFO    firms              VIIRS_SNPP_SP      2024-01-12 ->    5416 rows
+01:28:07  INFO    firms              VIIRS_SNPP_SP      2024-01-17 ->    8319 rows
+01:28:11  INFO    firms              VIIRS_SNPP_SP      2024-01-22 ->    9091 rows
+01:28:15  INFO    firms              VIIRS_SNPP_SP      2024-01-27 ->    7600 rows
+01:28:19  INFO    firms              VIIRS_SNPP_SP      2024-02-01 ->    8792 rows
+01:28:24  INFO    firms              VIIRS_SNPP_SP      2024-02-06 ->   13074 rows
+01:28:31  INFO    firms              VIIRS_SNPP_SP      2024-02-11 ->   21812 rows
+01:28:38  INFO    firms              VIIRS_SNPP_SP      2024-02-16 ->   17872 rows
+01:28:44  INFO    firms              VIIRS_SNPP_SP      2024-02-21 ->   16576 rows
+01:28:51  INFO    firms              VIIRS_SNPP_SP      2024-02-26 ->   20207 rows
+01:28:59  INFO    firms              VIIRS_SNPP_SP      2024-03-02 ->   28757 rows
+01:29:06  INFO    firms              VIIRS_SNPP_SP      2024-03-07 ->   21684 rows
+01:29:13  INFO    firms              VIIRS_SNPP_SP      2024-03-12 ->   26098 rows
+01:29:19  INFO    firms              VIIRS_SNPP_SP      2024-03-17 ->   16141 rows
+01:29:25  INFO    firms              VIIRS_SNPP_SP      2024-03-22 ->   14027 rows
+01:29:33  INFO    firms              VIIRS_SNPP_SP      2024-03-27 ->   26127 rows
+01:29:44  INFO    firms              VIIRS_SNPP_SP      2024-04-01 ->   46143 rows
+01:29:53  INFO    firms              VIIRS_SNPP_SP      2024-04-06 ->   25226 rows
+01:29:58  INFO    firms              VIIRS_SNPP_SP      2024-04-11 ->   13820 rows
+01:30:03  INFO    firms              VIIRS_SNPP_SP      2024-04-16 ->   16453 rows
+01:30:13  INFO    firms              VIIRS_SNPP_SP      2024-04-21 ->   21820 rows
+01:30:26  INFO    firms              VIIRS_SNPP_SP      2024-04-26 ->   38090 rows
+01:30:46  INFO    firms              VIIRS_SNPP_SP      2024-05-01 ->   16892 rows
+01:30:54  INFO    firms              VIIRS_SNPP_SP      2024-05-06 ->    3419 rows
+01:31:08  INFO    firms              VIIRS_SNPP_SP      2024-05-11 ->    2633 rows
+01:31:17  INFO    firms              VIIRS_SNPP_SP      2024-05-16 ->    1029 rows
+01:31:20  INFO    firms              VIIRS_SNPP_SP      2024-05-21 ->     113 rows
+01:31:22  INFO    firms              VIIRS_SNPP_SP      2024-05-26 ->     282 rows
+01:31:25  INFO    firms              VIIRS_SNPP_SP      2024-05-31 ->     148 rows
+01:31:33  INFO    firms              VIIRS_SNPP_SP      2024-06-05 ->     349 rows
+01:31:48  INFO    firms              VIIRS_SNPP_SP      2024-06-10 ->     542 rows
+01:31:55  INFO    firms              VIIRS_SNPP_SP      2024-06-15 ->     522 rows
+01:31:57  INFO    firms              VIIRS_SNPP_SP      2024-06-20 ->     160 rows
+01:31:59  INFO    firms              VIIRS_SNPP_SP      2024-06-25 ->      94 rows
+01:32:00  INFO    firms              VIIRS_SNPP_SP      2024-06-30 ->     142 rows
+01:32:02  INFO    firms              VIIRS_SNPP_SP      2024-07-05 ->     179 rows
+01:32:04  INFO    firms              VIIRS_SNPP_SP      2024-07-10 -> empty
+01:32:05  INFO    firms              VIIRS_SNPP_SP      2024-07-15 ->      18 rows
+01:32:07  INFO    firms              VIIRS_SNPP_SP      2024-07-20 ->      21 rows
+01:32:08  INFO    firms              VIIRS_SNPP_SP      2024-07-25 ->       5 rows
+01:32:10  INFO    firms              VIIRS_SNPP_SP      2024-07-30 ->     172 rows
+01:32:12  INFO    firms              VIIRS_SNPP_SP      2024-08-04 ->     303 rows
+01:32:28  INFO    firms              VIIRS_SNPP_SP      2024-08-09 ->     348 rows
+01:32:31  INFO    firms              VIIRS_SNPP_SP      2024-08-14 ->     315 rows
+01:32:33  INFO    firms              VIIRS_SNPP_SP      2024-08-19 ->     206 rows
+01:32:54  INFO    firms              VIIRS_SNPP_SP      2024-08-24 ->     120 rows
+01:32:57  INFO    firms              VIIRS_SNPP_SP      2024-08-29 ->     118 rows
+01:32:59  INFO    firms              VIIRS_SNPP_SP      2024-09-03 ->      87 rows
+01:33:00  INFO    firms              VIIRS_SNPP_SP      2024-09-08 ->      44 rows
+01:33:02  INFO    firms              VIIRS_SNPP_SP      2024-09-13 ->      99 rows
+01:33:03  INFO    firms              VIIRS_SNPP_SP      2024-09-18 ->      17 rows
+01:33:05  INFO    firms              VIIRS_SNPP_SP      2024-09-23 ->      44 rows
+01:33:06  INFO    firms              VIIRS_SNPP_SP      2024-09-28 ->     173 rows
+01:33:08  INFO    firms              VIIRS_SNPP_SP      2024-10-03 ->     221 rows
+01:33:09  INFO    firms              VIIRS_SNPP_SP      2024-10-08 ->     210 rows
+01:33:12  INFO    firms              VIIRS_SNPP_SP      2024-10-13 ->     184 rows
+01:33:14  INFO    firms              VIIRS_SNPP_SP      2024-10-18 ->      90 rows
+01:33:15  INFO    firms              VIIRS_SNPP_SP      2024-10-23 ->     219 rows
+01:33:17  INFO    firms              VIIRS_SNPP_SP      2024-10-28 ->     302 rows
+01:33:19  INFO    firms              VIIRS_SNPP_SP      2024-11-02 ->     227 rows
+01:33:21  INFO    firms              VIIRS_SNPP_SP      2024-11-07 ->     477 rows
+01:33:23  INFO    firms              VIIRS_SNPP_SP      2024-11-12 ->     823 rows
+01:33:25  INFO    firms              VIIRS_SNPP_SP      2024-11-17 ->     721 rows
+01:33:27  INFO    firms              VIIRS_SNPP_SP      2024-11-22 ->     647 rows
+01:33:29  INFO    firms              VIIRS_SNPP_SP      2024-11-27 ->    1121 rows
+01:33:31  INFO    firms              VIIRS_SNPP_SP      2024-12-02 ->    1385 rows
+01:33:33  INFO    firms              VIIRS_SNPP_SP      2024-12-07 ->    1294 rows
+01:33:35  INFO    firms              VIIRS_SNPP_SP      2024-12-12 ->     808 rows
+01:33:38  INFO    firms              VIIRS_SNPP_SP      2024-12-17 ->    2458 rows
+01:33:40  INFO    firms              VIIRS_SNPP_SP      2024-12-22 ->    2169 rows
+01:33:45  INFO    firms              VIIRS_SNPP_SP      2024-12-27 ->    3205 rows
+01:33:47  INFO    firms              VIIRS_SNPP_SP      2025-01-01 ->    4861 rows
+01:33:57  INFO    firms              VIIRS_SNPP_SP      2025-01-06 ->    6384 rows
+01:34:24  INFO    firms              VIIRS_SNPP_SP      2025-01-11 ->    7499 rows
+01:34:27  INFO    firms              VIIRS_SNPP_SP      2025-01-16 ->    7075 rows
+01:34:30  INFO    firms              VIIRS_SNPP_SP      2025-01-21 ->    6914 rows
+01:34:36  INFO    firms              VIIRS_SNPP_SP      2025-01-26 ->   11297 rows
+01:34:41  INFO    firms              VIIRS_SNPP_SP      2025-01-31 ->   13764 rows
+01:34:46  INFO    firms              VIIRS_SNPP_SP      2025-02-05 ->   13967 rows
+01:34:51  INFO    firms              VIIRS_SNPP_SP      2025-02-10 ->   14762 rows
+01:34:56  INFO    firms              VIIRS_SNPP_SP      2025-02-15 ->   16213 rows
+01:35:00  INFO    firms              VIIRS_SNPP_SP      2025-02-20 ->    6661 rows
+01:35:04  INFO    firms              VIIRS_SNPP_SP      2025-02-25 ->    8256 rows
+01:35:14  INFO    firms              VIIRS_SNPP_SP      2025-03-02 ->   19288 rows
+01:35:24  INFO    firms              VIIRS_SNPP_SP      2025-03-07 ->   11520 rows
+01:35:30  INFO    firms              VIIRS_SNPP_SP      2025-03-12 ->   18919 rows
+01:35:36  INFO    firms              VIIRS_SNPP_SP      2025-03-17 ->   15431 rows
+01:35:47  INFO    firms              VIIRS_SNPP_SP      2025-03-22 ->   34501 rows
+01:35:55  INFO    firms              VIIRS_SNPP_SP      2025-03-27 ->   35059 rows
+01:36:02  INFO    firms              VIIRS_SNPP_SP      2025-04-01 ->   17941 rows
+01:36:14  INFO    firms              VIIRS_SNPP_SP      2025-04-06 ->    7958 rows
+01:36:17  INFO    firms              VIIRS_SNPP_SP      2025-04-11 ->    6534 rows
+01:36:20  INFO    firms              VIIRS_SNPP_SP      2025-04-16 ->    5118 rows
+01:36:24  INFO    firms              VIIRS_SNPP_SP      2025-04-21 ->   13341 rows
+01:36:29  INFO    firms              VIIRS_SNPP_SP      2025-04-26 ->    7347 rows
+01:36:31  INFO    firms              VIIRS_SNPP_SP      2025-05-01 ->    2641 rows
+01:36:34  INFO    firms              VIIRS_SNPP_SP      2025-05-06 ->    5015 rows
+01:36:37  INFO    firms              VIIRS_SNPP_SP      2025-05-11 ->     357 rows
+01:36:38  INFO    firms              VIIRS_SNPP_SP      2025-05-16 ->     212 rows
+01:36:40  INFO    firms              VIIRS_SNPP_SP      2025-05-21 ->     184 rows
+01:36:41  INFO    firms              VIIRS_SNPP_SP      2025-05-26 ->      51 rows
+01:36:43  INFO    firms              VIIRS_SNPP_SP      2025-05-31 ->     498 rows
+01:36:45  INFO    firms              VIIRS_SNPP_SP      2025-06-05 ->     270 rows
+01:36:46  INFO    firms              VIIRS_SNPP_SP      2025-06-10 ->      30 rows
+01:36:47  INFO    firms              VIIRS_SNPP_SP      2025-06-15 ->     147 rows
+01:36:49  INFO    firms              VIIRS_SNPP_SP      2025-06-20 ->      87 rows
+01:36:50  INFO    firms              VIIRS_SNPP_SP      2025-06-25 ->      72 rows
+01:36:52  INFO    firms              VIIRS_SNPP_SP      2025-06-30 ->      72 rows
+01:36:53  INFO    firms              VIIRS_SNPP_SP      2025-07-05 ->      97 rows
+01:36:55  INFO    firms              VIIRS_SNPP_SP      2025-07-10 ->     182 rows
+01:36:56  INFO    firms              VIIRS_SNPP_SP      2025-07-15 ->     167 rows
+01:36:58  INFO    firms              VIIRS_SNPP_SP      2025-07-20 ->      58 rows
+01:36:59  INFO    firms              VIIRS_SNPP_SP      2025-07-25 ->     109 rows
+01:37:01  INFO    firms              VIIRS_SNPP_SP      2025-07-30 ->     359 rows
+01:37:03  INFO    firms              VIIRS_SNPP_SP      2025-08-04 ->     429 rows
+01:37:05  INFO    firms              VIIRS_SNPP_SP      2025-08-09 ->     511 rows
+01:37:06  INFO    firms              VIIRS_SNPP_SP      2025-08-14 ->      71 rows
+01:37:08  INFO    firms              VIIRS_SNPP_SP      2025-08-19 ->     156 rows
+01:37:09  INFO    firms              VIIRS_SNPP_SP      2025-08-24 ->      23 rows
+01:37:10  INFO    firms              VIIRS_SNPP_SP      2025-08-29 ->     145 rows
+01:37:12  INFO    firms              VIIRS_SNPP_SP      2025-09-03 ->     164 rows
+01:37:13  INFO    firms              VIIRS_SNPP_SP      2025-09-08 ->     118 rows
+01:37:15  INFO    firms              VIIRS_SNPP_SP      2025-09-13 ->     116 rows
+01:37:16  INFO    firms              VIIRS_SNPP_SP      2025-09-18 ->     108 rows
+01:37:18  INFO    firms              VIIRS_SNPP_SP      2025-09-23 ->      44 rows
+01:37:19  INFO    firms              VIIRS_SNPP_SP      2025-09-28 ->      67 rows
+01:37:21  INFO    firms              VIIRS_SNPP_SP      2025-10-03 ->     122 rows
+01:37:22  INFO    firms              VIIRS_SNPP_SP      2025-10-08 ->     104 rows
+01:37:23  INFO    firms              VIIRS_SNPP_SP      2025-10-13 ->      79 rows
+01:37:25  INFO    firms              VIIRS_SNPP_SP      2025-10-18 ->     118 rows
+01:37:26  INFO    firms              VIIRS_SNPP_SP      2025-10-23 ->      73 rows
+01:37:28  INFO    firms              VIIRS_SNPP_SP      2025-10-28 ->     112 rows
+01:37:29  INFO    firms              VIIRS_SNPP_SP      2025-11-02 ->      28 rows
+01:37:31  INFO    firms              VIIRS_SNPP_SP      2025-11-07 ->      40 rows
+01:37:32  INFO    firms              VIIRS_SNPP_SP      2025-11-12 ->     336 rows
+01:37:34  INFO    firms              VIIRS_SNPP_SP      2025-11-17 ->     109 rows
+01:37:36  INFO    firms              VIIRS_SNPP_SP      2025-11-22 ->     683 rows
+01:37:38  INFO    firms              VIIRS_SNPP_SP      2025-11-27 ->    1297 rows
+01:37:40  INFO    firms              VIIRS_SNPP_SP      2025-12-02 ->    1152 rows
+01:37:42  INFO    firms              VIIRS_SNPP_SP      2025-12-07 ->    1042 rows
+01:37:44  INFO    firms              VIIRS_SNPP_SP      2025-12-12 ->     564 rows
+01:37:46  INFO    firms              VIIRS_SNPP_SP      2025-12-17 ->    1581 rows
+01:37:48  INFO    firms              VIIRS_SNPP_SP      2025-12-22 ->    1870 rows
+01:37:51  INFO    firms              VIIRS_SNPP_SP      2025-12-27 ->    2676 rows
+01:37:54  INFO    firms              VIIRS_SNPP_SP      2026-01-01 ->    3419 rows
+01:37:57  INFO    firms              VIIRS_SNPP_SP      2026-01-06 ->    5329 rows
+01:38:00  INFO    firms              VIIRS_SNPP_SP      2026-01-11 ->    5167 rows
+01:38:03  INFO    firms              VIIRS_SNPP_SP      2026-01-16 ->    3912 rows
+01:38:07  INFO    firms              VIIRS_SNPP_SP      2026-01-21 ->    7493 rows
+01:38:12  INFO    firms              VIIRS_SNPP_SP      2026-01-26 ->    7466 rows
+01:38:16  INFO    firms              VIIRS_SNPP_SP      2026-01-31 ->    8452 rows
+01:38:20  INFO    firms              VIIRS_SNPP_SP      2026-02-05 ->    7642 rows
+01:38:25  INFO    firms              VIIRS_SNPP_SP      2026-02-10 ->   12182 rows
+01:38:31  INFO    firms              VIIRS_SNPP_SP      2026-02-15 ->   14233 rows
+01:38:35  INFO    firms              VIIRS_SNPP_SP      2026-02-20 ->    8184 rows
+01:38:38  INFO    firms              VIIRS_SNPP_SP      2026-02-25 ->    4975 rows
+01:38:43  INFO    firms              VIIRS_SNPP_SP      2026-03-02 ->   12170 rows
+01:38:52  INFO    firms              VIIRS_SNPP_SP      2026-03-07 ->    9058 rows
+01:38:55  INFO    firms              VIIRS_SNPP_SP      2026-03-12 ->    4942 rows
+01:39:00  INFO    firms              VIIRS_SNPP_SP      2026-03-17 ->   11720 rows
+01:39:09  INFO    firms              VIIRS_SNPP_SP      2026-03-22 ->   33835 rows
+01:39:20  INFO    firms              VIIRS_SNPP_SP      2026-03-27 ->   51109 rows
+01:39:31  INFO    firms              VIIRS_SNPP_SP      2026-04-01 ->   44489 rows
+01:39:44  INFO    firms              VIIRS_SNPP_SP      2026-04-06 ->   58232 rows
+01:39:54  INFO    firms              VIIRS_SNPP_SP      2026-04-11 ->   60731 rows
+01:40:02  INFO    firms              VIIRS_SNPP_SP      2026-04-16 ->   28161 rows
+01:40:05  INFO    firms              VIIRS_SNPP_SP      2026-04-21 ->    8182 rows
+01:40:07  INFO    firms              VIIRS_SNPP_SP      2026-04-26 ->    1390 rows
+01:40:10  INFO    firms              VIIRS_SNPP_SP      2026-05-01 ->    5015 rows
+01:40:12  INFO    firms              VIIRS_SNPP_SP      2026-05-06 ->    1808 rows
+01:40:19  INFO    firms              VIIRS_SNPP_SP      2026-05-11 ->     655 rows
+01:40:21  INFO    firms              VIIRS_SNPP_SP      2026-05-16 ->     542 rows
+01:40:23  INFO    firms              VIIRS_SNPP_SP      2026-05-21 ->     724 rows
+01:40:25  INFO    firms              VIIRS_SNPP_SP      2026-05-26 ->    1073 rows
+01:40:27  INFO    firms              VIIRS_SNPP_SP      2026-05-31 ->     266 rows
+01:40:28  INFO    firms              VIIRS_SNPP_SP      2026-06-05 ->     155 rows
+01:40:30  INFO    firms              VIIRS_SNPP_SP      2026-06-10 ->     123 rows
+01:40:31  INFO    firms              VIIRS_SNPP_SP      2026-06-15 ->     171 rows
+01:40:33  INFO    firms              VIIRS_SNPP_SP      2026-06-20 ->     433 rows
+01:40:40  INFO    firms              VIIRS_SNPP_SP      2026-06-25 ->     254 rows
+01:40:41  INFO    firms              VIIRS_SNPP_SP      2026-06-30 ->      40 rows
+01:40:42  INFO    firms              VIIRS_SNPP_SP      2026-07-05 ->      81 rows
+01:40:44  INFO    firms              VIIRS_SNPP_SP      2026-07-10 ->      41 rows
+01:40:46  INFO    firms              VIIRS_SNPP_SP      2026-07-15 ->     406 rows
+01:40:48  INFO    firms              VIIRS_SNPP_SP      2026-07-20 ->     540 rows
+01:40:49  INFO    firms              VIIRS_SNPP_SP      2026-07-25 ->      80 rows
+01:40:50  INFO    firms              VIIRS_SNPP_SP: holding back partial window 2026-07-30 .. 2026-07-31 until the archive covers all of it
+01:40:50  INFO    firms              == VIIRS_SNPP_SP total: 6335290 rows ==
+01:40:50  INFO    firms              VIIRS_NOAA20_SP: fetching 2018-04-01 .. 2026-07-31
+01:40:59  INFO    firms              VIIRS_NOAA20_SP    2018-04-01 ->    9313 rows
+01:41:09  INFO    firms              VIIRS_NOAA20_SP    2018-04-06 ->   16651 rows
+01:41:22  INFO    firms              VIIRS_NOAA20_SP    2018-04-11 ->   38336 rows
+01:41:28  INFO    firms              VIIRS_NOAA20_SP    2018-04-16 ->    5612 rows
+01:41:36  INFO    firms              VIIRS_NOAA20_SP    2018-04-21 ->   13093 rows
+01:41:39  INFO    firms              VIIRS_NOAA20_SP    2018-04-26 ->    1215 rows
+01:41:42  INFO    firms              VIIRS_NOAA20_SP    2018-05-01 ->     848 rows
+01:41:46  INFO    firms              VIIRS_NOAA20_SP    2018-05-06 ->    4059 rows
+01:41:49  INFO    firms              VIIRS_NOAA20_SP    2018-05-11 ->    1226 rows
+01:41:53  INFO    firms              VIIRS_NOAA20_SP    2018-05-16 ->    1468 rows
+01:41:56  INFO    firms              VIIRS_NOAA20_SP    2018-05-21 ->     565 rows
+01:41:58  INFO    firms              VIIRS_NOAA20_SP    2018-05-26 ->     348 rows
+01:42:02  INFO    firms              VIIRS_NOAA20_SP    2018-05-31 ->     331 rows
+01:42:05  INFO    firms              VIIRS_NOAA20_SP    2018-06-05 ->     211 rows
+01:42:08  INFO    firms              VIIRS_NOAA20_SP    2018-06-10 ->     168 rows
+01:42:10  INFO    firms              VIIRS_NOAA20_SP    2018-06-15 ->     131 rows
+01:42:13  INFO    firms              VIIRS_NOAA20_SP    2018-06-20 ->     422 rows
+01:42:16  INFO    firms              VIIRS_NOAA20_SP    2018-06-25 ->     153 rows
+01:42:18  INFO    firms              VIIRS_NOAA20_SP    2018-06-30 ->     782 rows
+01:42:21  INFO    firms              VIIRS_NOAA20_SP    2018-07-05 ->     205 rows
+01:42:24  INFO    firms              VIIRS_NOAA20_SP    2018-07-10 ->      67 rows
+01:42:26  INFO    firms              VIIRS_NOAA20_SP    2018-07-15 ->      45 rows
+01:42:30  INFO    firms              VIIRS_NOAA20_SP    2018-07-20 ->      62 rows
+01:42:32  INFO    firms              VIIRS_NOAA20_SP    2018-07-25 ->     139 rows
+01:42:35  INFO    firms              VIIRS_NOAA20_SP    2018-07-30 ->     287 rows
+01:42:38  INFO    firms              VIIRS_NOAA20_SP    2018-08-04 ->     223 rows
+01:42:42  INFO    firms              VIIRS_NOAA20_SP    2018-08-09 ->      98 rows
+01:42:47  INFO    firms              VIIRS_NOAA20_SP    2018-08-14 ->      78 rows
+01:42:49  INFO    firms              VIIRS_NOAA20_SP    2018-08-19 ->      88 rows
+01:42:52  INFO    firms              VIIRS_NOAA20_SP    2018-08-24 ->      90 rows
+01:42:55  INFO    firms              VIIRS_NOAA20_SP    2018-08-29 ->     257 rows
+01:43:03  INFO    firms              VIIRS_NOAA20_SP    2018-09-03 ->     309 rows
+01:43:06  INFO    firms              VIIRS_NOAA20_SP    2018-09-08 ->     150 rows
+01:43:10  INFO    firms              VIIRS_NOAA20_SP    2018-09-13 ->     101 rows
+01:43:13  INFO    firms              VIIRS_NOAA20_SP    2018-09-18 ->     156 rows
+01:43:16  INFO    firms              VIIRS_NOAA20_SP    2018-09-23 ->     402 rows
+01:43:19  INFO    firms              VIIRS_NOAA20_SP    2018-09-28 ->     239 rows
+01:43:23  INFO    firms              VIIRS_NOAA20_SP    2018-10-03 ->     245 rows
+01:43:27  INFO    firms              VIIRS_NOAA20_SP    2018-10-08 ->     281 rows
+01:43:31  INFO    firms              VIIRS_NOAA20_SP    2018-10-13 ->     318 rows
+01:43:34  INFO    firms              VIIRS_NOAA20_SP    2018-10-18 ->     173 rows
+01:43:38  INFO    firms              VIIRS_NOAA20_SP    2018-10-23 ->     213 rows
+01:43:41  INFO    firms              VIIRS_NOAA20_SP    2018-10-28 ->     649 rows
+01:43:45  INFO    firms              VIIRS_NOAA20_SP    2018-11-02 ->     903 rows
+01:43:51  INFO    firms              VIIRS_NOAA20_SP    2018-11-07 ->     202 rows
+01:43:56  INFO    firms              VIIRS_NOAA20_SP    2018-11-12 ->     446 rows
+01:44:01  INFO    firms              VIIRS_NOAA20_SP    2018-11-17 ->     930 rows
+01:44:05  INFO    firms              VIIRS_NOAA20_SP    2018-11-22 ->    1467 rows
+01:44:17  INFO    firms              VIIRS_NOAA20_SP    2018-11-27 ->    1435 rows
+01:44:24  INFO    firms              VIIRS_NOAA20_SP    2018-12-02 ->    3001 rows
+01:44:30  INFO    firms              VIIRS_NOAA20_SP    2018-12-07 ->     719 rows
+01:44:41  INFO    firms              VIIRS_NOAA20_SP    2018-12-12 ->    3156 rows
+01:44:47  INFO    firms              VIIRS_NOAA20_SP    2018-12-17 ->    5525 rows
+01:44:53  INFO    firms              VIIRS_NOAA20_SP    2018-12-22 ->    6823 rows
+01:44:58  INFO    firms              VIIRS_NOAA20_SP    2018-12-27 ->    3205 rows
+01:45:05  INFO    firms              VIIRS_NOAA20_SP    2019-01-01 ->    5419 rows
+01:45:14  INFO    firms              VIIRS_NOAA20_SP    2019-01-06 ->    9573 rows
+01:45:20  INFO    firms              VIIRS_NOAA20_SP    2019-01-11 ->   11541 rows
+01:45:31  INFO    firms              VIIRS_NOAA20_SP    2019-01-16 ->   12780 rows
+01:45:42  INFO    firms              VIIRS_NOAA20_SP    2019-01-21 ->   15720 rows
+01:45:51  INFO    firms              VIIRS_NOAA20_SP    2019-01-26 ->   16617 rows
+01:46:00  INFO    firms              VIIRS_NOAA20_SP    2019-01-31 ->   12803 rows
+01:46:09  INFO    firms              VIIRS_NOAA20_SP    2019-02-05 ->   21317 rows
+01:46:19  INFO    firms              VIIRS_NOAA20_SP    2019-02-10 ->   20883 rows
+01:46:31  INFO    firms              VIIRS_NOAA20_SP    2019-02-15 ->   18017 rows
+01:46:45  INFO    firms              VIIRS_NOAA20_SP    2019-02-20 ->   21667 rows
+01:46:56  INFO    firms              VIIRS_NOAA20_SP    2019-02-25 ->   20828 rows
+01:47:08  INFO    firms              VIIRS_NOAA20_SP    2019-03-02 ->   27598 rows
+01:47:27  INFO    firms              VIIRS_NOAA20_SP    2019-03-07 ->   44767 rows
+01:47:42  INFO    firms              VIIRS_NOAA20_SP    2019-03-12 ->   46015 rows
+01:47:56  INFO    firms              VIIRS_NOAA20_SP    2019-03-17 ->   28663 rows
+01:48:19  INFO    firms              VIIRS_NOAA20_SP    2019-03-22 ->   38944 rows
+01:48:36  INFO    firms              VIIRS_NOAA20_SP    2019-03-27 ->   31813 rows
+01:48:49  INFO    firms              VIIRS_NOAA20_SP    2019-04-01 ->   26841 rows
+01:49:04  INFO    firms              VIIRS_NOAA20_SP    2019-04-06 ->   24534 rows
+01:49:27  INFO    firms              VIIRS_NOAA20_SP    2019-04-11 ->   30215 rows
+01:49:52  INFO    firms              VIIRS_NOAA20_SP    2019-04-16 ->   25523 rows
+01:50:25  INFO    firms              VIIRS_NOAA20_SP    2019-04-21 ->   14083 rows
+01:51:05  INFO    firms              VIIRS_NOAA20_SP    2019-04-26 ->   15155 rows
+01:51:35  INFO    firms              VIIRS_NOAA20_SP    2019-05-01 ->   11783 rows
+01:52:10  INFO    firms              VIIRS_NOAA20_SP    2019-05-06 ->    2956 rows
+01:52:29  INFO    firms              VIIRS_NOAA20_SP    2019-05-11 ->    1201 rows
+01:52:43  INFO    firms              VIIRS_NOAA20_SP    2019-05-16 ->    4584 rows
+01:52:52  INFO    firms              VIIRS_NOAA20_SP    2019-05-21 ->     963 rows
+01:53:00  INFO    firms              VIIRS_NOAA20_SP    2019-05-26 ->     554 rows
+01:53:08  INFO    firms              VIIRS_NOAA20_SP    2019-05-31 ->     401 rows
+01:53:15  INFO    firms              VIIRS_NOAA20_SP    2019-06-05 ->     633 rows
+01:53:20  INFO    firms              VIIRS_NOAA20_SP    2019-06-10 ->     332 rows
+01:53:27  INFO    firms              VIIRS_NOAA20_SP    2019-06-15 ->     231 rows
+01:53:37  INFO    firms              VIIRS_NOAA20_SP    2019-06-20 ->     905 rows
+01:53:46  INFO    firms              VIIRS_NOAA20_SP    2019-06-25 ->     414 rows
+01:53:54  INFO    firms              VIIRS_NOAA20_SP    2019-06-30 ->     105 rows
+01:54:01  INFO    firms              VIIRS_NOAA20_SP    2019-07-05 ->     500 rows
+01:54:07  INFO    firms              VIIRS_NOAA20_SP    2019-07-10 ->    1140 rows
+01:54:18  INFO    firms              VIIRS_NOAA20_SP    2019-07-15 ->     738 rows
+01:54:29  INFO    firms              VIIRS_NOAA20_SP    2019-07-20 ->     290 rows
+01:54:33  INFO    firms              VIIRS_NOAA20_SP    2019-07-25 ->     345 rows
+01:54:38  INFO    firms              VIIRS_NOAA20_SP    2019-07-30 ->     127 rows
+01:54:46  INFO    firms              VIIRS_NOAA20_SP    2019-08-04 ->     215 rows
+01:54:54  INFO    firms              VIIRS_NOAA20_SP    2019-08-09 ->     141 rows
+01:55:02  INFO    firms              VIIRS_NOAA20_SP    2019-08-14 ->     312 rows
+01:55:09  INFO    firms              VIIRS_NOAA20_SP    2019-08-19 ->     441 rows
+01:55:14  INFO    firms              VIIRS_NOAA20_SP    2019-08-24 ->     110 rows
+01:55:20  INFO    firms              VIIRS_NOAA20_SP    2019-08-29 ->      61 rows
+01:55:30  INFO    firms              VIIRS_NOAA20_SP    2019-09-03 ->     137 rows
+01:55:41  INFO    firms              VIIRS_NOAA20_SP    2019-09-08 ->     184 rows
+01:55:47  INFO    firms              VIIRS_NOAA20_SP    2019-09-13 ->     317 rows
+01:55:51  INFO    firms              VIIRS_NOAA20_SP    2019-09-18 ->     130 rows
+01:55:55  INFO    firms              VIIRS_NOAA20_SP    2019-09-23 ->     430 rows
+01:56:02  INFO    firms              VIIRS_NOAA20_SP    2019-09-28 ->     708 rows
+01:56:08  INFO    firms              VIIRS_NOAA20_SP    2019-10-03 ->     310 rows
+01:56:12  INFO    firms              VIIRS_NOAA20_SP    2019-10-08 ->     345 rows
+01:56:15  INFO    firms              VIIRS_NOAA20_SP    2019-10-13 ->     297 rows
+01:56:18  INFO    firms              VIIRS_NOAA20_SP    2019-10-18 ->     534 rows
+01:56:20  INFO    firms              VIIRS_NOAA20_SP    2019-10-23 ->     504 rows
+01:56:22  INFO    firms              VIIRS_NOAA20_SP    2019-10-28 ->     383 rows
+01:56:24  INFO    firms              VIIRS_NOAA20_SP    2019-11-02 ->     312 rows
+01:56:25  INFO    firms              VIIRS_NOAA20_SP    2019-11-07 ->     497 rows
+01:56:28  INFO    firms              VIIRS_NOAA20_SP    2019-11-12 ->     640 rows
+01:56:30  INFO    firms              VIIRS_NOAA20_SP    2019-11-17 ->    1259 rows
+01:56:32  INFO    firms              VIIRS_NOAA20_SP    2019-11-22 ->    2157 rows
+01:56:34  INFO    firms              VIIRS_NOAA20_SP    2019-11-27 ->    2171 rows
+01:56:38  INFO    firms              VIIRS_NOAA20_SP    2019-12-02 ->    4297 rows
+01:56:42  INFO    firms              VIIRS_NOAA20_SP    2019-12-07 ->    5286 rows
+01:56:45  INFO    firms              VIIRS_NOAA20_SP    2019-12-12 ->    4458 rows
+01:56:48  INFO    firms              VIIRS_NOAA20_SP    2019-12-17 ->    4503 rows
+01:56:52  INFO    firms              VIIRS_NOAA20_SP    2019-12-22 ->    6684 rows
+01:56:57  INFO    firms              VIIRS_NOAA20_SP    2019-12-27 ->    9335 rows
+01:57:02  INFO    firms              VIIRS_NOAA20_SP    2020-01-01 ->   11832 rows
+01:57:07  INFO    firms              VIIRS_NOAA20_SP    2020-01-06 ->   13385 rows
+01:57:13  INFO    firms              VIIRS_NOAA20_SP    2020-01-11 ->   16018 rows
+01:57:19  INFO    firms              VIIRS_NOAA20_SP    2020-01-16 ->   16754 rows
+01:57:26  INFO    firms              VIIRS_NOAA20_SP    2020-01-21 ->   18298 rows
+01:57:34  INFO    firms              VIIRS_NOAA20_SP    2020-01-26 ->   24177 rows
+01:57:40  INFO    firms              VIIRS_NOAA20_SP    2020-01-31 ->   19220 rows
+01:57:47  INFO    firms              VIIRS_NOAA20_SP    2020-02-05 ->   21499 rows
+01:57:55  INFO    firms              VIIRS_NOAA20_SP    2020-02-10 ->   23454 rows
+01:58:05  INFO    firms              VIIRS_NOAA20_SP    2020-02-15 ->   33111 rows
+01:58:16  INFO    firms              VIIRS_NOAA20_SP    2020-02-20 ->   46419 rows
+01:58:21  INFO    firms              VIIRS_NOAA20_SP    2020-02-25 ->   26015 rows
+01:58:27  INFO    firms              VIIRS_NOAA20_SP    2020-03-01 ->   16841 rows
+01:58:34  INFO    firms              VIIRS_NOAA20_SP    2020-03-06 ->   30383 rows
+01:58:46  INFO    firms              VIIRS_NOAA20_SP    2020-03-11 ->   44362 rows
+01:58:53  INFO    firms              VIIRS_NOAA20_SP    2020-03-16 ->   29805 rows
+01:59:01  INFO    firms              VIIRS_NOAA20_SP    2020-03-21 ->   37555 rows
+01:59:11  INFO    firms              VIIRS_NOAA20_SP    2020-03-26 ->   51753 rows
+01:59:22  INFO    firms              VIIRS_NOAA20_SP    2020-03-31 ->   54692 rows
+01:59:27  INFO    firms              VIIRS_NOAA20_SP    2020-04-05 ->   18035 rows
+01:59:31  INFO    firms              VIIRS_NOAA20_SP    2020-04-10 ->   10819 rows
+01:59:35  INFO    firms              VIIRS_NOAA20_SP    2020-04-15 ->    9338 rows
+01:59:41  INFO    firms              VIIRS_NOAA20_SP    2020-04-20 ->   15352 rows
+01:59:44  INFO    firms              VIIRS_NOAA20_SP    2020-04-25 ->    3509 rows
+01:59:46  INFO    firms              VIIRS_NOAA20_SP    2020-04-30 ->    3107 rows
+01:59:50  INFO    firms              VIIRS_NOAA20_SP    2020-05-05 ->    7508 rows
+01:59:52  INFO    firms              VIIRS_NOAA20_SP    2020-05-10 ->    2197 rows
+01:59:55  INFO    firms              VIIRS_NOAA20_SP    2020-05-15 ->    2118 rows
+01:59:57  INFO    firms              VIIRS_NOAA20_SP    2020-05-20 ->     939 rows
+01:59:59  INFO    firms              VIIRS_NOAA20_SP    2020-05-25 ->     796 rows
+02:00:01  INFO    firms              VIIRS_NOAA20_SP    2020-05-30 ->     430 rows
+02:00:02  INFO    firms              VIIRS_NOAA20_SP    2020-06-04 ->     512 rows
+02:00:04  INFO    firms              VIIRS_NOAA20_SP    2020-06-09 ->     497 rows
+02:00:06  INFO    firms              VIIRS_NOAA20_SP    2020-06-14 ->      83 rows
+02:00:09  INFO    firms              VIIRS_NOAA20_SP    2020-06-19 ->     310 rows
+02:00:11  INFO    firms              VIIRS_NOAA20_SP    2020-06-24 ->     344 rows
+02:00:13  INFO    firms              VIIRS_NOAA20_SP    2020-06-29 ->     111 rows
+02:00:15  INFO    firms              VIIRS_NOAA20_SP    2020-07-04 ->     191 rows
+02:00:17  INFO    firms              VIIRS_NOAA20_SP    2020-07-09 ->     317 rows
+02:00:19  INFO    firms              VIIRS_NOAA20_SP    2020-07-14 ->     437 rows
+02:00:21  INFO    firms              VIIRS_NOAA20_SP    2020-07-19 ->     303 rows
+02:00:23  INFO    firms              VIIRS_NOAA20_SP    2020-07-24 ->     476 rows
+02:00:25  INFO    firms              VIIRS_NOAA20_SP    2020-07-29 ->     135 rows
+02:00:26  INFO    firms              VIIRS_NOAA20_SP    2020-08-03 ->      46 rows
+02:00:29  INFO    firms              VIIRS_NOAA20_SP    2020-08-08 ->     176 rows
+02:00:30  INFO    firms              VIIRS_NOAA20_SP    2020-08-13 ->     144 rows
+02:00:36  INFO    firms              VIIRS_NOAA20_SP    2020-08-18 ->     233 rows
+02:00:39  INFO    firms              VIIRS_NOAA20_SP    2020-08-23 ->     784 rows
+02:00:42  INFO    firms              VIIRS_NOAA20_SP    2020-08-28 ->     303 rows
+02:00:44  INFO    firms              VIIRS_NOAA20_SP    2020-09-02 ->     384 rows
+02:00:47  INFO    firms              VIIRS_NOAA20_SP    2020-09-07 ->     213 rows
+02:00:49  INFO    firms              VIIRS_NOAA20_SP    2020-09-12 ->     213 rows
+02:00:51  INFO    firms              VIIRS_NOAA20_SP    2020-09-17 ->      31 rows
+02:00:54  INFO    firms              VIIRS_NOAA20_SP    2020-09-22 ->      69 rows
+02:00:57  INFO    firms              VIIRS_NOAA20_SP    2020-09-27 ->     166 rows
+02:00:59  INFO    firms              VIIRS_NOAA20_SP    2020-10-02 ->      64 rows
+02:01:05  INFO    firms              VIIRS_NOAA20_SP    2020-10-07 ->      62 rows
+02:01:07  INFO    firms              VIIRS_NOAA20_SP    2020-10-12 ->      38 rows
+02:01:10  INFO    firms              VIIRS_NOAA20_SP    2020-10-17 ->      38 rows
+02:01:18  INFO    firms              VIIRS_NOAA20_SP    2020-10-22 ->     261 rows
+02:01:20  INFO    firms              VIIRS_NOAA20_SP    2020-10-27 ->      43 rows
+02:01:22  INFO    firms              VIIRS_NOAA20_SP    2020-11-01 ->     244 rows
+02:01:25  INFO    firms              VIIRS_NOAA20_SP    2020-11-06 ->     462 rows
+02:01:28  INFO    firms              VIIRS_NOAA20_SP    2020-11-11 ->     879 rows
+02:01:30  INFO    firms              VIIRS_NOAA20_SP    2020-11-16 ->     932 rows
+02:01:34  INFO    firms              VIIRS_NOAA20_SP    2020-11-21 ->    1125 rows
+02:01:38  INFO    firms              VIIRS_NOAA20_SP    2020-11-26 ->    1192 rows
+02:01:40  INFO    firms              VIIRS_NOAA20_SP    2020-12-01 ->    1675 rows
+02:01:43  INFO    firms              VIIRS_NOAA20_SP    2020-12-06 ->    2448 rows
+02:01:46  INFO    firms              VIIRS_NOAA20_SP    2020-12-11 ->    1831 rows
+02:01:49  INFO    firms              VIIRS_NOAA20_SP    2020-12-16 ->    1739 rows
+02:01:52  INFO    firms              VIIRS_NOAA20_SP    2020-12-21 ->    1918 rows
+02:01:56  INFO    firms              VIIRS_NOAA20_SP    2020-12-26 ->    3357 rows
+02:01:58  INFO    firms              VIIRS_NOAA20_SP    2020-12-31 ->    4831 rows
+02:02:02  INFO    firms              VIIRS_NOAA20_SP    2021-01-05 ->    4761 rows
+02:02:07  INFO    firms              VIIRS_NOAA20_SP    2021-01-10 ->    8200 rows
+02:02:11  INFO    firms              VIIRS_NOAA20_SP    2021-01-15 ->   10011 rows
+02:02:17  INFO    firms              VIIRS_NOAA20_SP    2021-01-20 ->    9833 rows
+02:02:28  INFO    firms              VIIRS_NOAA20_SP    2021-01-25 ->   11826 rows
+02:02:38  INFO    firms              VIIRS_NOAA20_SP    2021-01-30 ->   20748 rows
+02:02:44  INFO    firms              VIIRS_NOAA20_SP    2021-02-04 ->   15879 rows
+02:02:49  INFO    firms              VIIRS_NOAA20_SP    2021-02-09 ->   11719 rows
+02:02:55  INFO    firms              VIIRS_NOAA20_SP    2021-02-14 ->   18876 rows
+02:03:03  INFO    firms              VIIRS_NOAA20_SP    2021-02-19 ->   23302 rows
+02:03:16  INFO    firms              VIIRS_NOAA20_SP    2021-02-24 ->   27198 rows
+02:03:26  INFO    firms              VIIRS_NOAA20_SP    2021-03-01 ->   31984 rows
+02:03:36  INFO    firms              VIIRS_NOAA20_SP    2021-03-06 ->   31197 rows
+02:03:43  INFO    firms              VIIRS_NOAA20_SP    2021-03-11 ->   23574 rows
+02:03:47  INFO    firms              VIIRS_NOAA20_SP    2021-03-16 ->   25186 rows
+02:03:52  INFO    firms              VIIRS_NOAA20_SP    2021-03-21 ->   18512 rows
+02:04:01  INFO    firms              VIIRS_NOAA20_SP    2021-03-26 ->   22068 rows
+02:04:08  INFO    firms              VIIRS_NOAA20_SP    2021-03-31 ->   23695 rows
+02:04:11  INFO    firms              VIIRS_NOAA20_SP    2021-04-05 ->    3766 rows
+02:04:14  INFO    firms              VIIRS_NOAA20_SP    2021-04-10 ->    8398 rows
+02:04:17  INFO    firms              VIIRS_NOAA20_SP    2021-04-15 ->    5819 rows
+02:04:23  INFO    firms              VIIRS_NOAA20_SP    2021-04-20 ->   17259 rows
+02:04:26  INFO    firms              VIIRS_NOAA20_SP    2021-04-25 ->    1318 rows
+02:04:29  INFO    firms              VIIRS_NOAA20_SP    2021-04-30 ->    2553 rows
+02:04:33  INFO    firms              VIIRS_NOAA20_SP    2021-05-05 ->    1763 rows
+02:04:35  INFO    firms              VIIRS_NOAA20_SP    2021-05-10 ->    2430 rows
+02:04:38  INFO    firms              VIIRS_NOAA20_SP    2021-05-15 ->    1236 rows
+02:04:41  INFO    firms              VIIRS_NOAA20_SP    2021-05-20 ->     900 rows
+02:04:44  INFO    firms              VIIRS_NOAA20_SP    2021-05-25 ->     285 rows
+02:04:47  INFO    firms              VIIRS_NOAA20_SP    2021-05-30 ->    1072 rows
+02:04:49  INFO    firms              VIIRS_NOAA20_SP    2021-06-04 ->     302 rows
+02:04:51  INFO    firms              VIIRS_NOAA20_SP    2021-06-09 ->      46 rows
+02:04:53  INFO    firms              VIIRS_NOAA20_SP    2021-06-14 ->     414 rows
+02:04:56  INFO    firms              VIIRS_NOAA20_SP    2021-06-19 ->     842 rows
+02:04:59  INFO    firms              VIIRS_NOAA20_SP    2021-06-24 ->     612 rows
+02:05:02  INFO    firms              VIIRS_NOAA20_SP    2021-06-29 ->    1087 rows
+02:05:04  INFO    firms              VIIRS_NOAA20_SP    2021-07-04 ->     247 rows
+02:05:06  INFO    firms              VIIRS_NOAA20_SP    2021-07-09 ->     164 rows
+02:05:10  INFO    firms              VIIRS_NOAA20_SP    2021-07-14 ->     199 rows
+02:06:42  INFO    firms              VIIRS_NOAA20_SP    2021-07-19 ->      71 rows
+02:08:04  INFO    firms              VIIRS_NOAA20_SP    2021-07-24 ->     134 rows
+02:10:10  INFO    firms              VIIRS_NOAA20_SP    2021-07-29 ->     177 rows
+02:10:34  INFO    firms              VIIRS_NOAA20_SP    2021-08-03 ->     335 rows
+02:12:05  INFO    firms              VIIRS_NOAA20_SP    2021-08-08 ->     395 rows
+02:12:45  INFO    firms              VIIRS_NOAA20_SP    2021-08-13 ->     314 rows
+02:13:19  INFO    firms              VIIRS_NOAA20_SP    2021-08-18 ->     797 rows
+02:13:32  INFO    firms              VIIRS_NOAA20_SP    2021-08-23 ->     503 rows
+02:14:04  INFO    firms              VIIRS_NOAA20_SP    2021-08-28 ->     109 rows
+02:14:09  INFO    firms              VIIRS_NOAA20_SP    2021-09-02 ->      84 rows
+02:14:25  INFO    firms              VIIRS_NOAA20_SP    2021-09-07 ->      53 rows
+02:14:42  INFO    firms              VIIRS_NOAA20_SP    2021-09-12 ->      62 rows
+02:14:53  INFO    firms              VIIRS_NOAA20_SP    2021-09-17 ->     133 rows
+02:15:21  INFO    firms              VIIRS_NOAA20_SP    2021-09-22 ->      46 rows
+02:15:38  INFO    firms              VIIRS_NOAA20_SP    2021-09-27 ->     214 rows
+02:15:50  INFO    firms              VIIRS_NOAA20_SP    2021-10-02 ->     114 rows
+02:15:57  INFO    firms              VIIRS_NOAA20_SP    2021-10-07 ->      70 rows
+02:16:06  INFO    firms              VIIRS_NOAA20_SP    2021-10-12 ->      27 rows
+02:16:19  INFO    firms              VIIRS_NOAA20_SP    2021-10-17 ->      46 rows
+02:16:26  INFO    firms              VIIRS_NOAA20_SP    2021-10-22 ->     158 rows
+02:16:58  INFO    firms              VIIRS_NOAA20_SP    2021-10-27 ->      67 rows
+02:17:04  INFO    firms              VIIRS_NOAA20_SP    2021-11-01 ->     164 rows
+02:17:21  INFO    firms              VIIRS_NOAA20_SP    2021-11-06 ->     316 rows
+02:17:33  INFO    firms              VIIRS_NOAA20_SP    2021-11-11 ->     184 rows
+02:17:51  INFO    firms              VIIRS_NOAA20_SP    2021-11-16 ->     358 rows
+02:18:36  INFO    firms              VIIRS_NOAA20_SP    2021-11-21 ->     600 rows
+02:19:21  INFO    firms              VIIRS_NOAA20_SP    2021-11-26 ->     912 rows
+02:19:35  INFO    firms              VIIRS_NOAA20_SP    2021-12-01 ->    1835 rows
+02:19:55  INFO    firms              VIIRS_NOAA20_SP    2021-12-06 ->    1877 rows
+02:20:18  INFO    firms              VIIRS_NOAA20_SP    2021-12-11 ->    1754 rows
+02:20:36  INFO    firms              VIIRS_NOAA20_SP    2021-12-16 ->    1459 rows
+02:20:59  INFO    firms              VIIRS_NOAA20_SP    2021-12-21 ->    1345 rows
+02:21:38  INFO    firms              VIIRS_NOAA20_SP    2021-12-26 ->    1567 rows
+02:21:53  INFO    firms              VIIRS_NOAA20_SP    2021-12-31 ->    2164 rows
+02:22:33  INFO    firms              VIIRS_NOAA20_SP    2022-01-05 ->    3710 rows
+02:23:05  INFO    firms              VIIRS_NOAA20_SP    2022-01-10 ->    4336 rows
+02:23:41  INFO    firms              VIIRS_NOAA20_SP    2022-01-15 ->    5107 rows
+02:24:09  INFO    firms              VIIRS_NOAA20_SP    2022-01-20 ->    2861 rows
+02:24:31  INFO    firms              VIIRS_NOAA20_SP    2022-01-25 ->    8767 rows
+02:24:48  INFO    firms              VIIRS_NOAA20_SP    2022-01-30 ->    8276 rows
+02:25:08  INFO    firms              VIIRS_NOAA20_SP    2022-02-04 ->    9691 rows
+02:25:20  INFO    firms              VIIRS_NOAA20_SP    2022-02-09 ->   10217 rows
+02:25:48  INFO    firms              VIIRS_NOAA20_SP    2022-02-14 ->    3205 rows
+02:26:04  INFO    firms              VIIRS_NOAA20_SP    2022-02-19 ->    4584 rows
+02:26:20  INFO    firms              VIIRS_NOAA20_SP    2022-02-24 ->   15625 rows
+02:26:28  INFO    firms              VIIRS_NOAA20_SP    2022-03-01 ->   19997 rows
+02:26:38  INFO    firms              VIIRS_NOAA20_SP    2022-03-06 ->   10022 rows
+02:26:48  INFO    firms              VIIRS_NOAA20_SP    2022-03-11 ->   15011 rows
+02:27:03  INFO    firms              VIIRS_NOAA20_SP    2022-03-16 ->    6932 rows
+02:27:25  INFO    firms              VIIRS_NOAA20_SP    2022-03-21 ->    2880 rows
+02:27:37  INFO    firms              VIIRS_NOAA20_SP    2022-03-26 ->   10873 rows
+02:27:47  INFO    firms              VIIRS_NOAA20_SP    2022-03-31 ->    9781 rows
+02:28:04  INFO    firms              VIIRS_NOAA20_SP    2022-04-05 ->   33098 rows
+02:28:21  INFO    firms              VIIRS_NOAA20_SP    2022-04-10 ->   16085 rows
+02:28:35  INFO    firms              VIIRS_NOAA20_SP    2022-04-15 ->    8012 rows
+02:28:43  INFO    firms              VIIRS_NOAA20_SP    2022-04-20 ->    2810 rows
+02:28:56  INFO    firms              VIIRS_NOAA20_SP    2022-04-25 ->   11874 rows
+02:29:02  INFO    firms              VIIRS_NOAA20_SP    2022-04-30 ->    2366 rows
+02:29:10  INFO    firms              VIIRS_NOAA20_SP    2022-05-05 ->    1412 rows
+02:29:17  INFO    firms              VIIRS_NOAA20_SP    2022-05-10 ->     220 rows
+02:29:29  INFO    firms              VIIRS_NOAA20_SP    2022-05-15 ->     361 rows
+02:29:30  INFO    firms              VIIRS_NOAA20_SP    2022-05-20 ->     167 rows
+02:29:32  INFO    firms              VIIRS_NOAA20_SP    2022-05-25 ->     685 rows
+02:29:35  INFO    firms              VIIRS_NOAA20_SP    2022-05-30 ->     240 rows
+02:29:39  INFO    firms              VIIRS_NOAA20_SP    2022-06-04 ->     364 rows
+02:29:43  INFO    firms              VIIRS_NOAA20_SP    2022-06-09 ->     296 rows
+02:29:50  INFO    firms              VIIRS_NOAA20_SP    2022-06-14 ->     317 rows
+02:29:56  INFO    firms              VIIRS_NOAA20_SP    2022-06-19 ->     460 rows
+02:30:00  INFO    firms              VIIRS_NOAA20_SP    2022-06-24 ->     214 rows
+02:30:04  INFO    firms              VIIRS_NOAA20_SP    2022-06-29 ->     157 rows
+02:30:07  INFO    firms              VIIRS_NOAA20_SP    2022-07-04 ->      85 rows
+02:30:11  INFO    firms              VIIRS_NOAA20_SP    2022-07-09 ->      33 rows
+02:30:16  INFO    firms              VIIRS_NOAA20_SP    2022-07-14 ->     147 rows
+02:30:29  INFO    firms              VIIRS_NOAA20_SP    2022-07-19 ->      91 rows
+02:30:48  INFO    firms              VIIRS_NOAA20_SP    2022-07-24 ->     386 rows
+02:31:03  INFO    firms              VIIRS_NOAA20_SP    2022-07-29 ->     167 rows
+02:31:18  INFO    firms              VIIRS_NOAA20_SP    2022-08-03 ->      35 rows
+02:31:38  INFO    firms              VIIRS_NOAA20_SP    2022-08-08 ->      54 rows
+02:32:00  INFO    firms              VIIRS_NOAA20_SP    2022-08-13 ->     228 rows
+02:32:16  INFO    firms              VIIRS_NOAA20_SP    2022-08-18 ->     122 rows
+02:32:33  INFO    firms              VIIRS_NOAA20_SP    2022-08-23 ->     192 rows
+02:32:40  INFO    firms              VIIRS_NOAA20_SP    2022-08-28 ->     385 rows
+02:32:48  INFO    firms              VIIRS_NOAA20_SP    2022-09-02 ->     161 rows
+02:33:01  INFO    firms              VIIRS_NOAA20_SP    2022-09-07 ->      19 rows
+02:33:11  INFO    firms              VIIRS_NOAA20_SP    2022-09-12 ->     204 rows
+02:33:18  INFO    firms              VIIRS_NOAA20_SP    2022-09-17 ->     126 rows
+02:33:25  INFO    firms              VIIRS_NOAA20_SP    2022-09-22 ->      58 rows
+02:33:31  INFO    firms              VIIRS_NOAA20_SP    2022-09-27 ->      10 rows
+02:33:35  INFO    firms              VIIRS_NOAA20_SP    2022-10-02 ->      42 rows
+02:33:39  INFO    firms              VIIRS_NOAA20_SP    2022-10-07 ->      67 rows
+02:33:45  INFO    firms              VIIRS_NOAA20_SP    2022-10-12 ->     190 rows
+02:33:50  INFO    firms              VIIRS_NOAA20_SP    2022-10-17 ->     339 rows
+02:33:54  INFO    firms              VIIRS_NOAA20_SP    2022-10-22 ->     199 rows
+02:33:59  INFO    firms              VIIRS_NOAA20_SP    2022-10-27 ->     307 rows
+02:34:02  INFO    firms              VIIRS_NOAA20_SP    2022-11-01 ->     772 rows
+02:34:07  INFO    firms              VIIRS_NOAA20_SP    2022-11-06 ->     709 rows
+02:34:10  INFO    firms              VIIRS_NOAA20_SP    2022-11-11 ->     436 rows
+02:34:12  INFO    firms              VIIRS_NOAA20_SP    2022-11-16 ->     308 rows
+02:34:17  INFO    firms              VIIRS_NOAA20_SP    2022-11-21 ->     272 rows
+02:34:22  INFO    firms              VIIRS_NOAA20_SP    2022-11-26 ->     392 rows
+02:34:25  INFO    firms              VIIRS_NOAA20_SP    2022-12-01 ->     564 rows
+02:34:30  INFO    firms              VIIRS_NOAA20_SP    2022-12-06 ->     966 rows
+02:34:35  INFO    firms              VIIRS_NOAA20_SP    2022-12-11 ->    1638 rows
+02:34:40  INFO    firms              VIIRS_NOAA20_SP    2022-12-16 ->    2699 rows
+02:34:52  INFO    firms              VIIRS_NOAA20_SP    2022-12-21 ->    2880 rows
+02:35:06  INFO    firms              VIIRS_NOAA20_SP    2022-12-26 ->    2907 rows
+02:35:26  INFO    firms              VIIRS_NOAA20_SP    2022-12-31 ->    2752 rows
+02:35:51  INFO    firms              VIIRS_NOAA20_SP    2023-01-05 ->    1729 rows
+02:36:18  INFO    firms              VIIRS_NOAA20_SP    2023-01-10 ->    2443 rows
+02:36:42  INFO    firms              VIIRS_NOAA20_SP    2023-01-15 ->    5870 rows
+02:37:14  INFO    firms              VIIRS_NOAA20_SP    2023-01-20 ->    9673 rows
+02:38:12  INFO    firms              VIIRS_NOAA20_SP    2023-01-25 ->   11860 rows
+02:38:45  INFO    firms              VIIRS_NOAA20_SP    2023-01-30 ->   10592 rows
+02:39:12  INFO    firms              VIIRS_NOAA20_SP    2023-02-04 ->   14365 rows
+02:39:31  INFO    firms              VIIRS_NOAA20_SP    2023-02-09 ->   21727 rows
+02:39:51  INFO    firms              VIIRS_NOAA20_SP    2023-02-14 ->   15961 rows
+02:40:09  INFO    firms              VIIRS_NOAA20_SP    2023-02-19 ->   18820 rows
+02:40:31  INFO    firms              VIIRS_NOAA20_SP    2023-02-24 ->   35158 rows
+02:40:45  INFO    firms              VIIRS_NOAA20_SP    2023-03-01 ->   35655 rows
+02:40:58  INFO    firms              VIIRS_NOAA20_SP    2023-03-06 ->   31288 rows
+02:41:16  INFO    firms              VIIRS_NOAA20_SP    2023-03-11 ->   16182 rows
+02:41:26  INFO    firms              VIIRS_NOAA20_SP    2023-03-16 ->   16744 rows
+02:41:41  INFO    firms              VIIRS_NOAA20_SP    2023-03-21 ->   68707 rows
+02:41:55  INFO    firms              VIIRS_NOAA20_SP    2023-03-26 ->   55043 rows
+02:42:10  INFO    firms              VIIRS_NOAA20_SP    2023-03-31 ->   49927 rows
+02:42:27  INFO    firms              VIIRS_NOAA20_SP    2023-04-05 ->   39307 rows
+02:42:42  INFO    firms              VIIRS_NOAA20_SP    2023-04-10 ->   28999 rows
+02:42:52  INFO    firms              VIIRS_NOAA20_SP    2023-04-15 ->   23415 rows
+02:43:05  INFO    firms              VIIRS_NOAA20_SP    2023-04-20 ->   17111 rows
+02:43:13  INFO    firms              VIIRS_NOAA20_SP    2023-04-25 ->    7925 rows
+02:43:18  INFO    firms              VIIRS_NOAA20_SP    2023-04-30 ->    5165 rows
+02:43:24  INFO    firms              VIIRS_NOAA20_SP    2023-05-05 ->   10438 rows
+02:43:28  INFO    firms              VIIRS_NOAA20_SP    2023-05-10 ->     781 rows
+02:43:33  INFO    firms              VIIRS_NOAA20_SP    2023-05-15 ->    2927 rows
+02:43:37  INFO    firms              VIIRS_NOAA20_SP    2023-05-20 ->    3001 rows
+02:43:42  INFO    firms              VIIRS_NOAA20_SP    2023-05-25 ->     718 rows
+02:43:46  INFO    firms              VIIRS_NOAA20_SP    2023-05-30 ->    1153 rows
+02:43:48  INFO    firms              VIIRS_NOAA20_SP    2023-06-04 ->     205 rows
+02:43:50  INFO    firms              VIIRS_NOAA20_SP    2023-06-09 ->     127 rows
+02:43:56  INFO    firms              VIIRS_NOAA20_SP    2023-06-14 ->     245 rows
+02:43:59  INFO    firms              VIIRS_NOAA20_SP    2023-06-19 ->     462 rows
+02:44:01  INFO    firms              VIIRS_NOAA20_SP    2023-06-24 ->     121 rows
+02:44:04  INFO    firms              VIIRS_NOAA20_SP    2023-06-29 ->     203 rows
+02:44:07  INFO    firms              VIIRS_NOAA20_SP    2023-07-04 ->     388 rows
+02:44:10  INFO    firms              VIIRS_NOAA20_SP    2023-07-09 ->     321 rows
+02:44:16  INFO    firms              VIIRS_NOAA20_SP    2023-07-14 ->     243 rows
+02:44:20  INFO    firms              VIIRS_NOAA20_SP    2023-07-19 ->      34 rows
+02:44:35  INFO    firms              VIIRS_NOAA20_SP    2023-07-24 ->     221 rows
+02:44:40  INFO    firms              VIIRS_NOAA20_SP    2023-07-29 ->      54 rows
+02:44:42  INFO    firms              VIIRS_NOAA20_SP    2023-08-03 ->     169 rows
+02:44:48  INFO    firms              VIIRS_NOAA20_SP    2023-08-08 ->     575 rows
+02:44:55  INFO    firms              VIIRS_NOAA20_SP    2023-08-13 ->     346 rows
+02:45:01  INFO    firms              VIIRS_NOAA20_SP    2023-08-18 ->     607 rows
+02:45:09  INFO    firms              VIIRS_NOAA20_SP    2023-08-23 ->     369 rows
+02:45:13  INFO    firms              VIIRS_NOAA20_SP    2023-08-28 ->     227 rows
+02:45:16  INFO    firms              VIIRS_NOAA20_SP    2023-09-02 ->     262 rows
+02:45:21  INFO    firms              VIIRS_NOAA20_SP    2023-09-07 ->     154 rows
+02:45:24  INFO    firms              VIIRS_NOAA20_SP    2023-09-12 ->      51 rows
+02:45:26  INFO    firms              VIIRS_NOAA20_SP    2023-09-17 ->     162 rows
+02:45:28  INFO    firms              VIIRS_NOAA20_SP    2023-09-22 ->     142 rows
+02:45:29  INFO    firms              VIIRS_NOAA20_SP    2023-09-27 ->      22 rows
+02:45:31  INFO    firms              VIIRS_NOAA20_SP    2023-10-02 ->     165 rows
+02:45:32  INFO    firms              VIIRS_NOAA20_SP    2023-10-07 ->      64 rows
+02:45:34  INFO    firms              VIIRS_NOAA20_SP    2023-10-12 ->     104 rows
+02:45:35  INFO    firms              VIIRS_NOAA20_SP    2023-10-17 ->     194 rows
+02:45:37  INFO    firms              VIIRS_NOAA20_SP    2023-10-22 ->     164 rows
+02:45:38  INFO    firms              VIIRS_NOAA20_SP    2023-10-27 ->      90 rows
+02:45:40  INFO    firms              VIIRS_NOAA20_SP    2023-11-01 ->     365 rows
+02:45:42  INFO    firms              VIIRS_NOAA20_SP    2023-11-06 ->     300 rows
+02:45:44  INFO    firms              VIIRS_NOAA20_SP    2023-11-11 ->     270 rows
+02:45:46  INFO    firms              VIIRS_NOAA20_SP    2023-11-16 ->     849 rows
+02:45:48  INFO    firms              VIIRS_NOAA20_SP    2023-11-21 ->    1054 rows
+02:45:50  INFO    firms              VIIRS_NOAA20_SP    2023-11-26 ->    1039 rows
+02:45:53  INFO    firms              VIIRS_NOAA20_SP    2023-12-01 ->     830 rows
+02:45:55  INFO    firms              VIIRS_NOAA20_SP    2023-12-06 ->    1516 rows
+02:45:58  INFO    firms              VIIRS_NOAA20_SP    2023-12-11 ->    1532 rows
+02:46:00  INFO    firms              VIIRS_NOAA20_SP    2023-12-16 ->    1812 rows
+02:46:02  INFO    firms              VIIRS_NOAA20_SP    2023-12-21 ->    2064 rows
+02:46:05  INFO    firms              VIIRS_NOAA20_SP    2023-12-26 ->    2247 rows
+02:46:07  INFO    firms              VIIRS_NOAA20_SP    2023-12-31 ->    2965 rows
+02:46:10  INFO    firms              VIIRS_NOAA20_SP    2024-01-05 ->    4375 rows
+02:46:13  INFO    firms              VIIRS_NOAA20_SP    2024-01-10 ->    4393 rows
+02:46:17  INFO    firms              VIIRS_NOAA20_SP    2024-01-15 ->    8042 rows
+02:46:20  INFO    firms              VIIRS_NOAA20_SP    2024-01-20 ->    8791 rows
+02:46:25  INFO    firms              VIIRS_NOAA20_SP    2024-01-25 ->    9677 rows
+02:46:29  INFO    firms              VIIRS_NOAA20_SP    2024-01-30 ->    6818 rows
+02:46:35  INFO    firms              VIIRS_NOAA20_SP    2024-02-04 ->    8952 rows
+02:46:44  INFO    firms              VIIRS_NOAA20_SP    2024-02-09 ->   20089 rows
+02:46:52  INFO    firms              VIIRS_NOAA20_SP    2024-02-14 ->   18040 rows
+02:46:58  INFO    firms              VIIRS_NOAA20_SP    2024-02-19 ->   16157 rows
+02:47:05  INFO    firms              VIIRS_NOAA20_SP    2024-02-24 ->   18795 rows
+02:47:13  INFO    firms              VIIRS_NOAA20_SP    2024-02-29 ->   22559 rows
+02:47:21  INFO    firms              VIIRS_NOAA20_SP    2024-03-05 ->   26503 rows
+02:47:29  INFO    firms              VIIRS_NOAA20_SP    2024-03-10 ->   26553 rows
+02:47:37  INFO    firms              VIIRS_NOAA20_SP    2024-03-15 ->   20958 rows
+02:47:43  INFO    firms              VIIRS_NOAA20_SP    2024-03-20 ->   11686 rows
+02:47:51  INFO    firms              VIIRS_NOAA20_SP    2024-03-25 ->   22583 rows
+02:48:01  INFO    firms              VIIRS_NOAA20_SP    2024-03-30 ->   41237 rows
+02:48:09  INFO    firms              VIIRS_NOAA20_SP    2024-04-04 ->   34185 rows
+02:48:14  INFO    firms              VIIRS_NOAA20_SP    2024-04-09 ->   13722 rows
+02:48:21  INFO    firms              VIIRS_NOAA20_SP    2024-04-14 ->   16506 rows
+02:48:28  INFO    firms              VIIRS_NOAA20_SP    2024-04-19 ->   18647 rows
+02:48:36  INFO    firms              VIIRS_NOAA20_SP    2024-04-24 ->   25795 rows
+02:48:45  INFO    firms              VIIRS_NOAA20_SP    2024-04-29 ->   32342 rows
+02:48:49  INFO    firms              VIIRS_NOAA20_SP    2024-05-04 ->    7708 rows
+02:48:51  INFO    firms              VIIRS_NOAA20_SP    2024-05-09 ->    2124 rows
+02:48:54  INFO    firms              VIIRS_NOAA20_SP    2024-05-14 ->    1742 rows
+02:48:58  INFO    firms              VIIRS_NOAA20_SP    2024-05-19 ->     517 rows
+02:49:00  INFO    firms              VIIRS_NOAA20_SP    2024-05-24 ->     360 rows
+02:49:04  INFO    firms              VIIRS_NOAA20_SP    2024-05-29 ->     372 rows
+02:49:06  INFO    firms              VIIRS_NOAA20_SP    2024-06-03 ->     414 rows
+02:49:09  INFO    firms              VIIRS_NOAA20_SP    2024-06-08 ->     359 rows
+02:49:11  INFO    firms              VIIRS_NOAA20_SP    2024-06-13 ->     649 rows
+02:49:15  INFO    firms              VIIRS_NOAA20_SP    2024-06-18 ->     408 rows
+02:49:20  INFO    firms              VIIRS_NOAA20_SP    2024-06-23 ->      56 rows
+02:49:24  INFO    firms              VIIRS_NOAA20_SP    2024-06-28 ->     125 rows
+02:49:27  INFO    firms              VIIRS_NOAA20_SP    2024-07-03 ->     133 rows
+02:49:29  INFO    firms              VIIRS_NOAA20_SP    2024-07-08 ->     202 rows
+02:49:30  INFO    firms              VIIRS_NOAA20_SP    2024-07-13 ->      51 rows
+02:49:32  INFO    firms              VIIRS_NOAA20_SP    2024-07-18 ->      43 rows
+02:49:33  INFO    firms              VIIRS_NOAA20_SP    2024-07-23 ->      59 rows
+02:49:35  INFO    firms              VIIRS_NOAA20_SP    2024-07-28 ->     116 rows
+02:49:36  INFO    firms              VIIRS_NOAA20_SP    2024-08-02 ->     253 rows
+02:49:48  INFO    firms              VIIRS_NOAA20_SP    2024-08-07 ->     522 rows
+02:49:53  INFO    firms              VIIRS_NOAA20_SP    2024-08-12 ->     316 rows
+02:49:57  INFO    firms              VIIRS_NOAA20_SP    2024-08-17 ->     225 rows
+02:50:05  INFO    firms              VIIRS_NOAA20_SP    2024-08-22 ->     185 rows
+02:50:07  INFO    firms              VIIRS_NOAA20_SP    2024-08-27 ->     168 rows
+02:50:24  INFO    firms              VIIRS_NOAA20_SP    2024-09-01 ->     176 rows
+02:50:29  INFO    firms              VIIRS_NOAA20_SP    2024-09-06 ->      33 rows
+02:50:34  INFO    firms              VIIRS_NOAA20_SP    2024-09-11 ->      82 rows
+02:50:38  INFO    firms              VIIRS_NOAA20_SP    2024-09-16 ->      61 rows
+02:50:40  INFO    firms              VIIRS_NOAA20_SP    2024-09-21 ->      17 rows
+02:50:41  INFO    firms              VIIRS_NOAA20_SP    2024-09-26 ->     168 rows
+02:50:43  INFO    firms              VIIRS_NOAA20_SP    2024-10-01 ->     156 rows
+02:50:45  INFO    firms              VIIRS_NOAA20_SP    2024-10-06 ->     255 rows
+02:50:47  INFO    firms              VIIRS_NOAA20_SP    2024-10-11 ->     233 rows
+02:50:48  INFO    firms              VIIRS_NOAA20_SP    2024-10-16 ->     138 rows
+02:50:53  INFO    firms              VIIRS_NOAA20_SP    2024-10-21 ->     216 rows
+02:50:58  INFO    firms              VIIRS_NOAA20_SP    2024-10-26 ->     249 rows
+02:51:01  INFO    firms              VIIRS_NOAA20_SP    2024-10-31 ->     456 rows
+02:51:07  INFO    firms              VIIRS_NOAA20_SP    2024-11-05 ->     312 rows
+02:51:10  INFO    firms              VIIRS_NOAA20_SP    2024-11-10 ->     823 rows
+02:51:14  INFO    firms              VIIRS_NOAA20_SP    2024-11-15 ->     752 rows
+02:51:19  INFO    firms              VIIRS_NOAA20_SP    2024-11-20 ->     748 rows
+02:51:22  INFO    firms              VIIRS_NOAA20_SP    2024-11-25 ->     635 rows
+02:51:26  INFO    firms              VIIRS_NOAA20_SP    2024-11-30 ->    1553 rows
+02:51:33  INFO    firms              VIIRS_NOAA20_SP    2024-12-05 ->    1483 rows
+02:51:36  INFO    firms              VIIRS_NOAA20_SP    2024-12-10 ->     785 rows
+02:51:38  INFO    firms              VIIRS_NOAA20_SP    2024-12-15 ->    2168 rows
+02:51:44  INFO    firms              VIIRS_NOAA20_SP    2024-12-20 ->    2536 rows
+02:51:47  INFO    firms              VIIRS_NOAA20_SP    2024-12-25 ->    2607 rows
+02:51:51  INFO    firms              VIIRS_NOAA20_SP    2024-12-30 ->    3735 rows
+02:51:57  INFO    firms              VIIRS_NOAA20_SP    2025-01-04 ->    6885 rows
+02:52:02  INFO    firms              VIIRS_NOAA20_SP    2025-01-09 ->    8707 rows
+02:52:09  INFO    firms              VIIRS_NOAA20_SP    2025-01-14 ->    7510 rows
+02:52:14  INFO    firms              VIIRS_NOAA20_SP    2025-01-19 ->    6114 rows
+02:52:20  INFO    firms              VIIRS_NOAA20_SP    2025-01-24 ->    9747 rows
+02:52:26  INFO    firms              VIIRS_NOAA20_SP    2025-01-29 ->   13142 rows
+02:52:33  INFO    firms              VIIRS_NOAA20_SP    2025-02-03 ->   11704 rows
+02:52:41  INFO    firms              VIIRS_NOAA20_SP    2025-02-08 ->   16157 rows
+02:52:46  INFO    firms              VIIRS_NOAA20_SP    2025-02-13 ->   16128 rows
+02:52:51  INFO    firms              VIIRS_NOAA20_SP    2025-02-18 ->    9780 rows
+02:52:54  INFO    firms              VIIRS_NOAA20_SP    2025-02-23 ->    4536 rows
+02:53:01  INFO    firms              VIIRS_NOAA20_SP    2025-02-28 ->   14278 rows
+02:53:07  INFO    firms              VIIRS_NOAA20_SP    2025-03-05 ->   15867 rows
+02:53:14  INFO    firms              VIIRS_NOAA20_SP    2025-03-10 ->   14232 rows
+02:53:20  INFO    firms              VIIRS_NOAA20_SP    2025-03-15 ->   18853 rows
+02:53:29  INFO    firms              VIIRS_NOAA20_SP    2025-03-20 ->   22001 rows
+02:53:42  INFO    firms              VIIRS_NOAA20_SP    2025-03-25 ->   47579 rows
+02:53:48  INFO    firms              VIIRS_NOAA20_SP    2025-03-30 ->   20646 rows
+02:53:52  INFO    firms              VIIRS_NOAA20_SP    2025-04-04 ->   10103 rows
+02:53:57  INFO    firms              VIIRS_NOAA20_SP    2025-04-09 ->   10545 rows
+02:54:00  INFO    firms              VIIRS_NOAA20_SP    2025-04-14 ->    2983 rows
+02:54:04  INFO    firms              VIIRS_NOAA20_SP    2025-04-19 ->    9134 rows
+02:54:09  INFO    firms              VIIRS_NOAA20_SP    2025-04-24 ->   12717 rows
+02:54:11  INFO    firms              VIIRS_NOAA20_SP    2025-04-29 ->    1827 rows
+02:54:17  INFO    firms              VIIRS_NOAA20_SP    2025-05-04 ->    4067 rows
+02:54:22  INFO    firms              VIIRS_NOAA20_SP    2025-05-09 ->    1820 rows
+02:54:25  INFO    firms              VIIRS_NOAA20_SP    2025-05-14 ->     324 rows
+02:54:29  INFO    firms              VIIRS_NOAA20_SP    2025-05-19 ->     307 rows
+02:54:33  INFO    firms              VIIRS_NOAA20_SP    2025-05-24 ->      78 rows
+02:54:36  INFO    firms              VIIRS_NOAA20_SP    2025-05-29 ->     251 rows
+02:54:38  INFO    firms              VIIRS_NOAA20_SP    2025-06-03 ->     295 rows
+02:54:40  INFO    firms              VIIRS_NOAA20_SP    2025-06-08 ->     115 rows
+02:54:42  INFO    firms              VIIRS_NOAA20_SP    2025-06-13 ->     146 rows
+02:54:43  INFO    firms              VIIRS_NOAA20_SP    2025-06-18 ->      74 rows
+02:54:44  INFO    firms              VIIRS_NOAA20_SP    2025-06-23 ->     130 rows
+02:54:46  INFO    firms              VIIRS_NOAA20_SP    2025-06-28 ->      74 rows
+02:54:47  INFO    firms              VIIRS_NOAA20_SP    2025-07-03 ->     108 rows
+02:54:49  INFO    firms              VIIRS_NOAA20_SP    2025-07-08 ->     195 rows
+02:54:51  INFO    firms              VIIRS_NOAA20_SP    2025-07-13 ->     162 rows
+02:54:52  INFO    firms              VIIRS_NOAA20_SP    2025-07-18 ->      55 rows
+02:54:54  INFO    firms              VIIRS_NOAA20_SP    2025-07-23 ->     161 rows
+02:54:56  INFO    firms              VIIRS_NOAA20_SP    2025-07-28 ->     221 rows
+02:54:57  INFO    firms              VIIRS_NOAA20_SP    2025-08-02 ->     425 rows
+02:54:59  INFO    firms              VIIRS_NOAA20_SP    2025-08-07 ->     535 rows
+02:55:01  INFO    firms              VIIRS_NOAA20_SP    2025-08-12 ->     309 rows
+02:55:02  INFO    firms              VIIRS_NOAA20_SP    2025-08-17 ->     140 rows
+02:55:04  INFO    firms              VIIRS_NOAA20_SP    2025-08-22 ->      51 rows
+02:55:05  INFO    firms              VIIRS_NOAA20_SP    2025-08-27 ->      89 rows
+02:55:07  INFO    firms              VIIRS_NOAA20_SP    2025-09-01 ->     134 rows
+02:55:08  INFO    firms              VIIRS_NOAA20_SP    2025-09-06 ->     115 rows
+02:55:10  INFO    firms              VIIRS_NOAA20_SP    2025-09-11 ->     112 rows
+02:55:11  INFO    firms              VIIRS_NOAA20_SP    2025-09-16 ->     106 rows
+02:55:12  INFO    firms              VIIRS_NOAA20_SP    2025-09-21 ->     107 rows
+02:55:14  INFO    firms              VIIRS_NOAA20_SP    2025-09-26 ->      30 rows
+02:55:15  INFO    firms              VIIRS_NOAA20_SP    2025-10-01 ->     141 rows
+02:55:17  INFO    firms              VIIRS_NOAA20_SP    2025-10-06 ->     128 rows
+02:55:18  INFO    firms              VIIRS_NOAA20_SP    2025-10-11 ->      79 rows
+02:55:20  INFO    firms              VIIRS_NOAA20_SP    2025-10-16 ->     111 rows
+02:55:21  INFO    firms              VIIRS_NOAA20_SP    2025-10-21 ->     118 rows
+02:55:22  INFO    firms              VIIRS_NOAA20_SP    2025-10-26 ->     113 rows
+02:55:24  INFO    firms              VIIRS_NOAA20_SP    2025-10-31 ->      37 rows
+02:55:26  INFO    firms              VIIRS_NOAA20_SP    2025-11-05 ->      47 rows
+02:55:27  INFO    firms              VIIRS_NOAA20_SP    2025-11-10 ->     125 rows
+02:55:28  INFO    firms              VIIRS_NOAA20_SP    2025-11-15 ->     150 rows
+02:55:30  INFO    firms              VIIRS_NOAA20_SP    2025-11-20 ->     581 rows
+02:55:33  INFO    firms              VIIRS_NOAA20_SP    2025-11-25 ->    1416 rows
+02:55:35  INFO    firms              VIIRS_NOAA20_SP    2025-11-30 ->    1472 rows
+02:55:37  INFO    firms              VIIRS_NOAA20_SP    2025-12-05 ->    1226 rows
+02:55:39  INFO    firms              VIIRS_NOAA20_SP    2025-12-10 ->     423 rows
+02:55:41  INFO    firms              VIIRS_NOAA20_SP    2025-12-15 ->    1463 rows
+02:55:43  INFO    firms              VIIRS_NOAA20_SP    2025-12-20 ->    1703 rows
+02:55:51  INFO    firms              VIIRS_NOAA20_SP    2025-12-25 ->    2429 rows
+02:55:55  INFO    firms              VIIRS_NOAA20_SP    2025-12-30 ->    2941 rows
+02:55:58  INFO    firms              VIIRS_NOAA20_SP    2026-01-04 ->    4604 rows
+02:56:02  INFO    firms              VIIRS_NOAA20_SP    2026-01-09 ->    5423 rows
+02:56:05  INFO    firms              VIIRS_NOAA20_SP    2026-01-14 ->    4229 rows
+02:56:09  INFO    firms              VIIRS_NOAA20_SP    2026-01-19 ->    6019 rows
+02:56:13  INFO    firms              VIIRS_NOAA20_SP    2026-01-24 ->    6856 rows
+02:56:17  INFO    firms              VIIRS_NOAA20_SP    2026-01-29 ->    9443 rows
+02:56:21  INFO    firms              VIIRS_NOAA20_SP    2026-02-03 ->    6434 rows
+02:56:25  INFO    firms              VIIRS_NOAA20_SP    2026-02-08 ->   11208 rows
+02:56:31  INFO    firms              VIIRS_NOAA20_SP    2026-02-13 ->   15272 rows
+02:56:36  INFO    firms              VIIRS_NOAA20_SP    2026-02-18 ->   11583 rows
+02:56:39  INFO    firms              VIIRS_NOAA20_SP    2026-02-23 ->    2250 rows
+02:56:44  INFO    firms              VIIRS_NOAA20_SP    2026-02-28 ->   13204 rows
+02:56:50  INFO    firms              VIIRS_NOAA20_SP    2026-03-05 ->   12529 rows
+02:56:53  INFO    firms              VIIRS_NOAA20_SP    2026-03-10 ->    7008 rows
+02:56:58  INFO    firms              VIIRS_NOAA20_SP    2026-03-15 ->   11053 rows
+02:57:06  INFO    firms              VIIRS_NOAA20_SP    2026-03-20 ->   23600 rows
+02:57:17  INFO    firms              VIIRS_NOAA20_SP    2026-03-25 ->   45904 rows
+02:57:25  INFO    firms              VIIRS_NOAA20_SP    2026-03-30 ->   44837 rows
+02:57:35  INFO    firms              VIIRS_NOAA20_SP    2026-04-04 ->   38226 rows
+02:57:50  INFO    firms              VIIRS_NOAA20_SP    2026-04-09 ->   71304 rows
+02:57:59  INFO    firms              VIIRS_NOAA20_SP    2026-04-14 ->   46045 rows
+02:58:03  INFO    firms              VIIRS_NOAA20_SP    2026-04-19 ->   14381 rows
+02:58:06  INFO    firms              VIIRS_NOAA20_SP    2026-04-24 ->    5063 rows
+02:58:08  INFO    firms              VIIRS_NOAA20_SP    2026-04-29 ->    4894 rows
+02:58:10  INFO    firms              VIIRS_NOAA20_SP    2026-05-04 ->    2742 rows
+02:58:12  INFO    firms              VIIRS_NOAA20_SP    2026-05-09 ->     740 rows
+02:58:14  INFO    firms              VIIRS_NOAA20_SP    2026-05-14 ->     679 rows
+02:58:16  INFO    firms              VIIRS_NOAA20_SP    2026-05-19 ->     472 rows
+02:58:19  INFO    firms              VIIRS_NOAA20_SP    2026-05-24 ->    1539 rows
+02:58:20  INFO    firms              VIIRS_NOAA20_SP    2026-05-29 ->     542 rows
+02:58:22  INFO    firms              VIIRS_NOAA20_SP    2026-06-03 ->     307 rows
+02:58:23  INFO    firms              VIIRS_NOAA20_SP    2026-06-08 ->      79 rows
+02:58:25  INFO    firms              VIIRS_NOAA20_SP    2026-06-13 ->     239 rows
+02:58:27  INFO    firms              VIIRS_NOAA20_SP    2026-06-18 ->     198 rows
+02:58:29  INFO    firms              VIIRS_NOAA20_SP    2026-06-23 ->     429 rows
+02:58:30  INFO    firms              VIIRS_NOAA20_SP    2026-06-28 ->     152 rows
+02:58:31  INFO    firms              VIIRS_NOAA20_SP    2026-07-03 ->      36 rows
+02:58:33  INFO    firms              VIIRS_NOAA20_SP    2026-07-08 ->     209 rows
+02:58:35  INFO    firms              VIIRS_NOAA20_SP    2026-07-13 ->     103 rows
+02:58:37  INFO    firms              VIIRS_NOAA20_SP    2026-07-18 ->     725 rows
+02:58:38  INFO    firms              VIIRS_NOAA20_SP    2026-07-23 ->     148 rows
+02:58:39  INFO    firms              VIIRS_NOAA20_SP: holding back partial window 2026-07-28 .. 2026-07-31 until the archive covers all of it
+02:58:39  INFO    firms              == VIIRS_NOAA20_SP total: 3871542 rows ==
+02:58:39  INFO    firms              FIRMS TOTAL: 10206832 rows
+
+=== 8/8  Inventory ===
+
+Source presence:
+  FIRMS (sp)     ok        2736 file(s)
+  FIRMS (nrt)    ok        261 file(s)
+  FIRMS (ctry)   ok        48 file(s)
+  NDVI           EMPTY     0 file(s)
+  Land cover     EMPTY     0 file(s)
+  WDPA           ok        3 file(s)
+  Boundaries     ok        1 file(s)
+
+Raw inventory — Thailand
+----------------------------------------------------
+  MODIS_NRT                       14 files           823 rows
+  MODIS_SP                      1067 files     1,365,914 rows
+  VIIRS_NOAA20_NRT                21 files         4,363 rows
+  VIIRS_NOAA20_SP                608 files     3,871,542 rows
+  VIIRS_NOAA21_NRT               206 files     1,134,795 rows
+  VIIRS_SNPP_NRT                  20 files         3,483 rows
+  VIIRS_SNPP_SP                 1061 files     7,212,793 rows
+----------------------------------------------------
+  TOTAL                         2997 files    13,593,713 rows
+
+  OK: 13,593,713 >= 5,000,000 required.
+  Put this number in the proposal.
+
+Reference — FIRMS country archive (NOT counted above)
+----------------------------------------------------
+  MODIS_SP                        26 files       667,668 rows
+  VIIRS_NOAA20_SP                  8 files     1,122,296 rows
+  VIIRS_SNPP_SP                   14 files     2,292,596 rows
+----------------------------------------------------
+  REFERENCE TOTAL                 48 files     4,082,560 rows
+
+  NASA-clipped to the country border. Every row is already in
+  firms/sp under a wider bbox, so these are excluded from the
+  count above. Use them to verify the admin clip, not to pad it.
+
+Distinct CSV schemas found (this is your reconciliation problem):
+
+  Schema 1 — used by: MODIS_NRT
+    latitude, longitude, brightness, scan, track, acq_date, acq_time, satellite, instrument, confidence, version, bright_t31, frp, daynight, src_sensor, src_window_start, src_ingested_at
+
+  Schema 2 — used by: VIIRS_NOAA20_NRT, VIIRS_NOAA21_NRT, VIIRS_SNPP_NRT
+    latitude, longitude, bright_ti4, scan, track, acq_date, acq_time, satellite, instrument, confidence, version, bright_ti5, frp, daynight, src_sensor, src_window_start, src_ingested_at
+
+  Schema 3 — used by: MODIS_SP
+    latitude, longitude, brightness, scan, track, acq_date, acq_time, satellite, instrument, confidence, version, bright_t31, frp, daynight, type, src_sensor, src_window_start, src_ingested_at
+
+  Schema 4 — used by: VIIRS_NOAA20_SP, VIIRS_SNPP_SP
+    latitude, longitude, bright_ti4, scan, track, acq_date, acq_time, satellite, instrument, confidence, version, bright_ti5, frp, daynight, type, src_sensor, src_window_start, src_ingested_at
+
+  Common to all schemas (15): acq_date, acq_time, confidence, daynight, frp, instrument, latitude, longitude, satellite, scan, src_ingested_at, src_sensor, src_window_start, track, version
+  Divergent (5): bright_t31, bright_ti4, bright_ti5, brightness, type
+
+  The divergent set is what your conformed staging table must harmonise.
+
+AppEEARS runs server-side. Collect it later with:
+  python extract_appeears.py --status     python extract_landcover.py --status
+  python extract_appeears.py --download   python extract_landcover.py --download

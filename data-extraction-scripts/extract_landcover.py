@@ -37,7 +37,9 @@ import requests
 
 import config
 from common import get_logger, record_manifest, session
-from extract_appeears import auth_header, build_point_grid, chunks, login
+from extract_appeears import (LOOKUP_FAILED, auth_header, build_point_grid, chunks,
+                              fetch_bundle_file, is_failed, login, post_task,
+                              report_problems, server_tasks)
 
 log = get_logger("landcover")
 
@@ -94,76 +96,6 @@ def dry_run() -> None:
     print(json.dumps(payload, indent=2))
 
 
-def server_tasks(sess: requests.Session, token: str) -> dict[str, dict]:
-    """
-    Every task on the account that is not failed, keyed by task_name.
-
-    If two live tasks share a name, the most recently created one wins.
-    """
-    found: dict[str, dict] = {}
-    offset, page = 0, 100
-    while True:
-        resp = sess.get(f"{config.APPEEARS_BASE}/task",
-                        params={"limit": page, "offset": offset},
-                        headers=auth_header(token), timeout=120)
-        resp.raise_for_status()
-        batch = resp.json()
-        for t in sorted(batch, key=lambda t: t.get("created") or ""):
-            if not is_failed(t.get("status") or ""):
-                found[t["task_name"]] = t
-        if len(batch) < page:
-            return found
-        offset += page
-
-
-def post_task(sess: requests.Session, token: str, name: str,
-              batch: list[dict]) -> str:
-    """
-    Submit one task and return its id.
-
-    A 5xx or a dropped connection does NOT mean the task was not created:
-    AppEEARS can accept the task and then time out at the gateway. Blindly
-    retrying would queue a duplicate. So after any ambiguous failure, look the
-    task up by name first and only resubmit if it is genuinely absent.
-    """
-    for attempt in range(config.MAX_RETRIES):
-        try:
-            resp = sess.post(f"{config.APPEEARS_BASE}/task",
-                             json=build_task(batch, name),
-                             headers=auth_header(token), timeout=180)
-            if resp.status_code < 400:
-                return resp.json()["task_id"]
-            if resp.status_code < 500 and resp.status_code != 429:
-                log.error("submission rejected (%s): %s",
-                          resp.status_code, resp.text[:300])
-                log.error("If this mentions coordinate limits, lower "
-                          "LANDCOVER_POINTS_PER_TASK in config.py and re-run.")
-                sys.exit(1)
-            problem = f"HTTP {resp.status_code}"
-        except requests.RequestException as exc:
-            problem = type(exc).__name__
-
-        wait = 15 * 2 ** attempt
-        log.warning("%s on %s (attempt %d/%d); checking server in %ds",
-                    problem, name, attempt + 1, config.MAX_RETRIES, wait)
-        time.sleep(wait)
-
-        try:
-            existing = server_tasks(sess, token).get(name)
-        except requests.RequestException as exc:
-            log.warning("could not list tasks (%s); will retry submit",
-                        type(exc).__name__)
-            continue
-        if existing:
-            log.info("%s was created despite the error; adopting it", name)
-            return existing["task_id"]
-
-    log.error("gave up on %s after %d attempts. AppEEARS looks unhealthy; "
-              "re-run --submit later, completed tasks are kept.",
-              name, config.MAX_RETRIES)
-    sys.exit(1)
-
-
 def submit(sess: requests.Session, token: str) -> None:
     tasks = plan()
     cache = load_cache()
@@ -183,7 +115,8 @@ def submit(sess: requests.Session, token: str) -> None:
             log.info("already submitted: %s", name)
             continue
 
-        task_id = post_task(sess, token, name, batch)
+        task_id = post_task(sess, token, name, build_task(batch, name),
+                            "LANDCOVER_POINTS_PER_TASK")
         cache[name] = {"task_id": task_id, "points": len(batch)}
         save_cache(cache)
         log.info("queued %s -> %s", name, task_id)
@@ -206,7 +139,7 @@ def status(sess: requests.Session, token: str, verbose: bool = True) -> dict:
             resp.raise_for_status()
             states[name] = resp.json().get("status", "unknown")
         except Exception as exc:
-            states[name] = f"lookup-failed ({type(exc).__name__})"
+            states[name] = f"{LOOKUP_FAILED} ({type(exc).__name__})"
 
         if verbose:
             log.info("%-32s %s", name, states[name])
@@ -217,17 +150,8 @@ def status(sess: requests.Session, token: str, verbose: bool = True) -> dict:
     log.info("SUMMARY: %s  (%d tasks)",
              "  ".join(f"{k}={v}" for k, v in sorted(counts.items())), len(states))
 
-    failed = [n for n, s in states.items() if is_failed(s)]
-    if failed:
-        log.error("%d task(s) failed and will never download: %s",
-                  len(failed), ", ".join(failed))
-        log.error("Remove them from %s and re-run --submit to retry.", TASK_CACHE)
-
+    report_problems(states, TASK_CACHE)
     return states
-
-
-def is_failed(state: str) -> bool:
-    return "error" in state.lower() or "failed" in state.lower()
 
 
 def wait_and_download(sess: requests.Session, token: str,
@@ -277,17 +201,11 @@ def download_bundles(sess: requests.Session, token: str) -> None:
             if target.exists():
                 continue
 
+            # Same retrying .part-and-rename download as NDVI: one bad
+            # CloudFront signature must not abort the other finished tasks.
             url = f"{config.APPEEARS_BASE}/bundle/{task_id}/{item['file_id']}"
-            r = sess.get(url, headers=auth_header(token), stream=True, timeout=600)
-            r.raise_for_status()
-
-            # Write to .part and rename, so an interrupted download is retried
-            # next run instead of being skipped as if complete.
-            part = target.with_suffix(target.suffix + ".part")
-            with open(part, "wb") as fh:
-                for chunk in r.iter_content(1 << 20):
-                    fh.write(chunk)
-            part.rename(target)
+            if not fetch_bundle_file(sess, token, url, target):
+                continue
 
             with open(target) as fh:
                 rows = max(0, sum(1 for _ in fh) - 1)

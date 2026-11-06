@@ -174,8 +174,8 @@ NDVI_LAYERS = [
 ]
 
 # Point-sample grid spacing in degrees. 0.1 deg over the Thailand box is
-# roughly 8,000 points. Each point yields ~23 observations/year, so
-# 8,000 x 23 x 14 years is comfortably into the millions of rows.
+# roughly 14,600 points (161 x 91). Each point yields ~23 observations/year,
+# so 14,600 x 23 x 14 years is comfortably into the millions of rows.
 #
 # AppEEARS enforces a per-request limit on point count. Chunk accordingly and
 # VERIFY the current limit in the API docs before a large run.
@@ -204,11 +204,14 @@ GADM_URL = f"https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{ISO3}.gpkg"
 
 # ---------------------------------------------------------------- filesystem
 
-RAW = Path("./raw")
+# Anchored to this file, not the current directory, so every script writes to
+# the same landing zone no matter where it is launched from.
+RAW = Path(__file__).resolve().parent / "raw"
 
 RAW_FIRMS = RAW / "firms"
 RAW_FIRMS_COUNTRY = RAW / "firms_country"
 RAW_WDPA = RAW / "wdpa"
+RAW_WDPA_HISTORY = RAW / "wdpa_historical"   # filled by hand from Google Drive
 RAW_NDVI = RAW / "ndvi"
 RAW_LANDCOVER = RAW / "landcover"
 RAW_BOUNDARIES = RAW / "boundaries"

@@ -12,8 +12,10 @@ Single entry point for every extractor. Each source runs independently.
 Arguments after the source name are passed straight through, so the
 per-script flags all still work:
 
-    python extract.py firms --dry-run
-    python extract.py firms --sensor MODIS_SP --limit 3
+    python extract.py firms --availability
+    python extract.py firms --probe MODIS_SP 2012-01-20
+    python extract.py firms-nrt --dry-run
+    python extract.py firms-country --list
     python extract.py ndvi --status
     python extract.py wdpa --country THA
 
@@ -34,13 +36,17 @@ SOURCES = {
     "boundaries": ("extract_boundaries.py", "GADM admin levels 0-3", config.RAW_BOUNDARIES),
     "wdpa": ("extract_wdpa.py", "Protected areas, current release", config.RAW_WDPA),
     "wdpa-history": ("extract_wdpa_history.py",
-                     "WDPA monthly snapshots via Earth Engine (SCD2)", None),
+                     "WDPA monthly snapshots via Earth Engine (SCD2)",
+                     config.RAW_WDPA_HISTORY),
     "ndvi": ("extract_appeears.py", "MOD13Q1 NDVI via AppEEARS (async)", config.RAW_NDVI),
     "landcover": ("extract_landcover.py", "MCD12Q1 land cover via AppEEARS (async, SCD2)",
                   config.RAW_LANDCOVER),
     "firms": ("extract_firms.py", "Active fire detections (the big one)", config.RAW_FIRMS / "sp"),
     "firms-nrt": ("extract_firms_nrt.py", "NRT fire detections (run regularly)",
                   config.RAW_FIRMS / "nrt"),
+    "firms-country": ("extract_firms_country.py",
+                      "Country-clipped archive (reference, not counted)",
+                      config.RAW_FIRMS_COUNTRY),
     "inventory": ("inventory.py", "Row counts and schema report", None),
 }
 
@@ -57,10 +63,10 @@ def show_list() -> None:
         else:
             n = len([p for p in folder.rglob("*") if p.is_file()])
             state = f"  [{n} file(s)]" if n else "  [EMPTY]"
-        print(f"  {name:<12} {desc}{state}")
+        print(f"  {name:<14} {desc}{state}")
 
     print("\n  python extract.py <source> [flags]")
-    print("  python extract.py firms --dry-run     <- start here when debugging\n")
+    print("  python extract.py firms --probe MODIS_SP 2012-01-20   <- start here when debugging\n")
 
 
 def main() -> int:

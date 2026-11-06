@@ -48,6 +48,9 @@ log = get_logger("appeears")
 
 TASK_CACHE = config.RAW_NDVI / "_tasks.json"
 
+# Prefix of the status recorded when a task's status could not be fetched.
+LOOKUP_FAILED = "lookup-failed"
+
 
 # ---------------------------------------------------------------- auth
 
@@ -76,9 +79,9 @@ def build_point_grid() -> list[dict]:
     """
     Regular lat/lon grid over the study bounding box.
 
-    A 0.1 degree step over Thailand is roughly 8,000 points. At ~23 sixteen-day
-    composites per year over 14 years that is well into the millions of rows,
-    which is the point.
+    A 0.1 degree step over the Thailand box is roughly 14,600 points. At ~23
+    sixteen-day composites per year over 14 years that is well into the
+    millions of rows, which is the point.
 
     Note this grid is naive: it includes sea and non-vegetated cells. Filter in
     staging using the admin boundaries rather than here, so the raw zone stays
@@ -132,30 +135,104 @@ def build_task(points: list[dict], name: str) -> dict:
     }
 
 
+def server_tasks(sess: requests.Session, token: str) -> dict[str, dict]:
+    """
+    Every task on the account that is not failed, keyed by task_name.
+
+    If two live tasks share a name, the most recently created one wins.
+    Shared by the NDVI and land cover extractors.
+    """
+    found: dict[str, dict] = {}
+    offset, page = 0, 100
+    while True:
+        resp = sess.get(f"{config.APPEEARS_BASE}/task",
+                        params={"limit": page, "offset": offset},
+                        headers=auth_header(token), timeout=120)
+        resp.raise_for_status()
+        batch = resp.json()
+        for t in sorted(batch, key=lambda t: t.get("created") or ""):
+            if not is_failed(t.get("status") or ""):
+                found[t["task_name"]] = t
+        if len(batch) < page:
+            return found
+        offset += page
+
+
+def post_task(sess: requests.Session, token: str, name: str, payload: dict,
+              limit_setting: str) -> str:
+    """
+    Submit one task and return its id. Shared by NDVI and land cover.
+
+    A 5xx or a dropped connection does NOT mean the task was not created:
+    AppEEARS can accept the task and then time out at the gateway. Blindly
+    retrying would queue a duplicate. So after any ambiguous failure, look the
+    task up by name first and only resubmit if it is genuinely absent.
+
+    `limit_setting` names the config.py knob to lower if AppEEARS rejects the
+    request outright, so the error message points at the right one.
+    """
+    for attempt in range(config.MAX_RETRIES):
+        try:
+            resp = sess.post(f"{config.APPEEARS_BASE}/task", json=payload,
+                             headers=auth_header(token), timeout=180)
+            if resp.status_code < 400:
+                return resp.json()["task_id"]
+            if resp.status_code < 500 and resp.status_code != 429:
+                log.error("submission rejected (%s): %s",
+                          resp.status_code, resp.text[:300])
+                log.error("If this mentions coordinate limits, lower "
+                          "%s in config.py and re-run.", limit_setting)
+                sys.exit(1)
+            problem = f"HTTP {resp.status_code}"
+        except requests.RequestException as exc:
+            problem = type(exc).__name__
+
+        wait = 15 * 2 ** attempt
+        log.warning("%s on %s (attempt %d/%d); checking server in %ds",
+                    problem, name, attempt + 1, config.MAX_RETRIES, wait)
+        time.sleep(wait)
+
+        try:
+            existing = server_tasks(sess, token).get(name)
+        except requests.RequestException as exc:
+            log.warning("could not list tasks (%s); will retry submit",
+                        type(exc).__name__)
+            continue
+        if existing:
+            log.info("%s was created despite the error; adopting it", name)
+            return existing["task_id"]
+
+    log.error("gave up on %s after %d attempts. AppEEARS looks unhealthy; "
+              "re-run --submit later, completed tasks are kept.",
+              name, config.MAX_RETRIES)
+    sys.exit(1)
+
+
 def submit(sess: requests.Session, token: str) -> None:
     points = build_point_grid()
     batches = list(chunks(points, config.NDVI_POINTS_PER_TASK))
-    log.info("submitting %d task(s)", len(batches))
+    tasks = [(f"itcs544_ndvi_{config.ISO3}_{n:03d}", batch)
+             for n, batch in enumerate(batches)]
+    log.info("submitting %d task(s)", len(tasks))
 
     cache = load_cache()
 
-    for n, batch in enumerate(batches):
-        name = f"itcs544_ndvi_{config.ISO3}_{n:03d}"
+    # Adopt tasks that exist server-side but never reached the cache, e.g. a
+    # previous run was killed between creating a task and saving its id.
+    remote = server_tasks(sess, token)
+    for name, batch in tasks:
+        if name not in cache and name in remote:
+            cache[name] = {"task_id": remote[name]["task_id"], "points": len(batch)}
+            log.info("adopted existing server task %s", name)
+    save_cache(cache)
+
+    for name, batch in tasks:
         if name in cache:
             log.info("already submitted: %s", name)
             continue
 
-        resp = sess.post(f"{config.APPEEARS_BASE}/task",
-                         json=build_task(batch, name),
-                         headers=auth_header(token), timeout=120)
-
-        if resp.status_code >= 400:
-            log.error("submission rejected (%s): %s", resp.status_code, resp.text[:300])
-            log.error("If this mentions coordinate limits, lower "
-                      "NDVI_POINTS_PER_TASK in config.py and re-run.")
-            sys.exit(1)
-
-        task_id = resp.json()["task_id"]
+        task_id = post_task(sess, token, name, build_task(batch, name),
+                            "NDVI_POINTS_PER_TASK")
         cache[name] = {"task_id": task_id, "points": len(batch)}
         save_cache(cache)
         log.info("queued %s -> %s", name, task_id)
@@ -185,7 +262,7 @@ def status(sess: requests.Session, token: str, verbose: bool = True) -> dict:
             resp.raise_for_status()
             states[name] = resp.json().get("status", "unknown")
         except Exception as exc:
-            states[name] = f"lookup-failed ({type(exc).__name__})"
+            states[name] = f"{LOOKUP_FAILED} ({type(exc).__name__})"
 
         if verbose:
             log.info("%-28s %s", name, states[name])
@@ -197,14 +274,33 @@ def status(sess: requests.Session, token: str, verbose: bool = True) -> dict:
     summary = "  ".join(f"{k}={v}" for k, v in sorted(counts.items()))
     log.info("SUMMARY: %s  (%d tasks)", summary, len(states))
 
-    failed = [n for n, s in states.items() if "error" in s.lower()
-              or "failed" in s.lower()]
+    report_problems(states, TASK_CACHE)
+    return states
+
+
+def is_failed(state: str) -> bool:
+    """
+    True only for tasks AppEEARS itself reports as failed.
+
+    A status we could not fetch says nothing about the task, so it is not a
+    failure -- even though the exception name in it often contains "Error".
+    """
+    if state.startswith(LOOKUP_FAILED):
+        return False
+    return "error" in state.lower() or "failed" in state.lower()
+
+
+def report_problems(states: dict[str, str], task_cache: Path) -> None:
+    unreachable = [n for n, s in states.items() if s.startswith(LOOKUP_FAILED)]
+    if unreachable:
+        log.warning("%d task status lookup(s) failed; they will be checked "
+                    "again on the next poll: %s", len(unreachable), ", ".join(unreachable))
+
+    failed = [n for n, s in states.items() if is_failed(s)]
     if failed:
         log.error("%d task(s) failed and will never download: %s",
                   len(failed), ", ".join(failed))
-        log.error("Remove them from %s and re-run --submit to retry.", TASK_CACHE)
-
-    return states
+        log.error("Remove them from %s and re-run --submit to retry.", task_cache)
 
 
 def wait_and_download(sess: requests.Session, token: str,
@@ -227,9 +323,7 @@ def wait_and_download(sess: requests.Session, token: str,
         if any(s == "done" for s in states.values()):
             download_bundles(sess, token)
 
-        outstanding = [n for n, s in states.items()
-                       if s not in ("done",) and "error" not in s.lower()
-                       and "failed" not in s.lower()]
+        outstanding = [n for n, s in states.items() if s != "done" and not is_failed(s)]
 
         if not outstanding:
             log.info("all tasks finished")
@@ -265,37 +359,7 @@ def download_bundles(sess: requests.Session, token: str) -> None:
                 continue
 
             url = f"{config.APPEEARS_BASE}/bundle/{task_id}/{item['file_id']}"
-
-            # The bundle endpoint 302s to a presigned CloudFront URL, and that
-            # second hop intermittently returns an empty-bodied 400. A fresh
-            # redirect is signed on every attempt, so retrying clears it.
-            # Without this a single bad signature aborted the whole run and
-            # took the other finished tasks with it.
-            part = target.with_suffix(target.suffix + ".part")
-            for attempt in range(1, config.MAX_RETRIES + 1):
-                try:
-                    r = sess.get(url, headers=auth_header(token),
-                                 stream=True, timeout=600)
-                    r.raise_for_status()
-
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    with open(part, "wb") as fh:
-                        for chunk in r.iter_content(1 << 20):
-                            fh.write(chunk)
-                    part.rename(target)
-                    break
-                except requests.RequestException as exc:
-                    part.unlink(missing_ok=True)
-                    code = getattr(exc.response, "status_code", "?")
-                    if attempt == config.MAX_RETRIES:
-                        log.error("%s failed after %d attempts (HTTP %s); "
-                                  "left for the next run", target.name,
-                                  attempt, code)
-                    else:
-                        log.warning("%s attempt %d/%d failed (HTTP %s); retrying",
-                                    target.name, attempt, config.MAX_RETRIES, code)
-                        time.sleep(config.PAUSE_SECONDS * 2 ** attempt)
-            else:
+            if not fetch_bundle_file(sess, token, url, target):
                 continue
 
             try:
@@ -308,6 +372,41 @@ def download_bundles(sess: requests.Session, token: str) -> None:
                             extra={"task": name, "task_id": task_id})
             log.info("downloaded %s (%s rows)", target.name,
                      f"{rows:,}" if rows is not None else "?")
+
+
+def fetch_bundle_file(sess: requests.Session, token: str, url: str,
+                      target: Path) -> bool:
+    """
+    Download one bundle file to target. Returns False if every attempt failed.
+
+    The bundle endpoint 302s to a presigned CloudFront URL, and that second
+    hop intermittently returns an empty-bodied 400. A fresh redirect is signed
+    on every attempt, so retrying clears it. Without this a single bad
+    signature aborted the whole run and took the other finished tasks with it.
+    """
+    part = target.with_suffix(target.suffix + ".part")
+    for attempt in range(1, config.MAX_RETRIES + 1):
+        try:
+            r = sess.get(url, headers=auth_header(token), stream=True, timeout=600)
+            r.raise_for_status()
+
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with open(part, "wb") as fh:
+                for chunk in r.iter_content(1 << 20):
+                    fh.write(chunk)
+            part.rename(target)
+            return True
+        except requests.RequestException as exc:
+            part.unlink(missing_ok=True)
+            code = getattr(exc.response, "status_code", "?")
+            if attempt == config.MAX_RETRIES:
+                log.error("%s failed after %d attempts (HTTP %s); "
+                          "left for the next run", target.name, attempt, code)
+            else:
+                log.warning("%s attempt %d/%d failed (HTTP %s); retrying",
+                            target.name, attempt, config.MAX_RETRIES, code)
+                time.sleep(config.PAUSE_SECONDS * 2 ** attempt)
+    return False
 
 
 # ---------------------------------------------------------------- cache

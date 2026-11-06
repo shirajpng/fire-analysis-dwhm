@@ -56,17 +56,13 @@ import requests
 
 import config
 from common import get_logger, get_with_retry, record_manifest, session
-from extract_firms import fetch_availability, map_key
+from extract_firms import FetchError, fetch_availability, map_key
 
 log = get_logger("firms-nrt")
 
 OUT = config.RAW_FIRMS / "nrt"
 STATE = OUT / "_windows.json"
 STEP = timedelta(days=config.FIRMS_DAY_RANGE)
-
-
-class FetchError(Exception):
-    """The API did not give a clean answer. Never recorded as empty."""
 
 
 # ---------------------------------------------------------------- windows
@@ -181,14 +177,16 @@ def run(sensors: list[str], dry_run: bool) -> None:
                 continue
 
             if df.empty:
-                if settled:
-                    target.parent.mkdir(parents=True, exist_ok=True)
-                    target.write_bytes(b"")  # confirmed-empty marker
-                elif target.exists() and target.stat().st_size > 0:
-                    # Rows seen earlier, none now. Keep what we had; the API
-                    # does not normally retract NRT detections.
+                if target.exists() and target.stat().st_size > 0:
+                    # Rows seen earlier, none now. Keep what we had, settled or
+                    # not: the API does not normally retract NRT detections,
+                    # and dates leaving the API is exactly what this script
+                    # exists to survive.
                     log.warning("%-18s %s -> now empty, keeping earlier file",
                                 sensor, start)
+                elif settled:
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(b"")  # confirmed-empty marker
                 rows = 0
             else:
                 df["src_sensor"] = sensor

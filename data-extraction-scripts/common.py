@@ -86,11 +86,14 @@ def get_with_retry(
 
 
 def download(url: str, target: Path, *, sess: requests.Session | None = None,
-             skip_if_exists: bool = True) -> Path:
+             skip_if_exists: bool = True, extra: dict | None = None) -> Path:
     """
     Stream a (possibly large) file to disk. Writes to a .part file first and
     renames on success, so an interrupted run never leaves a truncated file
     that looks complete to the next run.
+
+    Records one manifest entry per actual download, with `extra` merged in.
+    A skipped file is not recorded again.
     """
     target.parent.mkdir(parents=True, exist_ok=True)
 
@@ -117,7 +120,7 @@ def download(url: str, target: Path, *, sess: requests.Session | None = None,
     part.rename(target)
     log.info("downloaded %s (%.1f MiB)", target.name, written / (1 << 20))
 
-    record_manifest(target, source_url=resp.url, bytes_written=written)
+    record_manifest(target, source_url=resp.url, bytes_written=written, extra=extra)
     return target
 
 

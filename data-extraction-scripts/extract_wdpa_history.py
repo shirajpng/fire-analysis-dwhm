@@ -18,7 +18,7 @@ Usage:
     python extract_wdpa_history.py --status            # check export tasks
 
 Exports land in a Google Drive folder, not on your disk. Download them from
-Drive into raw/wdpa_history/ once the tasks finish.
+Drive into raw/wdpa_historical/ (config.RAW_WDPA_HISTORY) once the tasks finish.
 
 Notes
 -----

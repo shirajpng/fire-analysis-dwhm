@@ -34,7 +34,7 @@ import re
 from pathlib import Path
 
 import config
-from common import download, get_logger, record_manifest, session
+from common import download, get_logger, session
 
 log = get_logger("wdpa")
 
@@ -133,9 +133,9 @@ def main() -> None:
     if args.both or not args.country:
         log.info("fetching global geodatabase (~1.1 GB, this takes a while)")
         target = args.out / filename
-        download(url, target, sess=sess)
-        record_manifest(target, source_url=config.WDPA_CURRENT_GLOBAL,
-                        extra={"release": f"{month}{year}", "scope": "global"})
+        download(url, target, sess=sess,
+                 extra={"release": f"{month}{year}", "scope": "global",
+                        "requested_url": config.WDPA_CURRENT_GLOBAL})
 
 
 def _full_month(abbr: str) -> str:
