@@ -5,6 +5,8 @@ provenance recorded for each file.
 
 ## Setup
 
+From the repo root:
+
 ```bash
 pip install -r requirements.txt
 
@@ -12,10 +14,12 @@ cp .env.example .env
 $EDITOR .env          # fill in your credentials here
 ```
 
-That is all. `config.py` loads `.env` on import, so every script picks up
-credentials whether run through `run_all.sh` or directly:
+That is all. `config.py` loads `.env` on import, searching
+`data-extraction-scripts/` and then its parents, so the repo-root `.env` is
+found whether a script is run through `run_all.sh` or directly:
 
 ```bash
+cd data-extraction-scripts
 python extract_firms.py --probe MODIS_SP 2012-01-20
 ```
 
@@ -32,10 +36,13 @@ Only FIRMS and AppEEARS need credentials. WDPA and GADM are open downloads.
 ## Run
 
 ```bash
-./run_all.sh
+data-extraction-scripts/run_all.sh
 ```
 
-Or individually, in roughly this order:
+It works from any directory. A failed step does not stop the run, but the
+failures are listed at the end and the script exits non-zero.
+
+Or individually from `data-extraction-scripts/`, in roughly this order:
 
 | Script | What it gets | Time |
 |---|---|---|
@@ -56,6 +63,8 @@ python extract_appeears.py --download
 ```
 
 ## Output layout
+
+Always `data-extraction-scripts/raw/`, regardless of the directory you run from.
 
 ```
 raw/
@@ -78,9 +87,14 @@ raw/
 └── boundaries/gadm41_THA.gpkg
 ```
 
-Everything is resumable. Completed FIRMS windows are skipped, empty windows get
-a zero-byte marker, downloads write to `.part` and rename on success, and
-AppEEARS task ids are cached. Killing a run mid-way costs nothing.
+Everything is resumable. Completed FIRMS windows are skipped, windows the API
+confirms empty get a zero-byte marker, downloads write to `.part` and rename on
+success, and AppEEARS task ids are cached. Killing a run mid-way costs nothing.
+
+Failed FIRMS requests are never marked: they are listed at the end of the run,
+the script exits non-zero, and the next run retries them. The newest partial
+window of each sensor is held back until the archive covers all of it, so
+the archive edge never leaves a permanent gap.
 
 ## Changing region
 
@@ -143,6 +157,7 @@ documentation, which is better evidence for the ETL writeup.
 
 
 How to run individual extractors:
+cd data-extraction-scripts
 python extract_boundaries.py --inspect
 python extract_wdpa.py --both
 python extract_appeears.py --submit

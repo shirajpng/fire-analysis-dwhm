@@ -1,25 +1,38 @@
 #!/usr/bin/env bash
 # Extract every dataset for the ITCS544 project, in dependency order.
 #
-#   cp .env.example .env && $EDITOR .env
-#   ./run_all.sh
+#   cp .env.example .env && $EDITOR .env      # from the repo root
+#   data-extraction-scripts/run_all.sh        # from anywhere
 #
 # Safe to re-run: every step skips work already done.
 
 set -uo pipefail
 
+# Run from this script's directory, so the bare script names below resolve
+# no matter where it is invoked from.
+cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
+
 # --- credentials -------------------------------------------------------
 # Loaded from .env, which is gitignored. Never hardcode keys in this file.
-# See .env.example for the template.
+# See .env.example at the repo root for the template. Checked here first,
+# then the repo root, matching where config.py looks.
 
-if [ -f .env ]; then
+env_file=""
+for candidate in .env ../.env; do
+  if [ -f "$candidate" ]; then
+    env_file=$candidate
+    break
+  fi
+done
+
+if [ -n "$env_file" ]; then
   set -a
-  # shellcheck disable=SC1091
-  source .env
+  # shellcheck disable=SC1090
+  source "$env_file"
   set +a
-  echo "loaded credentials from .env"
-elif [ -f .env.example ]; then
-  echo "No .env found. Run: cp .env.example .env  and fill it in."
+  echo "loaded credentials from $env_file"
+else
+  echo "No .env found. From the repo root run: cp .env.example .env  and fill it in."
 fi
 
 # --- preflight ---------------------------------------------------------
@@ -46,11 +59,20 @@ MSG
   sleep 5
 fi
 
+# A failed step does not stop the run, but it is collected and reported at
+# the end, and the script exits non-zero so a failure is never mistaken for
+# a clean run.
+failed=()
+
 run_step () {
+  local label=$1
   echo
-  echo "=== $1 ==="
+  echo "=== $label ==="
   shift
-  "$@" || echo "[step failed, continuing]"
+  if ! "$@"; then
+    echo "[step failed, continuing]"
+    failed+=("$label")
+  fi
 }
 
 run_step "1/8  Administrative boundaries (fast)"   python extract_boundaries.py --inspect
@@ -66,3 +88,10 @@ echo
 echo "AppEEARS runs server-side. Collect it later with:"
 echo "  python extract_appeears.py --status     python extract_landcover.py --status"
 echo "  python extract_appeears.py --download   python extract_landcover.py --download"
+
+if [ "${#failed[@]}" -gt 0 ]; then
+  echo
+  echo "${#failed[@]} step(s) FAILED:"
+  printf '  %s\n' "${failed[@]}"
+  exit 1
+fi
