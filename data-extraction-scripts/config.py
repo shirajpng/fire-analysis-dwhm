@@ -182,6 +182,14 @@ NDVI_LAYERS = [
 NDVI_GRID_STEP = 0.1
 NDVI_POINTS_PER_TASK = 500
 
+# Incremental collection (see extract_appeears.py). A batch is asked for a new
+# date range once its newest downloaded observation is NEW_DATA_DAYS old (one
+# 16-day composite period), and no more often than every RECHECK_DAYS while
+# AppEEARS has nothing newer yet. Changing NDVI_GRID_STEP or *_POINTS_PER_TASK
+# re-cuts the batches; the task cache refuses that rather than leave gaps.
+NDVI_NEW_DATA_DAYS = 16
+NDVI_RECHECK_DAYS = 7
+
 # MODIS MCD12Q1 annual land cover, 500 m. Feeds the land cover SCD Type 2
 # dimension: one value per point per year, so a class change between years is
 # a new dimension version.
@@ -196,6 +204,12 @@ NDVI_POINTS_PER_TASK = 500
 LANDCOVER_PRODUCT = "MCD12Q1.061"
 LANDCOVER_LAYERS = ["LC_Type1", "LC_Type5", "LW", "QC"]
 LANDCOVER_POINTS_PER_TASK = 500
+
+# Annual product, stamped 1 January and published months after the year ends:
+# ask again once the newest year on disk is over a year old, then monthly
+# until the new year shows up.
+LANDCOVER_NEW_DATA_DAYS = 365
+LANDCOVER_RECHECK_DAYS = 30
 
 # ---------------------------------------------------------------- boundaries
 
