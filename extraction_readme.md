@@ -33,34 +33,94 @@ Only FIRMS and AppEEARS need credentials. WDPA and GADM are open downloads.
 > If a key does reach a commit, rotate it — deleting it in a later commit does
 > not remove it from git history.
 
-## Run
+## Run it automatically (Airflow)
+
+Extraction is the first stage of the Airflow DAG (`dags/airflow_dag.py`,
+`fire_dwh_orchestration_dag`), which runs daily at 02:00 inside Docker Compose:
+
+```bash
+cp .env.example .env && $EDITOR .env     # credentials, once
+docker compose up -d --build
+open http://localhost:8080               # Airflow UI, login airflow / airflow
+```
+
+The DAG starts unpaused, so the first run begins as soon as the scheduler is
+up. Each source is its own task (`extract_boundaries`, `extract_wdpa`,
+`extract_ndvi`, `extract_landcover`, `extract_firms_nrt`,
+`extract_firms_country`, `extract_firms_archive`, `extraction_inventory`):
+
+- they run one after another, and each runs even if the one before failed,
+  so a FIRMS outage does not stop WDPA or NDVI being collected;
+- each retries twice, 30 minutes apart;
+- staging (`extract_and_stage` onward) waits for **all** of them to succeed. A
+  failed source marks the run failed in the UI rather than loading stale data;
+  the next day's run resumes where the extractors stopped;
+- runs never overlap (`max_active_runs=1`), so a long first backfill is never
+  doubled up.
+
+The containers mount `data-extraction-scripts/` at `/opt/airflow/extraction`,
+so raw data still lands in `data-extraction-scripts/raw/` on the host and the
+same files are shared with manual runs. Credentials reach the tasks as
+environment variables from `.env`. On Linux, also set `AIRFLOW_UID=$(id -u)` in
+`.env` so the files the tasks write are owned by you.
+
+Daily matters for two sources: FIRMS NRT disappears once science-quality data
+catches up, and AppEEARS deletes finished results after about 30 days.
+
+## Run it by hand
 
 ```bash
 data-extraction-scripts/run_all.sh
 ```
 
-It works from any directory. A failed step does not stop the run, but the
-failures are listed at the end and the script exits non-zero.
+Same steps as the DAG, for one-off runs and debugging. It works from any
+directory and uses `.venv` automatically. A failed step does not stop the run,
+but the failures are listed at the end and the script exits non-zero. Do not
+run it while the DAG is running: both write the same raw files.
+
+Every run is incremental. The first one takes hours (the FIRMS archive); later
+runs fetch only new FIRMS windows, new NRT, new AppEEARS date ranges, new
+country-archive years and new WDPA releases.
 
 Or individually from `data-extraction-scripts/`, in roughly this order:
 
 | Script | What it gets | Time |
 |---|---|---|
-| `extract_boundaries.py` | GADM admin levels 0–2, GeoPackage | seconds |
-| `extract_wdpa.py --both` | WDPA country zip + global gdb (~1.7 GB) | minutes |
-| `extract_appeears.py --submit` | Queues NDVI tasks | queue now, collect later |
-| `extract_landcover.py --submit` | Queues MCD12Q1 land cover tasks (same grid as NDVI) | queue now, collect later |
-| `extract_firms_nrt.py` | Near-real-time detections, incl. NOAA-21 | minutes; **re-run weekly** |
+| `extract_boundaries.py` | GADM admin levels 0–3, GeoPackage | seconds |
+| `extract_wdpa.py --both` | WDPA country zips + global gdb (~1.9 GB) | minutes |
+| `extract_appeears.py --sync` | NDVI: collects finished tasks, requests new ranges | seconds; results arrive on a later run |
+| `extract_landcover.py --sync` | MCD12Q1 land cover, same grid and mechanism as NDVI | seconds; results arrive on a later run |
+| `extract_firms_nrt.py` | Near-real-time detections, incl. NOAA-21 | minutes |
 | `extract_firms_country.py` | Country-clipped archive, validates the spatial clip | ~3 min, no credentials |
-| `extract_firms.py` | Fire detections, the fact source | hours |
+| `extract_firms.py` | Fire detections, the fact source | hours first time, minutes after |
 | `inventory.py` | Row counts + schema divergence report | seconds |
 
-AppEEARS is asynchronous. Submit early, then:
+## AppEEARS: how incremental collection works
+
+The point grid is split into 30 fixed batches. Each batch is requested as a
+series of date ranges, one AppEEARS task per range
+(`itcs544_ndvi_THA_007_20260830_20261106`). Each `--sync`:
+
+1. refreshes the status of outstanding tasks,
+2. downloads every finished one,
+3. requests the next range for every batch that is due.
+
+A batch is due once it has nothing outstanding, its newest *downloaded*
+observation is at least `NDVI_NEW_DATA_DAYS` old, and its last request at least
+`NDVI_RECHECK_DAYS` old (`LANDCOVER_*` for land cover: 365 and 30). Coverage is
+read from the dates in the CSVs, not the requested range, because composites
+are published weeks late. A task that expires or fails before download is
+re-requested automatically. Adjacent ranges can repeat a boundary composite:
+dedupe on `(ID, Date)` in staging.
 
 ```bash
-python extract_appeears.py --status
-python extract_appeears.py --download
+python extract_appeears.py --dry-run   # what --sync would do, changes nothing
+python extract_appeears.py --status    # every task, its range and state
+python extract_appeears.py --wait      # block until outstanding tasks are collected
 ```
+
+Do not change `NDVI_GRID_STEP`, `BBOX` or `*_POINTS_PER_TASK` mid-extraction:
+batch numbers would refer to different points, so the scripts refuse to run.
 
 ## Output layout
 
@@ -79,11 +139,12 @@ raw/
 │   ├── WDPA_WDOECM_Sep2026_Public_THA.zip
 │   └── WDPA_WDOECM_Sep2026_Public.zip   global gdb, has the geometry
 ├── ndvi/
-│   ├── _tasks.json              submitted task ids, enables resume
-│   └── itcs544_ndvi_THA_000__*.csv
+│   ├── _tasks.json              every task: batch, range, status, newest observation
+│   ├── itcs544_ndvi_THA_000__*.csv                   first range (2012 .. Sep 2026)
+│   └── itcs544_ndvi_THA_000_20260830_20261106__*.csv later ranges
 ├── landcover/
 │   ├── _tasks.json              separate cache, never shared with ndvi/
-│   └── itcs544_landcover_THA_000__*.csv
+│   └── itcs544_landcover_THA_000[_<range>]__*.csv
 └── boundaries/gadm41_THA.gpkg
 ```
 
@@ -160,7 +221,7 @@ How to run individual extractors:
 cd data-extraction-scripts
 python extract_boundaries.py --inspect
 python extract_wdpa.py --both
-python extract_appeears.py --submit
+python extract_appeears.py --sync
 python extract_firms.py
 python extract_firms_country.py --list
 python inventory.py

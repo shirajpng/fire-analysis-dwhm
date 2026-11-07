@@ -12,6 +12,19 @@ set -uo pipefail
 # no matter where it is invoked from.
 cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
 
+echo "run started $(date '+%Y-%m-%d %H:%M:%S')"
+
+# Use the repo's virtualenv when there is one, so this works from a plain
+# shell without activating anything first. PYTHON overrides.
+if [ -n "${PYTHON:-}" ]; then
+  PY=$PYTHON
+elif [ -x ../.venv/bin/python ]; then
+  PY=../.venv/bin/python
+else
+  PY=python3
+fi
+echo "using $PY"
+
 # --- credentials -------------------------------------------------------
 # Loaded from .env, which is gitignored. Never hardcode keys in this file.
 # See .env.example at the repo root for the template. Checked here first,
@@ -75,19 +88,19 @@ run_step () {
   fi
 }
 
-run_step "1/8  Administrative boundaries (fast)"   python extract_boundaries.py --inspect
-run_step "2/8  WDPA current release"               python extract_wdpa.py --both
-run_step "3/8  NDVI tasks (async)"                 python extract_appeears.py --submit
-run_step "4/8  Land cover tasks (async)"           python extract_landcover.py --submit
-run_step "5/8  FIRMS NRT (before it rolls off)"    python extract_firms_nrt.py
-run_step "6/8  FIRMS country archive (no key)"     python extract_firms_country.py
-run_step "7/8  FIRMS archive (the long one)"       python extract_firms.py
-run_step "8/8  Inventory"                          python inventory.py
+run_step "1/8  Administrative boundaries (fast)"   "$PY" extract_boundaries.py --inspect
+run_step "2/8  WDPA current release"               "$PY" extract_wdpa.py --both
+run_step "3/8  NDVI: collect finished, request new" "$PY" extract_appeears.py --sync
+run_step "4/8  Land cover: collect, request new"   "$PY" extract_landcover.py --sync
+run_step "5/8  FIRMS NRT (before it rolls off)"    "$PY" extract_firms_nrt.py
+run_step "6/8  FIRMS country archive (no key)"     "$PY" extract_firms_country.py
+run_step "7/8  FIRMS archive (the long one)"       "$PY" extract_firms.py
+run_step "8/8  Inventory"                          "$PY" inventory.py
 
 echo
-echo "AppEEARS runs server-side. Collect it later with:"
-echo "  python extract_appeears.py --status     python extract_landcover.py --status"
-echo "  python extract_appeears.py --download   python extract_landcover.py --download"
+echo "AppEEARS tasks run server-side; the next run collects whatever finishes."
+echo "To collect now instead:  $PY extract_appeears.py --wait   /   $PY extract_landcover.py --wait"
+echo "run finished $(date '+%Y-%m-%d %H:%M:%S')"
 
 if [ "${#failed[@]}" -gt 0 ]; then
   echo
