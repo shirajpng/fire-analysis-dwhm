@@ -220,9 +220,38 @@ parallel, and each builds its own hash table in ordinary memory.
 
 ### RQ2: share of Thai fires inside protected areas, per year
 
-Primary assignment, all sensors pooled, in-Thailand detections only.
+**Official table: Thai local year (Asia/Bangkok), from the star schema**
+(`dds.fact_active_fire` → `dim_date`, `dim_location`, `dim_protected_area`; item 5,
+load run 20). Primary assignment, all sensors pooled, in-Thailand detections only,
+flagged rows included.
 
-| Year | Thai fires | In Designated/Inscribed PA | % | Only in Proposed PA | % |
+| Thai local year | Thai fires | In Designated/Inscribed PA | % | Only in Proposed PA | % |
+|---|---:|---:|---:|---:|---:|
+| 2012 | 193,848 | 38,515 | 19.9 | 0 | 0.00 |
+| 2013 | 227,901 | 40,973 | 18.0 | 0 | 0.00 |
+| 2014 | 228,967 | 46,274 | 20.2 | 0 | 0.00 |
+| 2015 | 218,042 | 40,720 | 18.7 | 0 | 0.00 |
+| 2016 | 266,070 | 66,898 | 25.1 | 0 | 0.00 |
+| 2017 | 150,754 | 31,662 | 21.0 | 48 | 0.03 |
+| 2018 | 176,003 | 26,080 | 14.8 | 5,480 | 3.11 |
+| 2019 | 508,203 | 134,035 | 26.4 | 25,213 | 4.96 |
+| 2020 | 472,855 | 147,484 | 31.2 | 24,744 | 5.23 |
+| 2021 | 243,092 | 57,212 | 23.5 | 8,562 | 3.52 |
+| 2022 | 117,480 | 15,316 | 13.0 | 3,162 | 2.69 |
+| 2023 | 396,265 | 127,122 | 32.1 | 26,225 | 6.62 |
+| 2024 | 431,550 | 124,415 | 28.8 | 22,031 | 5.11 |
+| 2025 | 330,014 | 70,934 | 21.5 | 14,567 | 4.41 |
+| 2026 | 457,553 | 151,194 | 33.0 | 30,210 | 6.60 |
+| **All** | **4,418,597** | **1,118,834** | **25.3** | **160,242** | **3.63** |
+
+**Earlier UTC-year version, for comparison** (stage tables, year of FIRMS
+`acq_date`, item 4 run 17). The only difference is the fires seen between 00:00
+and 07:00 Thai time on 1 January, which fall on 31 December of the previous year
+in UTC. Per year the counts move by at most 601 fires (2019) and the
+Designated/Inscribed share by at most 0.03 percentage points; the totals are
+identical.
+
+| UTC year | Thai fires | In Designated/Inscribed PA | % | Only in Proposed PA | % |
 |---|---:|---:|---:|---:|---:|
 | 2012 | 194,037 | 38,549 | 19.9 | 0 | 0.00 |
 | 2013 | 227,763 | 40,939 | 18.0 | 0 | 0.00 |
@@ -299,7 +328,20 @@ covering both.
 | `meta.event_log` | runs 13/16 (WDPA, 2 s), 14 (failed, `/dev/shm`), 15/17 (join: spatial join 16.2 s) |
 
 ```sql
--- RQ2: share of Thai fires in Designated/Inscribed protected areas, per year
+-- RQ2 (official): per Thai local year, from the star schema
+SELECT d.year_number AS thai_local_year, count(*) AS thai_fires,
+       round(100.0 * count(*) FILTER (WHERE p.protected_area_key > 0
+                                       AND p.status IN ('Designated', 'Inscribed')) / count(*), 1) AS pct_designated,
+       round(100.0 * count(*) FILTER (WHERE p.protected_area_key > 0
+                                       AND p.status = 'Proposed') / count(*), 2) AS pct_proposed_only
+FROM dds.fact_active_fire f
+JOIN dds.dim_date d           USING (date_key)
+JOIN dds.dim_location l       USING (location_key)
+JOIN dds.dim_protected_area p USING (protected_area_key)
+WHERE l.in_thailand
+GROUP BY 1 ORDER BY 1;
+
+-- RQ2 (earlier UTC-year version): from the stage tables
 SELECT extract(year FROM c.acq_date)::int AS year, count(*) AS thai_fires,
        round(100.0 * count(*) FILTER (WHERE d.status IN ('Designated', 'Inscribed')) / count(*), 1) AS pct_designated,
        round(100.0 * count(*) FILTER (WHERE d.status = 'Proposed') / count(*), 2) AS pct_proposed_only

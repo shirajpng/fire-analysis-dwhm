@@ -178,8 +178,9 @@ reproduced exactly.
 Exceptions to be aware of:
 - The item 4 point-in-time park join used the UTC date. Park versions change at
   year or month level, so this makes no practical difference.
-- The item 4 RQ2 table was computed on UTC years; yearly totals by local date
-  differ only for fires seen in the first 7 hours of 1 January.
+- The official RQ2 table is now per Thai local year, from this star schema: see
+  `docs/etl_protected_area.md`, section *RQ2* (the earlier UTC-year table is kept
+  below it for comparison).
 
 ### `dim_date`
 
