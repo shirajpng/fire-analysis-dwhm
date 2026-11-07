@@ -25,7 +25,18 @@ python extract_firms.py --probe MODIS_SP 2012-01-20
 
 An explicit `export` still overrides the file, which is handy for one-off tests.
 
-Only FIRMS and AppEEARS need credentials. WDPA and GADM are open downloads.
+FIRMS, AppEEARS and the WDPA history (Earth Engine) need credentials. The
+current WDPA release and GADM are open downloads.
+
+Earth Engine uses a Google login rather than a key in `.env`. Each person runs
+this once on their own machine (Docker reuses it, see below):
+
+```bash
+earthengine authenticate      # writes ~/.config/earthengine/credentials
+```
+
+and sets `EE_PROJECT` in `.env` to a Google Cloud project registered for Earth
+Engine.
 
 > **Never put real credentials in README.md, config.py, or any tracked file.**
 > This repository is a graded public deliverable. `.env` is gitignored;
@@ -46,7 +57,7 @@ open http://localhost:8080               # Airflow UI, login airflow / airflow
 
 The DAG starts unpaused, so the first run begins as soon as the scheduler is
 up. Each source is its own task (`extract_boundaries`, `extract_wdpa`,
-`extract_ndvi`, `extract_landcover`, `extract_firms_nrt`,
+`extract_wdpa_history`, `extract_ndvi`, `extract_landcover`, `extract_firms_nrt`,
 `extract_firms_country`, `extract_firms_archive`, `extraction_inventory`):
 
 - they run one after another, and each runs even if the one before failed,
@@ -60,7 +71,9 @@ up. Each source is its own task (`extract_boundaries`, `extract_wdpa`,
 
 The containers mount `data-extraction-scripts/` at `/opt/airflow/extraction`,
 so raw data still lands in `data-extraction-scripts/raw/` on the host and the
-same files are shared with manual runs. Credentials reach the tasks as
+same files are shared with manual runs. The Earth Engine login is mounted
+read-only from `~/.config/earthengine` (override with `EE_CREDENTIALS_DIR` in
+`.env`); without it, only `extract_wdpa_history` fails. Other credentials reach the tasks as
 environment variables from `.env`. On Linux, also set `AIRFLOW_UID=$(id -u)` in
 `.env` so the files the tasks write are owned by you.
 
@@ -88,6 +101,7 @@ Or individually from `data-extraction-scripts/`, in roughly this order:
 |---|---|---|
 | `extract_boundaries.py` | GADM admin levels 0–3, GeoPackage | seconds |
 | `extract_wdpa.py --both` | WDPA country zips + global gdb (~1.9 GB) | minutes |
+| `extract_wdpa_history.py --download` | Monthly WDPA snapshots for SCD2, from Earth Engine | seconds per new month |
 | `extract_appeears.py --sync` | NDVI: collects finished tasks, requests new ranges | seconds; results arrive on a later run |
 | `extract_landcover.py --sync` | MCD12Q1 land cover, same grid and mechanism as NDVI | seconds; results arrive on a later run |
 | `extract_firms_nrt.py` | Near-real-time detections, incl. NOAA-21 | minutes |
@@ -145,6 +159,8 @@ raw/
 ├── landcover/
 │   ├── _tasks.json              separate cache, never shared with ndvi/
 │   └── itcs544_landcover_THA_000[_<range>]__*.csv
+├── wdpa_historical/
+│   └── wdpa_THA_201707.csv ...   one per Earth Engine month, SCD2 attributes only
 └── boundaries/gadm41_THA.gpkg
 ```
 
@@ -202,9 +218,16 @@ documentation, which is better evidence for the ETL writeup.
 - **WDPA history is resolved.** Protected Planet serves only the current
   release, so `extract_wdpa.py` alone gives a Type 1 snapshot. The month-to-month
   history behind the SCD Type 2 dimension comes from Earth Engine
-  (`WCMC/WDPA/YYYYMM`) via `extract_wdpa_history.py`: 93 monthly snapshots,
-  2017-07 to 2026-09, in `raw/wdpa_historical/`. The `STATUS_YR` fallback is
-  not needed.
+  (`WCMC/WDPA/YYYYMM`) via `extract_wdpa_history.py --download`, which saves
+  each new month straight into `raw/wdpa_historical/` (95 snapshots,
+  2017-07 to 2026-11, as of Nov 2026). No Google Drive step: a Thailand month
+  is ~55 KB and the direct download is byte-identical to the Drive export.
+  Earth Engine has no data for some months (e.g. 2017-11, 2022-12, Feb–Jun
+  2026); those are logged as unpublished, not failures. The `STATUS_YR`
+  fallback is not needed.
+- **Don't use `airflow tasks test` while the scheduler is running.** It creates
+  a temporary run that the scheduler also executes, so the task runs twice.
+  Trigger the DAG from the UI instead.
 - **The country archive is not ingest input.** `extract_firms_country.py`
   fetches the same science-quality detections clipped by NASA to the country
   border. About three quarters of the bbox rows fall outside Thailand, and
