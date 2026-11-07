@@ -64,16 +64,18 @@ if __name__ == "__main__":
     ap.add_argument("--inspect", action="store_true")
     args = ap.parse_args()
 
-    target = args.out / f"gadm41_{config.ISO3}.gpkg"
     sess = session()
 
-    try:
-        download(config.GADM_URL, target, sess=sess)
-    except Exception as exc:
-        log.error("download failed: %s", exc)
-        log.error("Fetch manually from https://gadm.org/download_country.html "
-                  "(choose Geopackage) and place it at %s", target)
-        raise SystemExit(1)
+    # Thailand first, then the neighbours (see config.NEIGHBOUR_ISO3).
+    for iso3 in [config.ISO3, *config.NEIGHBOUR_ISO3]:
+        target = args.out / f"gadm41_{iso3}.gpkg"
+        try:
+            download(config.GADM_URL_FMT.format(iso3=iso3), target, sess=sess)
+        except Exception as exc:
+            log.error("download failed: %s", exc)
+            log.error("Fetch manually from https://gadm.org/download_country.html "
+                      "(choose Geopackage) and place it at %s", target)
+            raise SystemExit(1)
 
-    if args.inspect:
-        inspect(target)
+        if args.inspect:
+            inspect(target)

@@ -214,7 +214,12 @@ LANDCOVER_RECHECK_DAYS = 30
 # ---------------------------------------------------------------- boundaries
 
 # GADM 4.1 GeoPackage, all admin levels in one file.
-GADM_URL = f"https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{ISO3}.gpkg"
+GADM_URL_FMT = "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_{iso3}.gpkg"
+GADM_URL = GADM_URL_FMT.format(iso3=ISO3)
+
+# Countries overlapping BBOX. Their level-0 outlines let staging tell fires in a
+# neighbouring country apart from coastline/border gaps of the Thailand polygon.
+NEIGHBOUR_ISO3 = ["MMR", "LAO", "KHM", "MYS", "VNM"]
 
 # ---------------------------------------------------------------- filesystem
 
