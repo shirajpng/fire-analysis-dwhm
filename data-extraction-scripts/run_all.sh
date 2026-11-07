@@ -88,14 +88,15 @@ run_step () {
   fi
 }
 
-run_step "1/8  Administrative boundaries (fast)"   "$PY" extract_boundaries.py --inspect
-run_step "2/8  WDPA current release"               "$PY" extract_wdpa.py --both
-run_step "3/8  NDVI: collect finished, request new" "$PY" extract_appeears.py --sync
-run_step "4/8  Land cover: collect, request new"   "$PY" extract_landcover.py --sync
-run_step "5/8  FIRMS NRT (before it rolls off)"    "$PY" extract_firms_nrt.py
-run_step "6/8  FIRMS country archive (no key)"     "$PY" extract_firms_country.py
-run_step "7/8  FIRMS archive (the long one)"       "$PY" extract_firms.py
-run_step "8/8  Inventory"                          "$PY" inventory.py
+run_step "1/9  Administrative boundaries (fast)"   "$PY" extract_boundaries.py --inspect
+run_step "2/9  WDPA current release"               "$PY" extract_wdpa.py --both
+run_step "3/9  WDPA monthly history (Earth Engine)" "$PY" extract_wdpa_history.py --download
+run_step "4/9  NDVI: collect finished, request new" "$PY" extract_appeears.py --sync
+run_step "5/9  Land cover: collect, request new"   "$PY" extract_landcover.py --sync
+run_step "6/9  FIRMS NRT (before it rolls off)"    "$PY" extract_firms_nrt.py
+run_step "7/9  FIRMS country archive (no key)"     "$PY" extract_firms_country.py
+run_step "8/9  FIRMS archive (the long one)"       "$PY" extract_firms.py
+run_step "9/9  Inventory"                          "$PY" inventory.py
 
 echo
 echo "AppEEARS tasks run server-side; the next run collects whatever finishes."

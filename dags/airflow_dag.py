@@ -89,13 +89,16 @@ def task_spatial_join():
 # data-extraction-scripts/ is mounted at EXTRACTION_DIR (see docker-compose.yml)
 # and lands everything in its raw/ folder. Every extractor is incremental, so
 # after the first multi-hour backfill a daily run only fetches what is new.
-# Credentials (FIRMS_MAP_KEY, EARTHDATA_*) arrive as environment variables.
+# Credentials (FIRMS_MAP_KEY, EARTHDATA_*, EE_PROJECT) arrive as environment
+# variables; the Earth Engine login is a read-only mount of
+# ~/.config/earthengine.
 EXTRACTION_DIR = os.environ.get("EXTRACTION_DIR", "/opt/airflow/extraction")
 
 # (task_id, script and flags, execution timeout), in run_all.sh order.
 EXTRACTION_STEPS = [
     ("extract_boundaries",    "extract_boundaries.py --inspect", timedelta(minutes=30)),
     ("extract_wdpa",          "extract_wdpa.py --both",          timedelta(hours=2)),
+    ("extract_wdpa_history",  "extract_wdpa_history.py --download", timedelta(hours=1)),
     ("extract_ndvi",          "extract_appeears.py --sync",      timedelta(hours=2)),
     ("extract_landcover",     "extract_landcover.py --sync",     timedelta(hours=1)),
     ("extract_firms_nrt",     "extract_firms_nrt.py",            timedelta(hours=1)),

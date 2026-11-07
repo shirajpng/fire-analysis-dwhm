@@ -21,6 +21,7 @@ x-airflow-env: &airflow-env
   FIRMS_MAP_KEY: ${FIRMS_MAP_KEY:-}
   EARTHDATA_USER: ${EARTHDATA_USER:-}
   EARTHDATA_PASS: ${EARTHDATA_PASS:-}
+  EE_PROJECT: ${EE_PROJECT:-}
   # The warehouse, reached by service name inside the compose network.
   DWH_HOST: postgres_dwh
   DWH_PORT: "5432"
@@ -38,6 +39,9 @@ x-airflow-common: &airflow-common
     - ./dags:/opt/airflow/dags
     - ./data-extraction-scripts:/opt/airflow/extraction
     - airflow_logs:/opt/airflow/logs
+    # Earth Engine login for extract_wdpa_history, made on the host with
+    # `earthengine authenticate`. Read-only: the container never changes it.
+    - ${EE_CREDENTIALS_DIR:-${HOME}/.config/earthengine}:/home/airflow/.config/earthengine:ro
 
 x-airflow-depends: &airflow-depends
   airflow_db:

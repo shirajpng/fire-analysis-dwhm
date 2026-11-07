@@ -87,6 +87,7 @@ def report(as_markdown: bool) -> None:
         ("NDVI",         config.RAW_NDVI, "*.csv"),
         ("Land cover",   config.RAW_LANDCOVER, "*.csv"),
         ("WDPA",         config.RAW_WDPA, "*.zip"),
+        ("WDPA history", config.RAW_WDPA_HISTORY, "*.csv"),
         ("Boundaries",   config.RAW_BOUNDARIES, "*.gpkg"),
     ]:
         if not folder.exists():
