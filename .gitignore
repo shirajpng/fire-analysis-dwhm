@@ -8,6 +8,9 @@ raw/
 # Run logs from manual run_all.sh runs (Airflow keeps its own in a volume).
 *.log
 
+# macOS Finder metadata
+.DS_Store
+
 __pycache__/
 *.pyc
 .env

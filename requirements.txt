@@ -7,3 +7,6 @@ geopandas>=0.14
 
 # Needed only for extract_wdpa_history.py (SCD2 snapshots)
 earthengine-api>=1.0
+
+# Postgres driver for the ETL jobs in controllers/ (and the DAG)
+psycopg2-binary>=2.9

@@ -75,9 +75,11 @@ key, NASA Earthdata login, Earth Engine).
 # 1. Python environment
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-pip install psycopg2-binary          # used by every job in controllers/, not yet in requirements.txt
 
-# 2. Start the warehouse only (no Airflow)
+# 2. Credentials for extraction (placeholders only; .env is gitignored)
+cp .env.example .env                 # then fill in FIRMS_MAP_KEY, EARTHDATA_*, EE_PROJECT
+
+# 3. Start the warehouse only (no Airflow)
 docker compose up -d postgres_dwh
 docker exec fire_dwh_db pg_isready -U dwh_admin -d fire_dwh
 ```
@@ -213,13 +215,19 @@ SELECT p.name_eng, p.desig_eng, count(*) AS fires
   [docs/dds_star_schema.md](docs/dds_star_schema.md#migrating-the-old-olap-and-mining-scripts).
 - **NDS layer:** pending team decision; `nds.*` is created but unused.
 - **Legacy cleanup:** the superseded files and tables listed above.
-- **Setup gaps:** `requirements.txt` lacks `psycopg2-binary`; `.env.example`, which
-  the extraction setup refers to, is not in the repository; `.DS_Store` files and
-  `data-extraction-scripts/run_all.log` are tracked although they shouldn't be.
 - **Not loaded yet:** NDVI and land cover (AppEEARS) are extracted but not staged.
 - **Protected-area boundaries are current-only:** every SCD2 version uses the
   latest WDPA polygon (details in
   [docs/etl_protected_area.md](docs/etl_protected_area.md#limitations)).
+
+## Team and course
+
+- Shiraj Pradhanang
+- Shabirullah Azizi
+- Benjamin Fenelon
+
+ITCS544 Data Mining and Data Warehousing, Faculty of ICT, Mahidol University,
+Term 1/2026.
 
 ## Data sources and credits
 
