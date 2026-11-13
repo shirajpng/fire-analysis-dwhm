@@ -56,7 +56,8 @@ init-scripts/              database DDL, run in order 01 → 10 on a fresh datab
 dags/airflow_dag.py        Airflow DAG (extraction is automated; see "Known limitations")
 dags/ml_mining.py          clustering / anomaly detection (to be migrated to the new schema)
 docs/                      one document per ETL step, with counts for the report
-olap_query_results/        earlier OLAP query outputs (old schema)
+olap/                      the five OLAP queries, one .sql file each (docs/olap_queries.md)
+olap_query_results/        their results, query plans and benchmark.csv (written by olap_benchmark.py)
 docker-compose.yml         PostGIS warehouse + Airflow
 ```
 
@@ -130,6 +131,7 @@ the run in `meta.event_log`. Run times are from the current full dataset.
 | 4a | `python controllers/load_wdpa.py` | `raw/wdpa`, `raw/wdpa_historical` → `dds.dim_protected_area` (SCD2) | seconds | [etl_protected_area.md](docs/etl_protected_area.md) |
 | 4b | `python controllers/locate_protected_area.py` | → `stage.fire_detection_protected_area` + bridge | ~2 min | [etl_protected_area.md](docs/etl_protected_area.md) |
 | 5 | `python controllers/load_dds.py` | stage → `dds` star schema (13,576,064 fact rows) | ~4 min | [dds_star_schema.md](docs/dds_star_schema.md) |
+| 6 | `python controllers/olap_benchmark.py` | `dds` → `olap_query_results/` (5 OLAP queries, timings, plans; read-only) | ~8 min | [olap_queries.md](docs/olap_queries.md) |
 
 - `load_stage.py` is incremental (a file manifest skips files already loaded);
   `--year 2020` loads one year as a test, `--full-reload` starts over.
@@ -209,10 +211,9 @@ SELECT p.name_eng, p.desig_eng, count(*) AS fires
   extraction (`extract_and_stage`, `load_warehouse`,
   `spatial_point_in_polygon_join`) are still placeholders that only log a row in
   `meta.etl_data_flow`; steps 1–5 above are run by hand until they are wired in.
-- **The mining and OLAP scripts still use the old schema.** `dags/ml_mining.py`,
-  `controllers/etl4_benchmarking.py` and `olap_query_results/` need updating; the
-  mapping of every old table and column is in
-  [docs/dds_star_schema.md](docs/dds_star_schema.md#migrating-the-old-olap-and-mining-scripts).
+- **The mining script still uses the old schema.** `dags/ml_mining.py` needs
+  updating; the mapping of every old table and column is in
+  [docs/dds_star_schema.md](docs/dds_star_schema.md#migrating-the-old-mining-script).
 - **NDS layer:** pending team decision; `nds.*` is created but unused.
 - **Legacy cleanup:** the superseded files and tables listed above.
 - **Not loaded yet:** NDVI and land cover (AppEEARS) are extracted but not staged.

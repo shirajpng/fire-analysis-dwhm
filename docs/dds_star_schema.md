@@ -414,13 +414,18 @@ empty `fact_active_fire`):
 | `init-scripts/04_spatial_join.sql` | 04 | `controllers/locate_protected_area.py` (item 4) | References `dim_protected_area.geom`, `idx_dds_pa_geom` and `dim_location_spatial`, which no longer exist / are superseded. |
 | `dds.ml_fire_anomalies.fire_key` | 05 | `detection_id` (added by 10) | FK dropped by 10; column kept, marked deprecated. |
 | `controllers/etl.py`, `controllers/etl_dim_fact.py` | — | `load_stage.py` … `load_dds.py` | Load the old `stg_*`/`nds` path. |
-| `controllers/etl4_benchmarking.py` step 1 (the `ST_Within` UPDATE) | — | `locate_protected_area.py` | Not point-in-time; see the migration section. |
 
-## Migrating the old OLAP and mining scripts
+Already removed: `controllers/etl4_benchmarking.py` and the old `olap_query_results/*.csv`,
+replaced by the five queries in `olap/` and `controllers/olap_benchmark.py`
+([olap_queries.md](olap_queries.md)).
 
-`controllers/etl4_benchmarking.py`, `dags/ml_mining.py` and the queries behind
-`olap_query_results/*.csv` were written against the 03 schema. They are **not
-changed here**; Shiraj will update them. Every old table and column they use:
+## Migrating the old mining script
+
+`dags/ml_mining.py` was written against the 03 schema and is **not changed
+here**. The old OLAP script (`etl4_benchmarking.py`) and its result CSVs have
+been replaced by `olap/` and `controllers/olap_benchmark.py`
+([olap_queries.md](olap_queries.md)); their entries in the "Used in" column below
+are kept only as a record of what the old queries did. Every old table and column:
 
 | Old (03 schema) | Used in | New | Note |
 |---|---|---|---|
@@ -446,13 +451,8 @@ changed here**; Shiraj will update them. Every old table and column they use:
 | `dim_protected_area.effective_timestamp`, `expiry_timestamp` | — | `effective_from`, `effective_to` (DATE, `effective_to` exclusive) | |
 | `ml_fire_anomalies.fire_key` | ml_mining (insert) | `ml_fire_anomalies.detection_id` | FK dropped; `fire_key` kept but deprecated. |
 
-**What to change, per script:**
+**What to change:**
 
-- **`etl4_benchmarking.py`**: drop step 1 (the `ST_Within` UPDATE of
-  `protected_area_key`). The fact is already assigned point in time by item 4, and
-  the UPDATE would overwrite that with the current park version and fail on the
-  missing `dim_protected_area.geom`. In the benchmark query use `count(*)` and
-  `dim_detection_flag.confidence_class` instead of the `confidence_score` bands.
 - **`ml_mining.py`**: select `f.detection_id, f.brightness_k, f.background_k,
   f.frp_mw, f.confidence_pct, f.latitude, f.longitude` from `dds.fact_active_fire`
   without the location join, and insert `detection_id` into `ml_fire_anomalies`.
@@ -460,11 +460,6 @@ changed here**; Shiraj will update them. Every old table and column they use:
   needs either MODIS only or `confidence_class` encoded as 0/1/2. The fact has
   13.6M rows (the old tests had ~1.5M); filtering on `in_thailand AND dq_pass`
   (4.4M Thai detections) and/or a year keeps the KD-tree pass manageable.
-- **OLAP CSVs** (`2.modis_viirs_compare`, `4. daynight_compare`,
-  `5.quarterly_density`): rerun with the new names; expect different numbers,
-  because the fact now holds all 13.6M detections, including those outside Thailand
-  and flagged rows (filter `dim_location.in_thailand` and
-  `dim_detection_flag.dq_pass` for Thai-only results).
 
 **`fire_key` → `detection_id`.** The partitioned fact's primary key is
 `(detection_id, date_key)`. `detection_id` alone is unique, stable across reruns

@@ -1,0 +1,7 @@
+query,title,result_rows,first_run_ms,warm_median_ms,warm_min_ms,warm_max_ms,server_ms,shared_hit,shared_read,partitions_scanned
+q1,Roll-up: fire year > province > district,15149,24787.5,17899.5,13422.9,26668.4,21244.9,15798,314289,20
+q2,Dice: protected-area share by fire year and season,64,10024.0,10531.9,9720.6,13714.2,16628.6,15847,314261,20
+q3,"Bridge: top 10 parks, count vs allocated",10,3907.3,2095.6,1946.6,2388.8,2499.4,1125,13489,0
+q4,Pivot: sensor x confidence x day/night,9,12832.3,11814.6,10460.9,15015.1,14530.9,15747,314322,20
+q5,Slice: Chiang Mai 2024 burning season (pruned),97,1359.9,380.8,334.0,848.0,536.3,2908,32782,1
+q5u,"Slice: same, year on dim_date (unpruned)",97,7348.4,8646.1,7022.5,10003.0,13763.0,16032,314449,20

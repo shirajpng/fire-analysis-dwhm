@@ -1,0 +1,84 @@
+-- Dice: protected-area share by fire year and season
+-- olap/q2_protected_area_share_by_season.sql
+
+Sort  (cost=1246906.93..1246907.13 rows=81 width=169) (actual time=20638.026..20638.397 rows=64 loops=1)
+  Sort Key: d.fire_year_label, (CASE d.thai_season WHEN 'Cool'::text THEN 1 WHEN 'Hot'::text THEN 2 WHEN 'Rainy'::text THEN 3 ELSE 4 END)
+  Sort Method: quicksort  Memory: 31kB
+  Buffers: shared hit=15828 read=314280
+  ->  MixedAggregate  (cost=346.19..1246904.36 rows=81 width=169) (actual time=20637.675..20638.146 rows=64 loops=1)
+        Hash Key: d.fire_year_label, d.thai_season
+        Hash Key: d.fire_year_label
+        Group Key: ()
+        Batches: 1  Memory Usage: 40kB
+        Buffers: shared hit=15828 read=314280
+        ->  Hash Join  (cost=346.19..641054.67 rows=13463250 width=23) (actual time=1085.528..18507.086 rows=4426788 loops=1)
+              Hash Cond: (f.protected_area_key = p.protected_area_key)
+              Buffers: shared hit=15828 read=314280
+              ->  Hash Join  (cost=313.14..605375.54 rows=13463250 width=17) (actual time=7.433..16500.374 rows=4426788 loops=1)
+                    Hash Cond: (f.date_key = d.date_key)
+                    Buffers: shared hit=15806 read=314280
+                    ->  Hash Join  (cost=45.99..569745.78 rows=13463250 width=8) (actual time=2.062..15579.597 rows=4426788 loops=1)
+                          Hash Cond: (f.location_key = l.location_key)
+                          Buffers: shared hit=15695 read=314280
+                          ->  Append  (cost=0.00..533855.15 rows=13593680 width=12) (actual time=0.376..13473.073 rows=13593697 loops=1)
+                                Buffers: shared hit=15670 read=314280
+                                ->  Seq Scan on fact_active_fire_2012 f_1  (cost=0.00..18292.08 rows=535208 width=12) (actual time=0.371..262.820 rows=535208 loops=1)
+                                      Buffers: shared hit=224 read=12716
+                                ->  Seq Scan on fact_active_fire_2013 f_2  (cost=0.00..21964.40 rows=642240 width=12) (actual time=0.377..664.911 rows=642240 loops=1)
+                                      Buffers: shared hit=559 read=14983
+                                ->  Seq Scan on fact_active_fire_2014 f_3  (cost=0.00..22799.48 rows=666648 width=12) (actual time=2.112..702.325 rows=666648 loops=1)
+                                      Buffers: shared hit=6512 read=9621
+                                ->  Seq Scan on fact_active_fire_2015 f_4  (cost=0.00..23425.27 rows=684827 width=12) (actual time=0.967..882.201 rows=684827 loops=1)
+                                      Buffers: shared hit=746 read=15831
+                                ->  Seq Scan on fact_active_fire_2016 f_5  (cost=0.00..25949.23 rows=758323 width=12) (actual time=2.585..567.151 rows=758323 loops=1)
+                                      Buffers: shared hit=559 read=17807
+                                ->  Seq Scan on fact_active_fire_2017 f_6  (cost=0.00..15278.96 rows=446696 width=12) (actual time=0.829..230.573 rows=446696 loops=1)
+                                      Buffers: shared hit=444 read=10368
+                                ->  Seq Scan on fact_active_fire_2018 f_7  (cost=0.00..19124.25 rows=558525 width=12) (actual time=0.579..545.585 rows=558525 loops=1)
+                                      Buffers: shared hit=501 read=13038
+                                ->  Seq Scan on fact_active_fire_2019 f_8  (cost=0.00..46057.62 rows=1343262 width=12) (actual time=3.160..953.743 rows=1343269 loops=1)
+                                      Buffers: shared hit=574 read=32051
+                                ->  Seq Scan on fact_active_fire_2020 f_9  (cost=0.00..47680.86 rows=1390486 width=12) (actual time=6.562..1116.572 rows=1390473 loops=1)
+                                      Buffers: shared hit=595 read=33181
+                                ->  Seq Scan on fact_active_fire_2021 f_10  (cost=0.00..30632.46 rows=893446 width=12) (actual time=2.976..1260.638 rows=893446 loops=1)
+                                      Buffers: shared hit=640 read=21058
+                                ->  Seq Scan on fact_active_fire_2022 f_11  (cost=0.00..18395.93 rows=536293 width=12) (actual time=1.374..438.349 rows=536293 loops=1)
+                                      Buffers: shared hit=608 read=12425
+                                ->  Seq Scan on fact_active_fire_2023 f_12  (cost=0.00..43977.87 rows=1282787 width=12) (actual time=0.959..982.749 rows=1282796 loops=1)
+                                      Buffers: shared hit=575 read=30575
+                                ->  Seq Scan on fact_active_fire_2024 f_13  (cost=0.00..49562.81 rows=1444181 width=12) (actual time=1.406..1085.656 rows=1444194 loops=1)
+                                      Buffers: shared hit=2074 read=33047
+                                ->  Seq Scan on fact_active_fire_2025 f_14  (cost=0.00..36391.76 rows=1060276 width=12) (actual time=0.732..1173.195 rows=1060276 loops=1)
+                                      Buffers: shared hit=692 read=25097
+                                ->  Seq Scan on fact_active_fire_2026 f_15  (cost=0.00..46353.77 rows=1350477 width=12) (actual time=2.712..864.253 rows=1350483 loops=1)
+                                      Buffers: shared hit=367 read=32482
+                                ->  Seq Scan on fact_active_fire_2027 f_16  (cost=0.00..0.00 rows=1 width=12) (actual time=0.037..0.037 rows=0 loops=1)
+                                ->  Seq Scan on fact_active_fire_2028 f_17  (cost=0.00..0.00 rows=1 width=12) (actual time=0.041..0.041 rows=0 loops=1)
+                                ->  Seq Scan on fact_active_fire_2029 f_18  (cost=0.00..0.00 rows=1 width=12) (actual time=0.013..0.013 rows=0 loops=1)
+                                ->  Seq Scan on fact_active_fire_2030 f_19  (cost=0.00..0.00 rows=1 width=12) (actual time=0.018..0.018 rows=0 loops=1)
+                                ->  Seq Scan on fact_active_fire_default f_20  (cost=0.00..0.00 rows=1 width=12) (actual time=0.192..0.192 rows=0 loops=1)
+                          ->  Hash  (cost=34.38..34.38 rows=929 width=4) (actual time=1.255..1.265 rows=929 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 41kB
+                                Buffers: shared hit=25
+                                ->  Seq Scan on dim_location l  (cost=0.00..34.38 rows=929 width=4) (actual time=0.232..1.122 rows=929 loops=1)
+                                      Filter: in_thailand
+                                      Rows Removed by Filter: 9
+                                      Buffers: shared hit=25
+                    ->  Hash  (cost=180.40..180.40 rows=6940 width=17) (actual time=5.128..5.129 rows=6940 loops=1)
+                          Buckets: 8192  Batches: 1  Memory Usage: 410kB
+                          Buffers: shared hit=111
+                          ->  Seq Scan on dim_date d  (cost=0.00..180.40 rows=6940 width=17) (actual time=0.219..3.984 rows=6940 loops=1)
+                                Buffers: shared hit=111
+              ->  Hash  (cost=26.91..26.91 rows=491 width=14) (actual time=1077.695..1077.697 rows=491 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 31kB
+                    Buffers: shared hit=22
+                    ->  Seq Scan on dim_protected_area p  (cost=0.00..26.91 rows=491 width=14) (actual time=1076.134..1077.538 rows=491 loops=1)
+                          Buffers: shared hit=22
+Planning:
+  Buffers: shared hit=55
+Planning Time: 12.886 ms
+JIT:
+  Functions: 73
+  Options: Inlining true, Optimization true, Expressions true, Deforming true
+  Timing: Generation 35.167 ms, Inlining 43.952 ms, Optimization 734.282 ms, Emission 305.779 ms, Total 1119.180 ms
+Execution Time: 20682.377 ms

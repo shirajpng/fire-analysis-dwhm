@@ -1,0 +1,92 @@
+-- Slice: same, year on dim_date (unpruned)
+-- olap/q5_province_burning_season_unpruned.sql
+
+Sort  (cost=431850.39..431855.52 rows=2051 width=134) (actual time=9595.569..9663.790 rows=97 loops=1)
+  Sort Key: d.month_number NULLS FIRST, l.district_name NULLS FIRST
+  Sort Method: quicksort  Memory: 33kB
+  Buffers: shared hit=16047 read=314434
+  ->  MixedAggregate  (cost=1237.65..431737.57 rows=2051 width=134) (actual time=9594.966..9663.266 rows=97 loops=1)
+        Hash Key: d.month_number, d.month_name, l.district_name
+        Hash Key: d.month_number, d.month_name
+        Group Key: ()
+        Batches: 1  Memory Usage: 193kB
+        Buffers: shared hit=16047 read=314434
+        ->  Gather  (cost=1237.65..431583.55 rows=2900 width=32) (actual time=8935.613..9603.419 rows=36228 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=16047 read=314434
+              ->  Hash Join  (cost=237.65..430293.55 rows=1208 width=32) (actual time=5947.633..6855.354 rows=12076 loops=3)
+                    Hash Cond: (f.detection_flag_key = q.detection_flag_key)
+                    Buffers: shared hit=16047 read=314434
+                    ->  Hash Join  (cost=236.29..430284.33 rows=2527 width=36) (actual time=5486.169..6388.014 rows=12078 loops=3)
+                          Hash Cond: (f.location_key = l.location_key)
+                          Buffers: shared hit=15924 read=314434
+                          ->  Hash Join  (cost=199.26..429986.91 rows=98753 width=29) (actual time=5480.968..6298.726 rows=427736 loops=3)
+                                Hash Cond: (f.date_key = d.date_key)
+                                Buffers: shared hit=15849 read=314434
+                                ->  Parallel Append  (cost=0.00..414910.47 rows=5664036 width=22) (actual time=5.464..5431.285 rows=4531232 loops=3)
+                                      Buffers: shared hit=15516 read=314434
+                                      ->  Seq Scan on fact_active_fire_2027 f_16  (cost=0.00..0.00 rows=1 width=48) (actual time=0.710..0.720 rows=0 loops=1)
+                                      ->  Seq Scan on fact_active_fire_2028 f_17  (cost=0.00..0.00 rows=1 width=48) (actual time=0.169..0.172 rows=0 loops=1)
+                                      ->  Seq Scan on fact_active_fire_2029 f_18  (cost=0.00..0.00 rows=1 width=48) (actual time=0.030..0.040 rows=0 loops=1)
+                                      ->  Seq Scan on fact_active_fire_2030 f_19  (cost=0.00..0.00 rows=1 width=48) (actual time=0.094..0.104 rows=0 loops=1)
+                                      ->  Seq Scan on fact_active_fire_default f_20  (cost=0.00..0.00 rows=1 width=48) (actual time=0.904..0.904 rows=0 loops=1)
+                                      ->  Parallel Seq Scan on fact_active_fire_2024 f_13  (cost=0.00..41138.42 rows=601742 width=22) (actual time=2.440..555.459 rows=481398 loops=3)
+                                            Buffers: shared hit=3004 read=32117
+                                      ->  Parallel Seq Scan on fact_active_fire_2020 f_9  (cost=0.00..39569.69 rows=579369 width=22) (actual time=6.460..2124.865 rows=1390473 loops=1)
+                                            Buffers: shared hit=562 read=33214
+                                      ->  Parallel Seq Scan on fact_active_fire_2026 f_15  (cost=0.00..38475.99 rows=562699 width=22) (actual time=4.919..1228.064 rows=1350483 loops=1)
+                                            Buffers: shared hit=606 read=32243
+                                      ->  Parallel Seq Scan on fact_active_fire_2019 f_8  (cost=0.00..38221.93 rows=559692 width=22) (actual time=3.792..1190.268 rows=1343269 loops=1)
+                                            Buffers: shared hit=708 read=31917
+                                      ->  Parallel Seq Scan on fact_active_fire_2023 f_12  (cost=0.00..36494.95 rows=534495 width=22) (actual time=2.926..924.831 rows=1282796 loops=1)
+                                            Buffers: shared hit=786 read=30364
+                                      ->  Parallel Seq Scan on fact_active_fire_2025 f_14  (cost=0.00..30206.82 rows=441782 width=22) (actual time=1.775..366.184 rows=530138 loops=2)
+                                            Buffers: shared hit=884 read=24905
+                                      ->  Parallel Seq Scan on fact_active_fire_2021 f_10  (cost=0.00..25420.69 rows=372269 width=22) (actual time=0.945..671.314 rows=893446 loops=1)
+                                            Buffers: shared hit=1049 read=20649
+                                      ->  Parallel Seq Scan on fact_active_fire_2016 f_5  (cost=0.00..21525.68 rows=315968 width=22) (actual time=4.891..544.455 rows=758323 loops=1)
+                                            Buffers: shared hit=817 read=17549
+                                      ->  Parallel Seq Scan on fact_active_fire_2015 f_4  (cost=0.00..19430.45 rows=285345 width=22) (actual time=3.355..809.181 rows=684827 loops=1)
+                                            Buffers: shared hit=749 read=15828
+                                      ->  Parallel Seq Scan on fact_active_fire_2014 f_3  (cost=0.00..18910.70 rows=277770 width=22) (actual time=1.234..790.669 rows=666648 loops=1)
+                                            Buffers: shared hit=2994 read=13139
+                                      ->  Parallel Seq Scan on fact_active_fire_2013 f_2  (cost=0.00..18218.00 rows=267600 width=22) (actual time=7.810..860.066 rows=642240 loops=1)
+                                            Buffers: shared hit=969 read=14573
+                                      ->  Parallel Seq Scan on fact_active_fire_2018 f_7  (cost=0.00..15866.19 rows=232719 width=22) (actual time=2.892..623.293 rows=558525 loops=1)
+                                            Buffers: shared hit=633 read=12906
+                                      ->  Parallel Seq Scan on fact_active_fire_2022 f_11  (cost=0.00..15267.55 rows=223455 width=22) (actual time=3.691..563.389 rows=536293 loops=1)
+                                            Buffers: shared hit=512 read=12521
+                                      ->  Parallel Seq Scan on fact_active_fire_2012 f_1  (cost=0.00..15170.03 rows=223003 width=22) (actual time=0.391..918.218 rows=535208 loops=1)
+                                            Buffers: shared hit=608 read=12332
+                                      ->  Parallel Seq Scan on fact_active_fire_2017 f_6  (cost=0.00..12673.23 rows=186123 width=22) (actual time=1.249..542.965 rows=446696 loops=1)
+                                            Buffers: shared hit=635 read=10177
+                                ->  Hash  (cost=197.75..197.75 rows=121 width=15) (actual time=4.686..4.734 rows=121 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 14kB
+                                      Buffers: shared hit=333
+                                      ->  Seq Scan on dim_date d  (cost=0.00..197.75 rows=121 width=15) (actual time=3.518..4.618 rows=121 loops=3)
+                                            Filter: (is_burning_season AND (year_number = 2024))
+                                            Rows Removed by Filter: 6819
+                                            Buffers: shared hit=333
+                          ->  Hash  (cost=36.73..36.73 rows=24 width=15) (actual time=3.362..3.363 rows=24 loops=3)
+                                Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                                Buffers: shared hit=75
+                                ->  Seq Scan on dim_location l  (cost=0.00..36.73 rows=24 width=15) (actual time=1.795..3.161 rows=24 loops=3)
+                                      Filter: (province_name = 'Chiang Mai'::text)
+                                      Rows Removed by Filter: 914
+                                      Buffers: shared hit=75
+                    ->  Hash  (cost=1.23..1.23 rows=11 width=4) (actual time=458.711..458.714 rows=11 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=3
+                          ->  Seq Scan on dim_detection_flag q  (cost=0.00..1.23 rows=11 width=4) (actual time=456.733..456.781 rows=11 loops=3)
+                                Filter: dq_pass
+                                Rows Removed by Filter: 12
+                                Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=53
+Planning Time: 8.936 ms
+JIT:
+  Functions: 215
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 119.762 ms, Inlining 0.000 ms, Optimization 142.417 ms, Emission 1240.658 ms, Total 1502.836 ms
+Execution Time: 9699.603 ms

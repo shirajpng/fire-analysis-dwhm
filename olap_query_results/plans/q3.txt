@@ -1,0 +1,48 @@
+-- Bridge: top 10 parks, count vs allocated
+-- olap/q3_top_parks_bridge.sql
+
+Limit  (cost=301524.79..301524.82 rows=10 width=176) (actual time=2257.217..2283.181 rows=10 loops=1)
+  Buffers: shared hit=1221 read=13393, temp read=21145 written=21186
+  ->  Sort  (cost=301524.79..301525.41 rows=247 width=176) (actual time=2223.297..2249.234 rows=10 loops=1)
+        Sort Key: (count(*)) DESC, p.site_id
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=1221 read=13393, temp read=21145 written=21186
+        ->  GroupAggregate  (cost=101697.59..301519.46 rows=247 width=176) (actual time=1223.679..2249.032 rows=198 loops=1)
+              Group Key: p.site_id
+              Buffers: shared hit=1221 read=13393, temp read=21145 written=21186
+              ->  Gather Merge  (cost=101697.59..260586.52 rows=1364246 width=72) (actual time=1219.690..1621.691 rows=1364246 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    Buffers: shared hit=1221 read=13393, temp read=21145 written=21186
+                    ->  Sort  (cost=100697.57..102118.66 rows=568436 width=72) (actual time=931.630..1018.708 rows=454749 loops=3)
+                          Sort Key: p.site_id, p.version_no DESC
+                          Sort Method: external merge  Disk: 56864kB
+                          Buffers: shared hit=1221 read=13393, temp read=21145 written=21186
+                          Worker 0:  Sort Method: external merge  Disk: 27696kB
+                          Worker 1:  Sort Method: external merge  Disk: 27760kB
+                          ->  Hash Join  (cost=300.20..23047.64 rows=568436 width=72) (actual time=194.853..604.206 rows=454749 loops=3)
+                                Hash Cond: (b.date_key = d.date_key)
+                                Buffers: shared hit=1131 read=13393
+                                ->  Hash Join  (cost=33.05..21287.43 rows=568436 width=72) (actual time=188.711..472.272 rows=454749 loops=3)
+                                      Hash Cond: (b.protected_area_key = p.protected_area_key)
+                                      Buffers: shared hit=798 read=13393
+                                      ->  Parallel Seq Scan on bridge_fire_protected_area b  (cost=0.00..19749.36 rows=568436 width=14) (actual time=0.949..121.002 rows=454749 loops=3)
+                                            Buffers: shared hit=672 read=13393
+                                      ->  Hash  (cost=26.91..26.91 rows=491 width=62) (actual time=186.628..186.668 rows=491 loops=3)
+                                            Buckets: 1024  Batches: 1  Memory Usage: 56kB
+                                            Buffers: shared hit=66
+                                            ->  Seq Scan on dim_protected_area p  (cost=0.00..26.91 rows=491 width=62) (actual time=185.048..185.988 rows=491 loops=3)
+                                                  Buffers: shared hit=66
+                                ->  Hash  (cost=180.40..180.40 rows=6940 width=8) (actual time=5.885..5.886 rows=6940 loops=3)
+                                      Buckets: 8192  Batches: 1  Memory Usage: 336kB
+                                      Buffers: shared hit=333
+                                      ->  Seq Scan on dim_date d  (cost=0.00..180.40 rows=6940 width=8) (actual time=0.148..3.792 rows=6940 loops=3)
+                                            Buffers: shared hit=333
+Planning:
+  Buffers: shared hit=9
+Planning Time: 1.308 ms
+JIT:
+  Functions: 61
+  Options: Inlining false, Optimization false, Expressions true, Deforming true
+  Timing: Generation 35.828 ms, Inlining 0.000 ms, Optimization 62.397 ms, Emission 525.670 ms, Total 623.895 ms
+Execution Time: 2297.183 ms
