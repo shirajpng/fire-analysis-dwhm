@@ -35,6 +35,8 @@ import time
 
 import psycopg2
 
+import db_limits
+
 DB = dict(
     host=os.getenv("DWH_HOST", "localhost"),
     port=int(os.getenv("DWH_PORT", "5432")),
@@ -51,10 +53,7 @@ GAP_DEG = 0.01
 
 def steps(run_id: int, clean_run_id: int) -> list[tuple[str, str]]:
     return [
-        ("session settings", """
-            SET LOCAL max_parallel_workers_per_gather = 8;
-            SET LOCAL work_mem = '256MB';
-            SET LOCAL maintenance_work_mem = '1GB';
+        ("session settings", db_limits.session_sql(parallel=True, maintenance=True) + """
             DROP TABLE IF EXISTS stage.tmp_loc_district, stage.tmp_loc_country;
         """),
 
@@ -224,7 +223,7 @@ def main() -> int:
                     (f"clean_run_id={clean_run_id}",))
         run_id = cur.fetchone()[0]
     conn.commit()
-    print(f"run {run_id}: locating {n_clean:,} detections (clean run {clean_run_id})")
+    print(f"run {run_id}: locating {n_clean:,} detections (clean run {clean_run_id}; {db_limits.describe()})")
     t0 = time.time()
     timings = {}
 

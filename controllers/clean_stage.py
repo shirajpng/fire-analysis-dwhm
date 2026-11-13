@@ -32,6 +32,8 @@ import time
 
 import psycopg2
 
+import db_limits
+
 DB = dict(
     host=os.getenv("DWH_HOST", "localhost"),
     port=int(os.getenv("DWH_PORT", "5432")),
@@ -64,10 +66,7 @@ RAW_UNION = """
 
 def steps(run_id: int) -> list[tuple[str, str]]:
     return [
-        ("session settings", """
-            SET LOCAL work_mem = '256MB';
-            SET LOCAL maintenance_work_mem = '1GB';
-        """),
+        ("session settings", db_limits.session_sql(maintenance=True)),
 
         # Rule B input: the date range SP covers, per conformed satellite.
         ("rule B: SP coverage per satellite", f"""
@@ -274,7 +273,7 @@ def main() -> int:
                        RETURNING log_key""")
         run_id = cur.fetchone()[0]
     conn.commit()
-    print(f"run {run_id}: rebuilding stage.fire_detection_clean")
+    print(f"run {run_id}: rebuilding stage.fire_detection_clean ({db_limits.describe()})")
     t0 = time.time()
 
     try:

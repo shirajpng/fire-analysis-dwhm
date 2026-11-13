@@ -53,7 +53,7 @@ The star schema (ERD, bus matrix, grain) is described in
 data-extraction-scripts/   extraction: one script per source, lands files in raw/ (see extraction_readme.md)
 controllers/               ETL jobs, one per step (table below)
 init-scripts/              database DDL, run in order 01 → 10 on a fresh database
-dags/airflow_dag.py        Airflow DAG (extraction is automated; see "Known limitations")
+dags/airflow_dag.py        Airflow DAG: extraction, then steps 1–5 below, daily at 02:00
 dags/ml_mining.py          clustering / anomaly detection (to be migrated to the new schema)
 docs/                      one document per ETL step, with counts for the report
 olap/                      the five OLAP queries, one .sql file each (docs/olap_queries.md)
@@ -117,9 +117,10 @@ docker exec fire_dwh_db psql -U dwh_admin -d fire_dwh -v ON_ERROR_STOP=1 \
 
 ## Running the pipeline
 
-Steps run by hand, from the repository root, in this order. Each job runs in one
-transaction and is safe to rerun: it replaces its output (no duplicates) and logs
-the run in `meta.event_log`. Run times are from the current full dataset.
+Airflow runs steps 0–5 every day (see [With Airflow](#with-airflow) below). To
+run them by hand, run them from the repository root in this order. Each job runs
+in one transaction and is safe to rerun: it replaces its output (no duplicates)
+and logs the run in `meta.event_log`. Run times are from the current full dataset.
 
 | # | Command | Input → output | Time | Doc |
 |---|---|---|---:|---|
@@ -140,6 +141,51 @@ the run in `meta.event_log`. Run times are from the current full dataset.
   out of date), but they don't run the earlier steps for you.
 - The two big spatial joins set `enable_parallel_hash = off`: Docker gives the
   container only 64 MB of `/dev/shm`, which a parallel hash join can exceed.
+- **Memory.** The heavy jobs read `DWH_WORK_MEM`, `DWH_MAINTENANCE_WORK_MEM` and
+  `DWH_PARALLEL_WORKERS` (defaults 256MB / 1GB / 8; `controllers/db_limits.py`).
+  On a 4 GB Docker VM with Airflow running, the defaults got Postgres killed for
+  running out of memory in `locate_stage.py`. Either stop Airflow while running
+  by hand (`docker compose stop airflow-webserver airflow-scheduler`), or export
+  lower values first. These settings change speed and memory use only, never
+  results.
+
+### With Airflow
+
+```bash
+docker compose up -d --build        # warehouse + Airflow; UI at http://localhost:8080 (airflow / airflow)
+```
+
+`dags/airflow_dag.py` (`fire_dwh_orchestration_dag`) runs daily at 02:00:
+
+```
+extract_boundaries → … → extraction_inventory     9 extraction tasks (step 0)
+  → load_stage → clean_stage → load_reference → locate_stage
+  → load_wdpa → locate_protected_area → load_dds   steps 1–5
+```
+
+- The extraction tasks run one after another whether or not the previous one
+  succeeded, so one failed source doesn't stop the others. `load_stage` only
+  starts if **all** of them succeeded: a failed source marks the run failed
+  instead of loading stale data.
+- Each ETL task runs the same script as the table above (`controllers/` is
+  mounted into the containers) and retries once after 15 minutes. Its log in
+  the UI is the script's own output.
+- **Tested 2026-11-13** with a triggered run on a 4 GB Docker VM, Airflow up.
+  All 16 tasks succeeded on the first try in 58 minutes: extraction (incremental)
+  1.3 min, `clean_stage` 16.2, `load_reference` 1.3, `locate_stage` 15.8,
+  `locate_protected_area` 6.4, `load_dds` 16.9. All `load_dds` checks passed,
+  and the 4 new NRT files of that day (71 net new detections) reached the fact table.
+- The Airflow containers use lower memory settings (64MB / 256MB / 4 workers,
+  set in `docker-compose.yml`, overridable in `.env`) because they share the
+  Docker VM with the warehouse.
+- **Rebuild without extracting:** in the UI, open a run, click `load_stage`,
+  then **Clear** with **Downstream** ticked.
+- Runs never overlap (`max_active_runs=1`).
+- **Don't use `airflow tasks test` while the scheduler is running.** It creates a
+  temporary DAG run, which the scheduler picks up and starts executing alongside
+  the test, so two copies of the same job run at once. (The jobs' own checks
+  caught it and rolled both back, but nothing is gained.) To start a run, use
+  **Trigger DAG** in the UI or `airflow dags trigger fire_dwh_orchestration_dag`.
 
 ## Current state
 
@@ -207,10 +253,13 @@ SELECT p.name_eng, p.desig_eng, count(*) AS fires
 
 ## Known limitations and open items
 
-- **Airflow automates extraction only.** In `dags/airflow_dag.py`, the tasks after
-  extraction (`extract_and_stage`, `load_warehouse`,
-  `spatial_point_in_polygon_join`) are still placeholders that only log a row in
-  `meta.etl_data_flow`; steps 1–5 above are run by hand until they are wired in.
+- **The daily run rebuilds steps 2–5 in full** (about 57 minutes under Airflow),
+  even on a
+  day with no new files: only `load_stage` is incremental. The rebuild gives
+  identical results (`load_dds` compares checksums), so it is wasted work, not
+  wrong data. Skipping it on days with no new input is a possible improvement.
+- **`meta.etl_data_flow`** (03) is no longer written: the old placeholder Airflow
+  tasks were its only writers. Runs are logged in `meta.event_log`.
 - **The mining script still uses the old schema.** `dags/ml_mining.py` needs
   updating; the mapping of every old table and column is in
   [docs/dds_star_schema.md](docs/dds_star_schema.md#migrating-the-old-mining-script).

@@ -1,5 +1,6 @@
 # Fire DWH stack: the PostGIS warehouse plus Airflow, which runs
-# dags/airflow_dag.py daily -- extraction first, then staging and loading.
+# dags/airflow_dag.py daily -- extraction first, then the seven ETL jobs in
+# controllers/ that build stage and the dds star schema.
 #
 #   cp .env.example .env && $EDITOR .env     # credentials, once
 #   docker compose up -d --build
@@ -17,7 +18,16 @@ x-airflow-env: &airflow-env
   # Shared by webserver and scheduler so the UI can read task logs.
   AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY:-itcs544-local-only}
   # Extraction: scripts are mounted here; credentials come from .env.
-  EXTRACTION_DIR: /opt/airflow/extraction
+  EXTRACTION_DIR: /opt/airflow/data-extraction-scripts
+  # ETL jobs (controllers/) run from the repository root as mounted below.
+  DWH_PROJECT_DIR: /opt/airflow
+  # Memory for the heavy ETL jobs (controllers/db_limits.py). Lower than the
+  # defaults for manual runs (256MB / 1GB / 8), because the Airflow containers
+  # share the Docker VM: on a 4 GB VM the defaults got Postgres killed for
+  # running out of memory. Raise them in .env if Docker has more memory.
+  DWH_WORK_MEM: ${DWH_WORK_MEM:-64MB}
+  DWH_MAINTENANCE_WORK_MEM: ${DWH_MAINTENANCE_WORK_MEM:-256MB}
+  DWH_PARALLEL_WORKERS: ${DWH_PARALLEL_WORKERS:-4}
   FIRMS_MAP_KEY: ${FIRMS_MAP_KEY:-}
   EARTHDATA_USER: ${EARTHDATA_USER:-}
   EARTHDATA_PASS: ${EARTHDATA_PASS:-}
@@ -37,7 +47,10 @@ x-airflow-common: &airflow-common
   environment: *airflow-env
   volumes:
     - ./dags:/opt/airflow/dags
-    - ./data-extraction-scripts:/opt/airflow/extraction
+    # Same layout as the repository, so the ETL jobs find raw/ and the
+    # extraction config exactly as they do when run by hand.
+    - ./data-extraction-scripts:/opt/airflow/data-extraction-scripts
+    - ./controllers:/opt/airflow/controllers:ro
     - airflow_logs:/opt/airflow/logs
     # Earth Engine login for extract_wdpa_history, made on the host with
     # `earthengine authenticate`. Read-only: the container never changes it.

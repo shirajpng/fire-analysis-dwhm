@@ -31,6 +31,8 @@ import time
 
 import psycopg2
 
+import db_limits
+
 DB = dict(
     host=os.getenv("DWH_HOST", "localhost"),
     port=int(os.getenv("DWH_PORT", "5432")),
@@ -45,10 +47,8 @@ def steps(run_id: int) -> list[tuple[str, str]]:
         # enable_parallel_hash = off: a parallel hash join keeps one shared hash
         # table in /dev/shm, which is only 64 MB in the default Docker container
         # ("could not resize shared memory segment"). Workers still scan in parallel.
-        ("session settings", """
-            SET LOCAL max_parallel_workers_per_gather = 8;
+        ("session settings", db_limits.session_sql(parallel=True) + """
             SET LOCAL enable_parallel_hash = off;
-            SET LOCAL work_mem = '256MB';
             DROP TABLE IF EXISTS stage.tmp_pa_candidate;
         """),
 
@@ -144,7 +144,7 @@ def main() -> int:
                        RETURNING log_key""")
         run_id = cur.fetchone()[0]
     conn.commit()
-    print(f"run {run_id}: assigning {n_clean:,} detections to protected areas")
+    print(f"run {run_id}: assigning {n_clean:,} detections to protected areas ({db_limits.describe()})")
     t0 = time.time()
     timings = {}
     try:
