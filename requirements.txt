@@ -10,3 +10,8 @@ earthengine-api>=1.0
 
 # Postgres driver for the ETL jobs in controllers/ (and the DAG)
 psycopg2-binary>=2.9
+
+# Mining jobs (controllers/mine_*.py, also run by the DAG)
+numpy>=1.26
+scipy>=1.11
+scikit-learn>=1.4

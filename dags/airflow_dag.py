@@ -1,6 +1,6 @@
 """
 Daily orchestration of the fire DWH: extraction, then the seven ETL jobs that
-build the stage tables and the dds star schema.
+build the stage tables and the dds star schema, then the two mining jobs.
 
     extract_* (9 tasks, data-extraction-scripts/)  sources -> raw/
     load_stage             raw/firms -> stage.raw_firms_modis / _viirs (incremental)
@@ -10,8 +10,10 @@ build the stage tables and the dds star schema.
     load_wdpa              WDPA -> dds.dim_protected_area (SCD Type 2)
     locate_protected_area  -> stage.fire_detection_protected_area + bridge
     load_dds               -> dds star schema
+    mine_fire_events       fact -> dds.ml_fire_event (+ _detection, _silhouette)
+    mine_district_anomalies fact -> dds.ml_district_month_anomaly
 
-Every ETL job runs in one transaction, checks its result before committing,
+Every ETL and mining job runs in one transaction, checks its result before committing,
 logs itself in meta.event_log and replaces its output on a rerun, so a retry or
 a manual "Clear" of any task is safe. The jobs run in this order because each
 checks that its input is current (load_dds refuses a stale location table).
@@ -82,6 +84,14 @@ ETL_STEPS = [
     ("load_dds",              "load_dds.py",              timedelta(hours=1)),
 ]
 
+# ---------------------------------------------------------------- mining
+# Both read the finished star schema and rebuild their own dds.ml_* tables
+# (docs/mining.md). They need scikit-learn and scipy (requirements.txt).
+MINING_STEPS = [
+    ("mine_fire_events",        "mine_fire_events.py",        timedelta(hours=1)),
+    ("mine_district_anomalies", "mine_district_anomalies.py", timedelta(minutes=30)),
+]
+
 
 def extraction_task(task_id, script, timeout, first):
     return BashOperator(
@@ -116,7 +126,7 @@ def etl_task(task_id, script, timeout):
 with DAG(
     'fire_dwh_orchestration_dag',
     default_args=default_args,
-    description='Daily extraction and warehouse load: raw files -> stage -> dds star schema',
+    description='Daily extraction, warehouse load and mining: raw files -> stage -> dds star schema -> dds.ml_*',
     doc_md=__doc__,
     schedule_interval='0 2 * * *', # Daily at 02:00 AM
     catchup=False,
@@ -131,7 +141,8 @@ with DAG(
     for upstream, downstream in zip(extraction, extraction[1:]):
         upstream >> downstream
 
-    etl = [etl_task(task_id, script, timeout) for task_id, script, timeout in ETL_STEPS]
+    # The mining jobs are ordinary controllers/ scripts, run after load_dds.
+    etl = [etl_task(task_id, script, timeout) for task_id, script, timeout in ETL_STEPS + MINING_STEPS]
     for upstream, downstream in zip(etl, etl[1:]):
         upstream >> downstream
 

@@ -28,10 +28,11 @@ flowchart LR
     end
     subgraph dds[dds schema: star]
         D[fact_active_fire<br/>+ 6 dimensions + bridge]
+        ML[ml_fire_event<br/>ml_district_month_anomaly]
     end
     M[(meta schema<br/>event_log, dq_metrics)]
     F & G & W --> R
-    R --> S1 --> S2 --> S3 --> S4 --> D
+    R --> S1 --> S2 --> S3 --> S4 --> D --> ML
     stage -.-> M
     dds -.-> M
 ```
@@ -51,10 +52,9 @@ The star schema (ERD, bus matrix, grain) is described in
 
 ```
 data-extraction-scripts/   extraction: one script per source, lands files in raw/ (see extraction_readme.md)
-controllers/               ETL jobs, one per step (table below)
-init-scripts/              database DDL, run in order 01 → 10 on a fresh database
-dags/airflow_dag.py        Airflow DAG: extraction, then steps 1–5 below, daily at 02:00
-dags/ml_mining.py          clustering / anomaly detection (to be migrated to the new schema)
+controllers/               ETL and mining jobs, one per step (table below)
+init-scripts/              database DDL, run in order 01 → 11 on a fresh database
+dags/airflow_dag.py        Airflow DAG: extraction, then steps 1–5 and 7 below, daily at 02:00
 docs/                      one document per ETL step, with counts for the report
 olap/                      the five OLAP queries, one .sql file each (docs/olap_queries.md)
 olap_query_results/        their results, query plans and benchmark.csv (written by olap_benchmark.py)
@@ -63,7 +63,8 @@ docker-compose.yml         PostGIS warehouse + Airflow
 
 Legacy files, superseded and due for removal in a cleanup:
 `controllers/etl.py`, `controllers/etl_dim_fact.py`, `init-scripts/04_spatial_join.sql`,
-the `stage.stg_*` tables (02) and `dds.dim_location_spatial` (03). Don't build on them.
+the `stage.stg_*` tables (02), `dds.dim_location_spatial` (03) and
+`dds.ml_fire_anomalies` (05). Don't build on them.
 The full list is in [docs/dds_star_schema.md](docs/dds_star_schema.md#superseded-legacy-objects).
 
 ## Quick start
@@ -98,13 +99,14 @@ On an existing database, apply a new or changed script by hand:
 
 ```bash
 docker exec fire_dwh_db psql -U dwh_admin -d fire_dwh -v ON_ERROR_STOP=1 \
-    -f /docker-entrypoint-initdb.d/10_dds_star_schema.sql
+    -f /docker-entrypoint-initdb.d/11_ml_mining.sql
 ```
 
-- Table changes always go in a **new** numbered file (`11_….sql`), never into an
+- Table changes always go in a **new** numbered file (`12_….sql`), never into an
   existing one, so existing databases can be brought up to date.
 - Every script is safe to run more than once (`IF NOT EXISTS`, guarded `ALTER`s).
-  Scripts 01–10 have been tested on a fresh database.
+  Scripts 01–10 have been tested on a fresh database; 11 was applied to the
+  existing one.
 - **On a fresh database, the fact table's foreign keys and secondary indexes do not
   exist yet.** `fact_active_fire` gets its primary key from script 10, but its
   foreign keys to the six dimensions, the bridge's foreign keys and the five
@@ -117,7 +119,7 @@ docker exec fire_dwh_db psql -U dwh_admin -d fire_dwh -v ON_ERROR_STOP=1 \
 
 ## Running the pipeline
 
-Airflow runs steps 0–5 every day (see [With Airflow](#with-airflow) below). To
+Airflow runs steps 0–5 and 7 every day (see [With Airflow](#with-airflow) below). To
 run them by hand, run them from the repository root in this order. Each job runs
 in one transaction and is safe to rerun: it replaces its output (no duplicates)
 and logs the run in `meta.event_log`. Run times are from the current full dataset.
@@ -133,6 +135,8 @@ and logs the run in `meta.event_log`. Run times are from the current full datase
 | 4b | `python controllers/locate_protected_area.py` | → `stage.fire_detection_protected_area` + bridge | ~2 min | [etl_protected_area.md](docs/etl_protected_area.md) |
 | 5 | `python controllers/load_dds.py` | stage → `dds` star schema (13,576,064 fact rows) | ~4 min | [dds_star_schema.md](docs/dds_star_schema.md) |
 | 6 | `python controllers/olap_benchmark.py` | `dds` → `olap_query_results/` (5 OLAP queries, timings, plans; read-only) | ~8 min | [olap_queries.md](docs/olap_queries.md) |
+| 7a | `python controllers/mine_fire_events.py` | `dds` → `dds.ml_fire_event` (306,689 events) + detection and silhouette tables | ~4 min | [mining.md](docs/mining.md) |
+| 7b | `python controllers/mine_district_anomalies.py` | `dds` → `dds.ml_district_month_anomaly` (142,137 district-months) | ~35 s | [mining.md](docs/mining.md) |
 
 - `load_stage.py` is incremental (a file manifest skips files already loaded);
   `--year 2020` loads one year as a test, `--full-reload` starts over.
@@ -161,6 +165,7 @@ docker compose up -d --build        # warehouse + Airflow; UI at http://localhos
 extract_boundaries → … → extraction_inventory     9 extraction tasks (step 0)
   → load_stage → clean_stage → load_reference → locate_stage
   → load_wdpa → locate_protected_area → load_dds   steps 1–5
+  → mine_fire_events → mine_district_anomalies     step 7
 ```
 
 - The extraction tasks run one after another whether or not the previous one
@@ -175,6 +180,11 @@ extract_boundaries → … → extraction_inventory     9 extraction tasks (step
   1.3 min, `clean_stage` 16.2, `load_reference` 1.3, `locate_stage` 15.8,
   `locate_protected_area` 6.4, `load_dds` 16.9. All `load_dds` checks passed,
   and the 4 new NRT files of that day (71 net new detections) reached the fact table.
+- **Mining tasks tested 2026-11-14**: `load_dds` was cleared with its downstream
+  tasks on an existing run. `mine_fire_events` took 5.8 min and
+  `mine_district_anomalies` 0.7 min, both succeeded on the first try, and their
+  tables had the same checksums as after a run by hand. The full 18-task DAG,
+  extraction included, has not been run since they were added.
 - The Airflow containers use lower memory settings (64MB / 256MB / 4 workers,
   set in `docker-compose.yml`, overridable in `.env`) because they share the
   Docker VM with the warehouse.
@@ -196,6 +206,8 @@ extract_boundaries → … → extraction_inventory     9 extraction tasks (step
 | Detections in Thailand (GADM; −0.47% against NASA's own Thailand archive) | 4,418,597 (32.5%) | [location](docs/etl_location.md) |
 | Thai detections in a Designated/Inscribed protected area | 1,118,834 (25.3%) | [protected areas](docs/etl_protected_area.md) |
 | `dds.fact_active_fire` (17 checks pass; reruns give identical checksums) | 13,576,064 | [star schema](docs/dds_star_schema.md) |
+| Fire events clustered from the 4,387,775 Thai `dq_pass` detections (run of 2026-11-14) | 306,689 | [mining](docs/mining.md) |
+| District-months scored for anomalous burning, 2,805 flagged (run of 2026-11-14) | 142,137 | [mining](docs/mining.md) |
 
 ## Querying the warehouse
 
@@ -260,9 +272,9 @@ SELECT p.name_eng, p.desig_eng, count(*) AS fires
   wrong data. Skipping it on days with no new input is a possible improvement.
 - **`meta.etl_data_flow`** (03) is no longer written: the old placeholder Airflow
   tasks were its only writers. Runs are logged in `meta.event_log`.
-- **The mining script still uses the old schema.** `dags/ml_mining.py` needs
-  updating; the mapping of every old table and column is in
-  [docs/dds_star_schema.md](docs/dds_star_schema.md#migrating-the-old-mining-script).
+- **Mining has no ground-truth labels**, so the anomaly model is not evaluated
+  with ROC-AUC or PR curves yet, and NDVI is not one of its features
+  ([docs/mining.md](docs/mining.md#evaluation-not-done-yet)).
 - **NDS layer:** pending team decision; `nds.*` is created but unused.
 - **Legacy cleanup:** the superseded files and tables listed above.
 - **Not loaded yet:** NDVI and land cover (AppEEARS) are extracted but not staged.
