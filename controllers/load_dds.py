@@ -35,6 +35,8 @@ import time
 
 import psycopg2
 
+import db_limits
+
 DB = dict(
     host=os.getenv("DWH_HOST", "localhost"),
     port=int(os.getenv("DWH_PORT", "5432")),
@@ -348,7 +350,7 @@ def main() -> int:
                        VALUES ('LOAD_DDS', 'DDS', 'RUNNING', 'star schema load') RETURNING log_key""")
         run_id = cur.fetchone()[0]
     conn.commit()
-    print(f"run {run_id}: loading star schema from {n_clean:,} clean detections")
+    print(f"run {run_id}: loading star schema from {n_clean:,} clean detections ({db_limits.describe()})")
 
     t0 = time.time()
     timings: dict[str, float] = {}
@@ -362,12 +364,10 @@ def main() -> int:
     try:
         with conn.cursor() as cur:
             # enable_parallel_hash = off: same /dev/shm (64 MB) workaround as item 4.
-            cur.execute("""SET LOCAL TimeZone = 'UTC';
+            cur.execute(db_limits.session_sql(parallel=True, maintenance=True) +
+                        f"""SET LOCAL TimeZone = 'UTC';
                            SET LOCAL enable_parallel_hash = off;
-                           SET LOCAL work_mem = '256MB';
-                           SET LOCAL maintenance_work_mem = '1GB';
-                           SET LOCAL max_parallel_workers_per_gather = 8;
-                           SET LOCAL max_parallel_maintenance_workers = 4;""")
+                           SET LOCAL max_parallel_maintenance_workers = {min(4, db_limits.PARALLEL_WORKERS)};""")
             step(cur, "dim_date upsert", DIM_DATE_SQL)
             step(cur, "dim_time upsert", DIM_TIME_SQL)
             step(cur, "dim_satellite_instrument upsert", DIM_SATELLITE_SQL)

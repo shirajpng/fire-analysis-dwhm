@@ -63,13 +63,14 @@ up. Each source is its own task (`extract_boundaries`, `extract_wdpa`,
 - they run one after another, and each runs even if the one before failed,
   so a FIRMS outage does not stop WDPA or NDVI being collected;
 - each retries twice, 30 minutes apart;
-- staging (`extract_and_stage` onward) waits for **all** of them to succeed. A
+- the ETL tasks (`load_stage` onward; see the README) wait for **all** of them to succeed. A
   failed source marks the run failed in the UI rather than loading stale data;
   the next day's run resumes where the extractors stopped;
 - runs never overlap (`max_active_runs=1`), so a long first backfill is never
   doubled up.
 
-The containers mount `data-extraction-scripts/` at `/opt/airflow/extraction`,
+The containers mount `data-extraction-scripts/` at `/opt/airflow/data-extraction-scripts`
+(next to `controllers/`, the same layout as the repository),
 so raw data still lands in `data-extraction-scripts/raw/` on the host and the
 same files are shared with manual runs. The Earth Engine login is mounted
 read-only from `~/.config/earthengine` (override with `EE_CREDENTIALS_DIR` in

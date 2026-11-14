@@ -1,0 +1,54 @@
+-- Slice: Chiang Mai 2024 burning season (pruned)
+-- olap/q5_province_burning_season.sql
+
+Sort  (cost=48133.29..48142.29 rows=3601 width=134) (actual time=438.565..451.640 rows=97 loops=1)
+  Sort Key: d.month_number NULLS FIRST, l.district_name NULLS FIRST
+  Sort Method: quicksort  Memory: 33kB
+  Buffers: shared hit=3004 read=32686
+  ->  MixedAggregate  (cost=1247.36..47920.58 rows=3601 width=134) (actual time=438.137..451.448 rows=97 loops=1)
+        Hash Key: d.month_number, d.month_name, l.district_name
+        Hash Key: d.month_number, d.month_name
+        Group Key: ()
+        Batches: 1  Memory Usage: 201kB
+        Buffers: shared hit=3004 read=32686
+        ->  Gather  (cost=1247.36..47619.25 rows=5819 width=32) (actual time=7.547..411.353 rows=36228 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              Buffers: shared hit=3004 read=32686
+              ->  Hash Join  (cost=247.35..46037.35 rows=2425 width=32) (actual time=7.201..272.017 rows=12076 loops=3)
+                    Hash Cond: (f.detection_flag_key = q.detection_flag_key)
+                    Buffers: shared hit=3004 read=32686
+                    ->  Hash Join  (cost=245.99..46020.23 rows=5069 width=36) (actual time=5.178..265.948 rows=12078 loops=3)
+                          Hash Cond: (f.date_key = d.date_key)
+                          Buffers: shared hit=2843 read=32686
+                          ->  Hash Join  (cost=37.02..45770.83 rows=15396 width=29) (actual time=2.387..258.585 rows=14003 loops=3)
+                                Hash Cond: (f.location_key = l.location_key)
+                                Buffers: shared hit=2510 read=32686
+                                ->  Parallel Seq Scan on fact_active_fire_2024 f  (cost=0.00..44147.13 rows=601728 width=22) (actual time=0.889..194.220 rows=481398 loops=3)
+                                      Filter: ((date_key >= 20240101) AND (date_key <= 20241231))
+                                      Buffers: shared hit=2435 read=32686
+                                ->  Hash  (cost=36.73..36.73 rows=24 width=15) (actual time=0.466..0.507 rows=24 loops=3)
+                                      Buckets: 1024  Batches: 1  Memory Usage: 10kB
+                                      Buffers: shared hit=75
+                                      ->  Seq Scan on dim_location l  (cost=0.00..36.73 rows=24 width=15) (actual time=0.172..0.454 rows=24 loops=3)
+                                            Filter: (province_name = 'Chiang Mai'::text)
+                                            Rows Removed by Filter: 914
+                                            Buffers: shared hit=75
+                          ->  Hash  (cost=180.40..180.40 rows=2285 width=15) (actual time=2.764..2.765 rows=2285 loops=3)
+                                Buckets: 4096  Batches: 1  Memory Usage: 142kB
+                                Buffers: shared hit=333
+                                ->  Seq Scan on dim_date d  (cost=0.00..180.40 rows=2285 width=15) (actual time=0.023..1.985 rows=2285 loops=3)
+                                      Filter: is_burning_season
+                                      Rows Removed by Filter: 4655
+                                      Buffers: shared hit=333
+                    ->  Hash  (cost=1.23..1.23 rows=11 width=4) (actual time=0.852..0.852 rows=11 loops=3)
+                          Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                          Buffers: shared hit=3
+                          ->  Seq Scan on dim_detection_flag q  (cost=0.00..1.23 rows=11 width=4) (actual time=0.317..0.323 rows=11 loops=3)
+                                Filter: dq_pass
+                                Rows Removed by Filter: 12
+                                Buffers: shared hit=3
+Planning:
+  Buffers: shared hit=15
+Planning Time: 2.136 ms
+Execution Time: 451.984 ms
