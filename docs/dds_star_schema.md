@@ -157,7 +157,8 @@ stable across reruns. `dim_location` and `dim_protected_area` are abbreviated
 |---|:-:|:-:|:-:|:-:|:-:|:-:|
 | `fact_active_fire` (detection) | ✔ | ✔ | ✔ | ✔ | ✔ primary park | ✔ |
 | `bridge_fire_protected_area` (detection × park) | ✔ via fact | ✔ via fact | ✔ via fact | ✔ via fact | ✔ every park | ✔ via fact |
-| `ml_fire_anomalies` (detection, owned by the ML step) | via fact | via fact | via fact | via fact | via fact | via fact |
+| `ml_fire_event` (fire event, owned by the mining step; [mining.md](mining.md)) | ✔ start date | | ✔ main district | | ✔ main park | |
+| `ml_district_month_anomaly` (district × month, owned by the mining step) | month | | ✔ | | | |
 
 All dimensions are **conformed**: a later fact (e.g. a daily or monthly aggregate,
 or a weather fact) must reuse the same `date_key`, `location_key` and
@@ -412,7 +413,7 @@ empty `fact_active_fire`):
 | `stage.stg_*` (old staging tables) | 02 | `stage.raw_firms_*` (06), `stage.fire_detection_clean` (07) | |
 | `dds.dim_location_spatial` | 03 | `dds.dim_location` (08) + lat/lon/geom on the fact | Empty; one row per point would be as large as the fact. |
 | `init-scripts/04_spatial_join.sql` | 04 | `controllers/locate_protected_area.py` (item 4) | References `dim_protected_area.geom`, `idx_dds_pa_geom` and `dim_location_spatial`, which no longer exist / are superseded. |
-| `dds.ml_fire_anomalies.fire_key` | 05 | `detection_id` (added by 10) | FK dropped by 10; column kept, marked deprecated. |
+| `dds.ml_fire_anomalies` | 05 | `dds.ml_fire_event`, `ml_fire_event_detection`, `ml_district_month_anomaly` (11) | Empty and unused since the mining jobs were rewritten ([mining.md](mining.md)). |
 | `controllers/etl.py`, `controllers/etl_dim_fact.py` | — | `load_stage.py` … `load_dds.py` | Load the old `stg_*`/`nds` path. |
 
 Already removed: `controllers/etl4_benchmarking.py` and the old `olap_query_results/*.csv`,
@@ -421,8 +422,10 @@ replaced by the five queries in `olap/` and `controllers/olap_benchmark.py`
 
 ## Migrating the old mining script
 
-`dags/ml_mining.py` was written against the 03 schema and is **not changed
-here**. The old OLAP script (`etl4_benchmarking.py`) and its result CSVs have
+**Done:** `dags/ml_mining.py` has been replaced by `controllers/mine_fire_events.py`
+and `controllers/mine_district_anomalies.py`, which use the new schema and write
+to new tables ([mining.md](mining.md)). The rest of this section is kept as a
+record of the old schema. The old OLAP script (`etl4_benchmarking.py`) and its result CSVs have
 been replaced by `olap/` and `controllers/olap_benchmark.py`
 ([olap_queries.md](olap_queries.md)); their entries in the "Used in" column below
 are kept only as a record of what the old queries did. Every old table and column:
