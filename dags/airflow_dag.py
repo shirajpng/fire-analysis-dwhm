@@ -1,6 +1,7 @@
 """
 Daily orchestration of the fire DWH: extraction, then the seven ETL jobs that
-build the stage tables and the dds star schema, then the two mining jobs.
+build the stage tables and the dds star schema, then the three NDVI jobs, then
+the two mining jobs.
 
     extract_* (9 tasks, data-extraction-scripts/)  sources -> raw/
     load_stage             raw/firms -> stage.raw_firms_modis / _viirs (incremental)
@@ -10,8 +11,11 @@ build the stage tables and the dds star schema, then the two mining jobs.
     load_wdpa              WDPA -> dds.dim_protected_area (SCD Type 2)
     locate_protected_area  -> stage.fire_detection_protected_area + bridge
     load_dds               -> dds star schema
+    load_ndvi              raw/ndvi -> stage.raw_ndvi (incremental)
+    impute_ndvi            -> stage.ndvi_clean, cloud gaps imputed (+ ndvi_point)
+    load_ndvi_dds          -> dds.fact_ndvi_district_month
     mine_fire_events       fact -> dds.ml_fire_event (+ _detection, _silhouette)
-    mine_district_anomalies fact -> dds.ml_district_month_anomaly
+    mine_district_anomalies fact + NDVI -> dds.ml_district_month_anomaly
 
 Every ETL and mining job runs in one transaction, checks its result before committing,
 logs itself in meta.event_log and replaces its output on a rerun, so a retry or
@@ -93,6 +97,18 @@ MINING_STEPS = [
 ]
 
 
+# ---------------------------------------------------------------- NDVI
+# MOD13Q1 samples -> stage.ndvi_clean with the cloud gaps imputed, then mean
+# NDVI per district and month (docs/etl_ndvi.md). impute_ndvi needs the GADM
+# tables of load_reference; mine_district_anomalies reads
+# dds.fact_ndvi_district_month, so these run before the mining jobs.
+NDVI_STEPS = [
+    ("load_ndvi",     "load_ndvi.py",     timedelta(minutes=30)),
+    ("impute_ndvi",   "impute_ndvi.py",   timedelta(minutes=30)),
+    ("load_ndvi_dds", "load_ndvi_dds.py", timedelta(minutes=30)),
+]
+
+
 def extraction_task(task_id, script, timeout, first):
     return BashOperator(
         task_id=task_id,
@@ -141,8 +157,9 @@ with DAG(
     for upstream, downstream in zip(extraction, extraction[1:]):
         upstream >> downstream
 
-    # The mining jobs are ordinary controllers/ scripts, run after load_dds.
-    etl = [etl_task(task_id, script, timeout) for task_id, script, timeout in ETL_STEPS + MINING_STEPS]
+    # The mining and NDVI jobs are ordinary controllers/ scripts, run after load_dds.
+    etl = [etl_task(task_id, script, timeout)
+           for task_id, script, timeout in ETL_STEPS + NDVI_STEPS + MINING_STEPS]
     for upstream, downstream in zip(etl, etl[1:]):
         upstream >> downstream
 

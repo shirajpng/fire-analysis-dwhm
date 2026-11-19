@@ -159,6 +159,7 @@ stable across reruns. `dim_location` and `dim_protected_area` are abbreviated
 | `bridge_fire_protected_area` (detection × park) | ✔ via fact | ✔ via fact | ✔ via fact | ✔ via fact | ✔ every park | ✔ via fact |
 | `ml_fire_event` (fire event, owned by the mining step; [mining.md](mining.md)) | ✔ start date | | ✔ main district | | ✔ main park | |
 | `ml_district_month_anomaly` (district × month, owned by the mining step) | month | | ✔ | | | |
+| `fact_ndvi_district_month` (district × month; [etl_ndvi.md](etl_ndvi.md)) | month | | ✔ | | | |
 
 All dimensions are **conformed**: a later fact (e.g. a daily or monthly aggregate,
 or a weather fact) must reuse the same `date_key`, `location_key` and

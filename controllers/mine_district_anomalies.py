@@ -2,6 +2,7 @@
 Mining task 2 (RQ3): anomalous burning per district and month (Isolation Forest).
 
     dds.fact_active_fire (in Thailand, dq_pass, Suomi-NPP VIIRS)
+    dds.fact_ndvi_district_month (vegetation state, from load_ndvi_dds.py)
         -> dds.ml_district_month_anomaly   one scored row per district x month
 
 Only Suomi-NPP is counted. It is the one satellite with a record over the whole
@@ -23,9 +24,19 @@ Features, per district x month:
     dev_log_n, dev_log_n_pa, dev_log_frp_sum    value - mean over those earlier years
     z_n                                         dev_log_n / max(std over those years, 0.5)
     lag1_log_n                                  log_n of the month before
+    ndvi_lag1                                   mean NDVI of the district in the month before:
+                                                the vegetation state before the month's fires
+    dev_ndvi_lag1                               ndvi_lag1 - its mean over the earlier years, same
+                                                calendar month (negative = drier than usual)
 
 "Earlier years" never include the month itself or anything after it, so a
 month is always compared with what was known before it.
+
+NDVI is taken from the month before, not from the month itself, because burning
+lowers NDVI: the month's own value is partly a result of its fires. NDVI
+composites are published some weeks late. If the month before has no NDVI yet,
+ndvi_lag1 is the district's mean for that calendar month and dev_ndvi_lag1 is 0
+(counted as ndvi_fallback_rows in meta.event_log).
 
 The forest is fitted on the months before --train-until and scores every
 month; is_anomaly uses the threshold that flags --contamination of the
@@ -36,7 +47,8 @@ average precision compare the score with a simple rule (z_n >= 3 and at least
 10 detections) on the test months. z_n is itself a feature, so this shows
 agreement with the rule, not accuracy.
 
-Rebuilt in ONE transaction (truncate + insert). Rerun after load_dds.py.
+Rebuilt in ONE transaction (truncate + insert). Rerun after load_dds.py and
+load_ndvi_dds.py.
 
 Usage:
     python controllers/mine_district_anomalies.py
@@ -69,7 +81,8 @@ DB = dict(
 SATELLITE = "N"          # Suomi-NPP (dim_satellite_instrument.satellite_code)
 SEED = 42
 FEATURES = ["log_n", "log_n_pa", "log_frp_sum", "log_frp_max", "pa_share", "night_share",
-            "expected_log_n", "dev_log_n", "dev_log_n_pa", "dev_log_frp_sum", "z_n", "lag1_log_n"]
+            "expected_log_n", "dev_log_n", "dev_log_n_pa", "dev_log_frp_sum", "z_n", "lag1_log_n",
+            "ndvi_lag1", "dev_ndvi_lag1"]
 
 AGG_SQL = """
 SELECT f.location_key, f.date_key / 100 AS year_month,
@@ -140,6 +153,42 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def add_ndvi_features(cur, df: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
+    """ndvi_lag1 and dev_ndvi_lag1: the district's NDVI in the month before each row's month."""
+    cur.execute("SELECT location_key, year_month, ndvi_mean::float8 FROM dds.fact_ndvi_district_month")
+    ndvi = pd.DataFrame(cur.fetchall(), columns=["location_key", "year_month", "ndvi"])
+    if ndvi.empty:
+        raise SystemExit("dds.fact_ndvi_district_month is empty: run controllers/load_ndvi_dds.py first")
+    ndvi = ndvi.sort_values(["location_key", "year_month"]).reset_index(drop=True)
+    ndvi["month"] = ndvi.year_month % 100
+
+    # Same district and calendar month, earlier years only (as for the fire counts).
+    by = ndvi.groupby(["location_key", "month"], sort=False)
+    prior_years = by.cumcount()
+    expected = (by.ndvi.cumsum() - ndvi.ndvi) / prior_years.where(prior_years > 0)
+    ndvi["dev_ndvi_lag1"] = ndvi.ndvi - expected
+
+    # A month's NDVI is the feature of the month after it.
+    after = pd.to_datetime(ndvi.year_month.astype(str), format="%Y%m") + pd.offsets.MonthBegin(1)
+    lagged = ndvi.assign(year_month=after.dt.year * 100 + after.dt.month).rename(columns={"ndvi": "ndvi_lag1"})
+    df = df.merge(lagged[["location_key", "year_month", "ndvi_lag1", "dev_ndvi_lag1"]],
+                  how="left", on=["location_key", "year_month"])
+
+    # No NDVI for the month before (not published yet), or no earlier year to compare with:
+    # the district's mean for that calendar month, and no deviation.
+    fallback = df.ndvi_lag1.isna() | df.dev_ndvi_lag1.isna()
+    if fallback.any():
+        normal = ndvi.groupby(["location_key", "month"]).ndvi.mean().rename("ndvi_normal").reset_index()
+        month_before = (df.year_month % 100 + 10) % 12 + 1
+        normal = df.assign(month=month_before)[["location_key", "month"]].merge(
+            normal, how="left", on=["location_key", "month"]).ndvi_normal.to_numpy()
+        df["ndvi_lag1"] = df.ndvi_lag1.where(df.ndvi_lag1.notna(), normal)
+        df["dev_ndvi_lag1"] = df.dev_ndvi_lag1.where(~fallback, 0.0)
+    info = dict(ndvi_first_month=int(ndvi.year_month.min()), ndvi_last_month=int(ndvi.year_month.max()),
+                ndvi_fallback_rows=int(fallback.sum()))
+    return df, info
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--contamination", type=float, default=0.02,
@@ -169,6 +218,8 @@ def main() -> int:
         grid, info = build_grid(cur)
         df = add_features(grid)
         df = df[df.n_prior_years >= args.min_history].copy()
+        df, ndvi_info = add_ndvi_features(cur, df)
+        info.update(ndvi_info)
         train = df.year_month < args.train_until
         if not train.any() or train.all():
             raise SystemExit(f"--train-until {args.train_until} leaves no training or no test months "
@@ -198,8 +249,8 @@ def main() -> int:
         cur.execute("TRUNCATE dds.ml_district_month_anomaly")
         columns = ["location_key", "year_month", "month_start", "fire_year_start", "n_detections", "n_in_pa",
                    "pa_share", "frp_sum_mw", "frp_max_mw", "night_share", "n_prior_years", "expected_log_n",
-                   "dev_log_n", "z_n", "anomaly_score", "is_anomaly", "anomaly_rank", "direction",
-                   "top_feature", "split", "run_id"]
+                   "dev_log_n", "z_n", "ndvi_lag1", "dev_ndvi_lag1", "anomaly_score", "is_anomaly",
+                   "anomaly_rank", "direction", "top_feature", "split", "run_id"]
         buf = io.StringIO()
         df[columns].to_csv(buf, index=False, header=False, float_format="%.6g")
         buf.seek(0)

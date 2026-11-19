@@ -21,7 +21,9 @@ itself in `meta.event_log` (`MINE_FIRE_EVENTS`, `MINE_DISTRICT_ANOMALIES`; the
 by `init-scripts/11_ml_mining.sql`. They need `scikit-learn` and `scipy`
 (`requirements.txt`).
 
-Numbers below are from the run of 2026-11-14 (13,593,806 fact rows).
+Task 1 numbers are from the run of 2026-11-14 (13,593,806 fact rows). Task 2
+numbers are from the nightly run of 2026-11-19 (13,595,257 fact rows), with the
+NDVI features.
 
 **Rerun test.** The jobs were run by hand (Python 3.13, scipy 1.18) and again
 by Airflow after a fresh `load_dds` (Python 3.12, scipy 1.17). Row counts and
@@ -208,12 +210,16 @@ with a record over the whole period. NOAA-20 joined in 2018 and NOAA-21 in
 2024, so counts pooled over all satellites rise for that reason alone, and
 every recent month would look anomalous.
 
+**Vegetation:** mean NDVI per district and month from
+`dds.fact_ndvi_district_month` ([etl_ndvi.md](etl_ndvi.md)), with cloud gaps
+imputed. Run `load_ndvi_dds.py` before this job.
+
 **Grid:** all 929 Thai districts × 153 complete months (2014-02 to 2026-10) =
 142,137 rows, holding 2,031,696 detections. Months without a detection count
 as 0. Left out: the first month (it starts on the 20th), the current month,
 and the first two years, which have no history to compare with.
 
-**Features** (12), per district and month:
+**Features** (14), per district and month:
 
 | Feature | Meaning |
 |---|---|
@@ -223,9 +229,18 @@ and the first two years, which have no history to compare with.
 | `dev_log_n`, `dev_log_n_pa`, `dev_log_frp_sum` | value minus its mean over those earlier years |
 | `z_n` | `dev_log_n` / max(standard deviation over those years, 0.5) |
 | `lag1_log_n` | `log_n` of the month before |
+| `ndvi_lag1` | mean NDVI of the district in the month before: the vegetation state before the month's fires |
+| `dev_ndvi_lag1` | `ndvi_lag1` minus its mean over the earlier years, same calendar month (negative = drier or barer than usual) |
 
 "Earlier years" never include the month itself or anything later: every month
 is compared only with what was known before it.
+
+NDVI is taken from the month before, not the month itself, because burning
+lowers NDVI: the month's own value is partly a result of its fires. A composite
+counts for the month its 16-day window ends in, so the month before contains no
+day of the scored month. If the month before has no NDVI yet (composites are
+published some weeks late), the district's usual value for that calendar month
+is used with a deviation of 0; this happened for 0 rows in the current run.
 
 **Model:** Isolation Forest, 200 trees, fixed seed. It is fitted on the months
 before August 2022 (94,758 rows) and scores every month. `is_anomaly` uses the
@@ -237,33 +252,34 @@ threshold that flags 2% of the training months. The 47,379 rows from August
 | | Train (2014-02 – 2022-07) | Test (2022-08 – 2026-10) |
 |---|---:|---:|
 | District-months | 94,758 | 47,379 |
-| Flagged | 1,896 (2.0%) | 909 (1.9%) |
-| – more burning than expected (`direction = 'high'`) | 1,117 | 627 |
-| – less burning than expected (`'low'`) | 779 | 282 |
+| Flagged | 1,896 (2.0%) | 942 (2.0%) |
+| – more burning than expected (`direction = 'high'`) | 1,250 | 709 |
+| – less burning than expected (`'low'`) | 646 | 233 |
 
-The share flagged out of sample (1.9%) is close to the 2% the threshold was set
+The share flagged out of sample (1.99%) is close to the 2% the threshold was set
 for, so the model has not drifted on the newer years.
 
 The most anomalous district-months:
 
-| Month | District, province | Detections | In protected area | Expected | Split |
-|---|---|---:|---:|---:|---|
-| 2023-04 | Phu Kradung, Loei | 284 | 270 | 8 | test |
-| 2024-05 | Kaset Sombon, Chaiyaphum | 124 | 104 | 4 | test |
-| 2020-04 | Umphang, Tak | 1,630 | 1,566 | 258 | train |
-| 2019-03 | Nam Yun, Ubon Ratchathani | 575 | 559 | 31 | train |
-| 2026-04 | Fak Tha, Uttaradit | 711 | 652 | 25 | test |
-| 2016-04 | Nam Yun, Ubon Ratchathani | 493 | 473 | 12 | train |
-| 2026-04 | Nong Bua Daeng, Chaiyaphum | 726 | 593 | 53 | test |
-| 2019-04 | Mae Sariang, Mae Hong Son | 2,435 | 1,948 | 349 | train |
+| Month | District, province | Detections | In protected area | Expected | NDVI month before | vs usual | Split |
+|---|---|---:|---:|---:|---:|---:|---|
+| 2026-04 | Fak Tha, Uttaradit | 711 | 652 | 25 | 0.596 | +0.083 | test |
+| 2023-04 | Phu Kradung, Loei | 284 | 270 | 8 | 0.602 | +0.037 | test |
+| 2020-02 | Ban Rai, Uthai Thani | 1,936 | 1,647 | 327 | 0.598 | −0.131 | train |
+| 2026-04 | Nong Bua Daeng, Chaiyaphum | 726 | 593 | 53 | 0.598 | +0.026 | test |
+| 2026-04 | Klong Lan, Kamphaeng Phet | 1,316 | 1,284 | 88 | 0.659 | +0.048 | test |
+| 2020-02 | Phu Kradung, Loei | 523 | 426 | 104 | 0.473 | −0.165 | train |
+| 2019-04 | Mae Sariang, Mae Hong Son | 2,435 | 1,948 | 349 | 0.614 | +0.030 | train |
+| 2020-01 | Sam Ngao, Tak | 1,714 | 1,411 | 85 | 0.670 | −0.061 | train |
 
 "Expected" is exp(`expected_log_n`) − 1. All of the top rows are surges inside
-protected areas: for 2,665 of the 2,805 flagged rows, the feature furthest from
-normal (`top_feature`) is one of the three protected-area features.
+protected areas: for 2,766 of the 2,838 flagged rows, the feature furthest from
+normal (`top_feature`) is one of the three protected-area features, and for 5
+it is `dev_ndvi_lag1`.
 
-Flags per fire year follow the known bad fire years: 2015/16 (305), 2018/19
-(274), 2019/20 (348), 2022/23 (249) and 2025/26 (268) are the highest. In the
-quiet years 2016/17, 2020/21 and 2021/22 most flags are `low`.
+Flags per fire year follow the known bad fire years: 2015/16 (323), 2018/19
+(291), 2019/20 (389), 2022/23 (274) and 2025/26 (266) are the highest. In the
+quiet years 2016/17, 2017/18, 2020/21 and 2021/22 most flags are `low`.
 
 ```sql
 -- the 20 most anomalous district-months that were not used for training
@@ -276,6 +292,51 @@ SELECT a.year_month, l.province_name, l.district_name, a.n_detections, a.n_in_pa
  LIMIT 20;
 ```
 
+### Effect of the NDVI features
+
+The model was fitted twice on the same data (run of 2026-11-19), with the 12
+fire features only and with the 2 NDVI features added. Same seed and threshold.
+
+**Is pre-fire vegetation related to unusual burning?** Yes, weakly. Districts
+that were drier or barer than usual the month before burn more than their own
+history predicts. Burning season (January–April), 47,379 district-months, split
+into fifths by `dev_ndvi_lag1`:
+
+| NDVI month before, vs usual | Mean deviation | Months above expected burning | Burning vs expected (geometric mean) |
+|---|---:|---:|---:|
+| Driest fifth | −0.065 | 45.2% | 0.97× |
+| 2 | −0.017 | 41.6% | 0.93× |
+| 3 | +0.003 | 38.2% | 0.85× |
+| 4 | +0.022 | 36.5% | 0.77× |
+| Greenest fifth | +0.063 | 34.0% | 0.72× |
+
+Spearman correlation between `dev_ndvi_lag1` and `dev_log_n`: −0.12 over
+January–April (−0.17 in January and February, −0.08 in March and April), and
+−0.26 in May, at the end of the season. Most of it is between years: dry years
+burn more everywhere. Comparing districts within the same month, the correlation
+is only −0.05.
+
+**What changes in the result:**
+
+| | Without NDVI | With NDVI |
+|---|---:|---:|
+| Flagged, test months | 909 (1.92%) | 942 (1.99%) |
+| Flagged `high` / `low`, all months | 1,744 / 1,061 | 1,959 / 879 |
+| Flagged `high` in the driest fifth (Jan–Apr) | 340 | 415 |
+
+- 2,500 district-months are flagged by both; 305 only without NDVI and 338 only
+  with it. Rank correlation of the two scores: 0.964. Of the 100 most anomalous
+  months, 76 are the same.
+- The 305 dropped are mostly `low` (224) and small (median 8 detections). The
+  338 added are mostly `high` (296), larger (median 90 detections), and on
+  average follow a drier-than-usual month (−0.010 against +0.012).
+- In short, NDVI moves the model's attention from "less burning than usual",
+  which is rarely the question, toward surges that follow dry vegetation. The
+  most anomalous months are still the protected-area surges.
+- Agreement with the stand-in rule below is unchanged (ROC-AUC 0.966 without,
+  0.965 with). This is no evidence either way, since the rule uses only fire
+  counts.
+
 ### Evaluation: not done yet
 
 **There are no ground-truth labels**, so precision, recall, ROC-AUC and PR
@@ -284,7 +345,7 @@ decision from the proposal.
 
 The job prints one stand-in: on the test months it compares the score with a
 simple rule, `z_n >= 3` and at least 10 detections (67 district-months, 0.14%).
-ROC-AUC is 0.966 and average precision 0.136; 31 of the 67 are flagged. Since
+ROC-AUC is 0.965 and average precision 0.124; 31 of the 67 are flagged. Since
 `z_n` is one of the features, this only shows that the forest ranks the
 rule's months near the top. It is not accuracy.
 
@@ -292,8 +353,17 @@ rule's months near the top. It is not accuracy.
 
 - **Not a forecast.** The model scores a month after it has happened, against
   the district's history. It does not predict next month.
-- **No vegetation state.** RQ3 asks for pre-fire vegetation; NDVI is extracted
-  but not staged, so it is not a feature.
+- **Vegetation is sampled and partly imputed.** District NDVI comes from about 5
+  grid points per district; 70 of the 928 districts have none and get their
+  province's value. In the burning season 10–15% of the values behind it are imputed.
+- **Small look-ahead in imputed NDVI.** A cloud gap is filled from the clear
+  composites on both sides, and the seasonal mean uses all years. An imputed
+  value for the month before can therefore draw on a later composite. In the
+  dry months the model uses this is rare, but the NDVI features are not
+  strictly "known before" the month.
+- **Vegetation state is not a cause.** The NDVI relation is weak (−0.12) and
+  mostly between years; it does not show that drier vegetation causes burning
+  in a given district.
 - **Protected-area features dominate.** Districts with large parks produce most
   flags. That fits the project's question, but a surge of farm burning outside
   parks scores lower.
